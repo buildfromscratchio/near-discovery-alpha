@@ -7,7 +7,6 @@ import ReactPlayer from "react-player";
 
 export default function HomeTopSection() {
   // const min720 = useMediaQuery("(min-width:820px)");
-  const history = useHistory();
 
   const { theme, bp } = useContext(ThemeContext);
 
@@ -181,7 +180,7 @@ export default function HomeTopSection() {
             }}
             //to="/discover"
             onClick={(e) => {
-              history.push("/editor");
+              window.location.href = "/editor";
             }}
           >
             Try for free

@@ -22,7 +22,7 @@ export default function HomePage(props) {
     <>
       <HomeHeader />
       <HomeTopSection />
-      <HomeOurPartnersSection />
+      {/* <HomeOurPartnersSection /> */}
       <HomeEditorContainer />
       {/* <HomeFeatureSection
         rtl
@@ -53,22 +53,23 @@ export default function HomePage(props) {
         }
         sxSx={{ gridTemplateColumns: bp ? "1fr" : "1fr 1fr" }}
       />*/}
-      <HomeTestimonialSection />
-
-      <Box className="containerCSS" sx={{ py: 10 }}>
-        <Box className="contentCSS">
-          <Widget src="near/widget/PeoplePage" />
-        </Box>
-      </Box>
 
       <Box
         className="containerCSS"
         sx={{ py: 10, backgroundColor: theme.backgroundColor }}
       >
         <Box className="contentCSS">
+          <Widget src="near/widget/PeoplePage" />
+        </Box>
+      </Box>
+
+      <Box className="containerCSS" sx={{ py: 10, backgroundColor: theme.ui }}>
+        <Box className="contentCSS">
           <Widget src="near/widget/ComponentsPage" />
         </Box>
       </Box>
+      <HomeTestimonialSection />
+
       <HomeFooter />
     </>
   );
