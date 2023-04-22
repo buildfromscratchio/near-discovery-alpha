@@ -21,8 +21,9 @@ import DriveFileRenameOutlineRoundedIcon from "@mui/icons-material/DriveFileRena
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import FileIcon from "../../../FileIcon";
 import { EditorContext } from "../../../../context/EditorContext";
+import createFileTree from "../../../../libs/createFileTree";
 
-export default function OpenWidget({ loadFile }) {
+export default function MyWidgets({ loadFile }) {
   const near = useNear();
   const cache = useCache();
   const accountId = useAccountId();
@@ -42,6 +43,18 @@ export default function OpenWidget({ loadFile }) {
       getData
     );
     setMyWidgets(code);
+
+    // let widgets = [];
+
+    // if (typeof code === "object") {
+    //   Object.keys(code)?.map((name) => {
+    //     widgets.push({ type: "widget", name });
+    //   });
+    // }
+
+    // const treeCode = createFileTree(widgets);
+    // setMyWidgets(treeCode);
+    // console.log("MyWidgets - treeCode > ", treeCode, "widgets", widgets);
   };
 
   return (

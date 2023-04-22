@@ -389,6 +389,8 @@ export default function EditorPage(props) {
       setRenderCode(null);
       if (code !== undefined) {
         updateCode(path, code);
+        // Automatically render the code on first click
+        setRenderCode(code);
       } else {
         setLoading(true);
         cache
@@ -399,6 +401,8 @@ export default function EditorPage(props) {
           .then(({ code }) => {
             // console.log(code);
             updateCode(path, code);
+            // Automatically render the code on first click
+            setRenderCode(code);
           })
           .finally(() => {
             setLoading(false);

@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   ButtonBase,
   Chip,
   Fade,
@@ -9,8 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import NoteAddRoundedIcon from "@mui/icons-material/NoteAddRounded";
-import CreateNewFolderRoundedIcon from "@mui/icons-material/CreateNewFolderRounded";
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useNear, useCache, useAccountId } from "near-social-vm";
 
 import { styled } from "@mui/material/styles";
@@ -27,11 +25,9 @@ import FileIcon from "../../FileIcon";
 import RenameDialog from "../../../dialogs/RenameDialog";
 import ConfirmDialog from "../../../dialogs/ConfirmDialog";
 
-import { TreeItem, TreeView } from "@mui/lab";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import LabelWithFileIcon from "../../LabelWithFileIcon";
-import OpenWidget from "./_components/OpenWidget";
+import MyWidgets from "./_components/MyWidgets";
+import OpenWidgets from "./_components/OpenWidgets";
+import createFileTree from "../../../libs/createFileTree";
 
 const Filetype = {
   Widget: "widget",
@@ -65,197 +61,22 @@ export default function WidgetsSidebar({
     });
   }, [files]);
 
-  // const [projectFiles, setProjectFiles] = useState([]);
+  // console.log("files : ", files);
 
-  // useEffect(() => {
-  //   const timeout = setTimeout(() => {
-  //     getData();
-  //   }, 5000);
+  const [projectFiles, setProjectFiles] = useState([]);
+  console.log(projectFiles);
 
-  //   return () => clearTimeout(timeout);
-  // }, []);
+  // Memoize createFileTree function using useCallback
+  const memoizedCreateFileTree = useCallback((files) => {
+    return createFileTree(files);
+  }, []);
 
-  // useEffect(() => {
-  //   getData();
-  // }, []);
-
-  // const getRandomIndex = () => {
-  //   return Math.floor(Math.random() * 10000) + 1; // generates a random number between 1 and 10000
-  // };
-
-  // useEffect(() => {
-  //   computeFiles();
-  // }, [files]);
-
-  // const computeFiles = () => {
-  //   const array = [
-  //     {
-  //       index: 1894,
-  //       prefix: "SearchPage",
-  //       items: [
-  //         {
-  //           type: "widget",
-  //           name: "SearchPage.ComponentDetails",
-  //           givenName: "ComponentDetails",
-  //           index: 5473,
-  //         },
-  //         {
-  //           type: "folder",
-  //           name: "SearchPage.ComponentDetails.ComponentSummary",
-  //           givenName: "ComponentDetails",
-  //           index: 6581,
-  //           items: [
-  //             {
-  //               type: "widget",
-  //               name: "SearchPage.ComponentDetails.ComponentSummary-fork",
-  //               givenName: "ComponentSummary-fork",
-  //               index: 3502,
-  //             },
-  //             {
-  //               type: "widget",
-  //               name: "SearchPage.ComponentDetails.ComponentSummary",
-  //               givenName: "ComponentSummary",
-  //               index: 6581,
-  //             },
-  //           ],
-  //         },
-  //       ],
-  //     },
-  //   ];
-
-  //   //   const array = [
-
-  //   //     {
-  //   //       id:123312,
-
-  //   //       prefix: "SearchPage",
-
-  //   //       items : [
-  //   //         {
-  //   //           "type": "widget",
-  //   //           "name": "SearchPage.SocialLinks",
-  //   //           "displayName": "SocialLinks"
-
-  //   //         }
-  //   //       ]
-
-  //   //     }
-
-  //   //     {
-  //   //       "type": "widget",
-  //   //       "name": "SearchPage.ComponentDetails.ComponentSummary"
-  //   //     },
-
-  //   //     {
-  //   //     "type": "widget",
-  //   //       "name": "helloWorld"
-  //   //   },
-  //   //   {
-  //   //       "type": "widget",
-  //   //       "name": "ProfileSidebar.SocialLinks"
-  //   //   },
-  //   //   {
-  //   //       "type": "widget",
-  //   //       "name": "ProfilePage.Main"
-  //   //   },
-  //   //   {
-  //   //       "type": "widget",
-  //   //       "name": "ProfileSidebar",
-  //   //       "givenName": "index",
-  //   //       "index": 9122
-  //   //   },
-  //   //   {
-  //   //       "type": "widget",
-  //   //       "name": "SearchPage.ComponentDetails.ComponentSummary"
-  //   //   },
-  //   //   {
-  //   //       "type": "widget",
-  //   //       "name": "ProfileSidebar.Editor",
-  //   //       "givenName": "Editor",
-  //   //       "index": 6486
-  //   //   },
-  //   //   {
-  //   //       "type": "widget",
-  //   //       "name": "ProfilePage.Sidebar",
-  //   //       "givenName": "Sidebar",
-  //   //       "index": 267
-  //   //   },
-  //   //   {
-  //   //       "type": "widget",
-  //   //       "name": "NotificationsSidebar.Notification"
-  //   //   },
-  //   // ]
-
-  //   setProjectFiles(
-  //     files.reduce((acc, obj) => {
-  //       const prefix = obj?.name?.split(".")[0];
-  //       const existingGroup = acc.find((group) => group.prefix === prefix);
-  //       if (existingGroup) {
-  //         if (prefix === obj?.name) {
-  //           obj["givenName"] = "index";
-  //         } else {
-  //           obj["givenName"] = obj?.name?.substring(prefix?.length + 1); // remove prefix from given name
-  //         }
-  //         obj.index = getRandomIndex();
-  //         existingGroup.items.push(obj);
-  //       } else {
-  //         const newGroup = {
-  //           index: getRandomIndex(),
-  //           prefix: prefix,
-  //           items: [
-  //             {
-  //               ...obj,
-  //               givenName: obj?.name,
-  //               index: getRandomIndex(),
-  //             },
-  //           ],
-  //         };
-  //         acc.push(newGroup);
-  //       }
-  //       return acc;
-  //     }, [])
-  //   );
-  //   // setProjectFiles(
-  //   //   files.reduce((acc, obj) => {
-  //   //     const prefix = obj.name.split(".")[0];
-  //   //     const existingGroup = acc.find((group) => group.prefix === prefix);
-  //   //     if (existingGroup) {
-  //   //       obj.index = getRandomIndex();
-  //   //       existingGroup.items.push(obj);
-  //   //     } else {
-  //   //       const newGroup = {
-  //   //         index: getRandomIndex(),
-  //   //         prefix: prefix,
-  //   //         items: [
-  //   //           {
-  //   //             ...obj,
-  //   //             index: getRandomIndex(),
-  //   //           },
-  //   //         ],
-  //   //       };
-  //   //       acc.push(newGroup);
-  //   //     }
-  //   //     return acc;
-  //   //   }, [])
-  //   // );
-  //   // setProjectFiles(
-  //   //   files.reduce((acc, obj) => {
-  //   //     const prefix = obj.name.split(".")[0];
-  //   //     const existingGroup = acc.find((group) => group.prefix === prefix);
-  //   //     if (existingGroup) {
-  //   //       existingGroup.items.push(obj);
-  //   //     } else {
-  //   //       acc.push({
-  //   //         prefix: prefix,
-  //   //         items: [obj],
-  //   //       });
-  //   //     }
-  //   //     return acc;
-  //   //   }, [])
-  //   // );
-  // };
-  // // console.log(projectFiles);
-  // console.log(projectFiles);
+  useEffect(() => {
+    setProjectFiles([]);
+    if (files.length > 0) {
+      setProjectFiles(memoizedCreateFileTree(files));
+    }
+  }, [files, memoizedCreateFileTree]);
 
   return (
     <div
@@ -362,9 +183,18 @@ export default function WidgetsSidebar({
             Open Widgets
           </Typography>
         </AccordionSummary>
-        {/* {console.log("AccordionDetails : files :", files)} */}
         <AccordionDetails sx={{ backgroundColor: theme.ui }}>
-          {files?.map((file, index) => {
+          <OpenWidgets
+            projectFiles={projectFiles}
+            setShowRenameModal={setShowRenameModal}
+            createFile={createFile}
+            openFile={openFile}
+            curPath={curPath}
+            filesDetails={filesDetails}
+            removeFromFiles={removeFromFiles}
+          />
+
+          {/* {files?.map((file, index) => {
             // let file = typeof f === "string" ? JSON.parse(f) : f;
             // console.log("filex : ", file, " - ");
 
@@ -413,11 +243,11 @@ export default function WidgetsSidebar({
                 }}
               />
             );
-          })}
+          })} */}
         </AccordionDetails>
       </Accordion>
 
-      <OpenWidget loadFile={loadFile} />
+      <MyWidgets loadFile={loadFile} />
     </div>
   );
 }
@@ -517,181 +347,181 @@ export default function WidgetsSidebar({
 //   );
 // };
 
-const OpenEditorItem = ({
-  item,
-  codeChangesPresent,
-  isDraft,
-  isSelected,
+// const OpenEditorItem = ({
+//   item,
+//   codeChangesPresent,
+//   isDraft,
+//   isSelected,
 
-  // handleClicks
-  onClick,
-  renameButtonOnClick,
-  removeButtonOnClick,
-}) => {
-  const { theme } = useContext(ThemeContext);
+//   // handleClicks
+//   onClick,
+//   renameButtonOnClick,
+//   removeButtonOnClick,
+// }) => {
+//   const { theme } = useContext(ThemeContext);
 
-  const [showEditButton, setShowEditButton] = useState(false);
-  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+//   const [showEditButton, setShowEditButton] = useState(false);
+//   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
 
-  return (
-    <>
-      <Box
-        sx={{
-          position: "relative",
-          display: "flex",
-          alignItems: "center",
-          width: "100%",
-          backgroundColor: isSelected ? theme.ui2 : theme.ui,
-          "&:hover": {
-            backgroundColor: theme.ui2,
-            cursor: "pointer",
-          },
-        }}
-      >
-        <ButtonBase
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            pl: 2,
-            pr: 0.5,
-            py: 0.5,
-            width: "100%",
+//   return (
+//     <>
+//       <Box
+//         sx={{
+//           position: "relative",
+//           display: "flex",
+//           alignItems: "center",
+//           width: "100%",
+//           backgroundColor: isSelected ? theme.ui2 : theme.ui,
+//           "&:hover": {
+//             backgroundColor: theme.ui2,
+//             cursor: "pointer",
+//           },
+//         }}
+//       >
+//         <ButtonBase
+//           sx={{
+//             display: "flex",
+//             alignItems: "center",
+//             justifyContent: "space-between",
+//             pl: 2,
+//             pr: 0.5,
+//             py: 0.5,
+//             width: "100%",
 
-            zIndex: 5,
-          }}
-          onClick={() => onClick()}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 1,
-            }}
-          >
-            {codeChangesPresent && (
-              <Box
-                style={{
-                  minWidth: 8,
-                  height: 8,
-                  borderRadius: 4,
-                  backgroundColor: "rgba(255,0,0,.75)",
-                }}
-              />
-            )}
+//             zIndex: 5,
+//           }}
+//           onClick={() => onClick()}
+//         >
+//           <Box
+//             sx={{
+//               display: "flex",
+//               alignItems: "center",
+//               gap: 1,
+//             }}
+//           >
+//             {codeChangesPresent && (
+//               <Box
+//                 style={{
+//                   minWidth: 8,
+//                   height: 8,
+//                   borderRadius: 4,
+//                   backgroundColor: "rgba(255,0,0,.75)",
+//                 }}
+//               />
+//             )}
 
-            <FileIcon type={item?.type} />
+//             <FileIcon type={item?.type} />
 
-            {/* <Tooltip title={item?.name}> */}
-            <Typography
-              variant="p"
-              sx={{
-                ml: 0,
-                fontWeight: 400,
-                color: theme.textColor2,
-                paddingBlock: "2.5px",
-                textTransform: "none",
-                fontSize: ".9rem",
-                textAlign: "left",
-                wordBreak: "break-all",
-              }}
-              className="max1Lines"
-            >
-              {item?.name}
-            </Typography>
-            {/* </Tooltip> */}
+//             {/* <Tooltip title={item?.name}> */}
+//             <Typography
+//               variant="p"
+//               sx={{
+//                 ml: 0,
+//                 fontWeight: 400,
+//                 color: theme.textColor2,
+//                 paddingBlock: "2.5px",
+//                 textTransform: "none",
+//                 fontSize: ".9rem",
+//                 textAlign: "left",
+//                 wordBreak: "break-all",
+//               }}
+//               className="max1Lines"
+//             >
+//               {item?.name}
+//             </Typography>
+//             {/* </Tooltip> */}
 
-            {isDraft && (
-              <Chip
-                label="Draft"
-                sx={{
-                  opacity: 0.75,
-                  backgroundColor: "#ffdf0033",
-                  color: theme?.name === "dark" ? "#ffdf00" : theme.textColor,
-                  fontSize: 12,
-                  mr: 1,
-                  fontSize: 10,
-                  height: 18,
+//             {isDraft && (
+//               <Chip
+//                 label="Draft"
+//                 sx={{
+//                   opacity: 0.75,
+//                   backgroundColor: "#ffdf0033",
+//                   color: theme?.name === "dark" ? "#ffdf00" : theme.textColor,
+//                   fontSize: 12,
+//                   mr: 1,
+//                   fontSize: 10,
+//                   height: 18,
 
-                  pointerEvents: "none",
-                }}
-                size="small"
-              />
-            )}
-          </Box>
-        </ButtonBase>
+//                   pointerEvents: "none",
+//                 }}
+//                 size="small"
+//               />
+//             )}
+//           </Box>
+//         </ButtonBase>
 
-        <Box
-          sx={{
-            display: "flex",
-            gap: 0.5,
-            zIndex: 10,
-            height: "100%",
-            mr: 1,
+//         <Box
+//           sx={{
+//             display: "flex",
+//             gap: 0.5,
+//             zIndex: 10,
+//             height: "100%",
+//             mr: 1,
 
-            alignItems: "center",
-          }}
-        >
-          <Fade in={isSelected} mountOnEnter unmountOnExit>
-            <IconButton
-              size="small"
-              sx={{ padding: "3px", margin: 0 }}
-              onClick={() => renameButtonOnClick()}
-            >
-              <DriveFileRenameOutlineRoundedIcon
-                sx={{
-                  fontSize: "1rem",
-                  fill:
-                    theme.name !== "dark"
-                      ? "rgba(0,0,0,.75)"
-                      : "rgba(255,255,255,.75)",
-                }}
-              />
-            </IconButton>
-          </Fade>
+//             alignItems: "center",
+//           }}
+//         >
+//           <Fade in={isSelected} mountOnEnter unmountOnExit>
+//             <IconButton
+//               size="small"
+//               sx={{ padding: "3px", margin: 0 }}
+//               onClick={() => renameButtonOnClick()}
+//             >
+//               <DriveFileRenameOutlineRoundedIcon
+//                 sx={{
+//                   fontSize: "1rem",
+//                   fill:
+//                     theme.name !== "dark"
+//                       ? "rgba(0,0,0,.75)"
+//                       : "rgba(255,255,255,.75)",
+//                 }}
+//               />
+//             </IconButton>
+//           </Fade>
 
-          <IconButton
-            size="small"
-            sx={{
-              padding: "3px",
-              margin: 0,
-              color: isSelected ? theme.textColor3 : theme.textColor3 + 33,
+//           <IconButton
+//             size="small"
+//             sx={{
+//               padding: "3px",
+//               margin: 0,
+//               color: isSelected ? theme.textColor3 : theme.textColor3 + 33,
 
-              "&:hover": {
-                color: theme.textColor3 + 99,
-              },
-            }}
-            onClick={() => {
-              if (isDraft === true || codeChangesPresent === true) {
-                setShowConfirmDialog(true);
-              } else {
-                removeButtonOnClick();
-              }
-            }}
-          >
-            <CancelRoundedIcon sx={{ fontSize: "1rem" }} />
-          </IconButton>
-        </Box>
+//               "&:hover": {
+//                 color: theme.textColor3 + 99,
+//               },
+//             }}
+//             onClick={() => {
+//               if (isDraft === true || codeChangesPresent === true) {
+//                 setShowConfirmDialog(true);
+//               } else {
+//                 removeButtonOnClick();
+//               }
+//             }}
+//           >
+//             <CancelRoundedIcon sx={{ fontSize: "1rem" }} />
+//           </IconButton>
+//         </Box>
 
-        <RenameDialog
-          key={`rename-modal-${item.name}`}
-          show={showEditButton}
-          name={item?.name}
-          onRename={(newName) => renameFile(newName)}
-          onHide={() => setShowEditButton(false)}
-        />
-      </Box>
+//         <RenameDialog
+//           key={`rename-modal-${item.name}`}
+//           show={showEditButton}
+//           name={item?.name}
+//           onRename={(newName) => renameFile(newName)}
+//           onHide={() => setShowEditButton(false)}
+//         />
+//       </Box>
 
-      <ConfirmDialog
-        open={showConfirmDialog}
-        setOpen={setShowConfirmDialog}
-        onClick={() => removeButtonOnClick()}
-        label={`Remove widget`}
-        description={`Are you sure you want to remove "${item?.name}"?`}
-      />
-    </>
-  );
-};
+//       <ConfirmDialog
+//         open={showConfirmDialog}
+//         setOpen={setShowConfirmDialog}
+//         onClick={() => removeButtonOnClick()}
+//         label={`Remove widget`}
+//         description={`Are you sure you want to remove "${item?.name}"?`}
+//       />
+//     </>
+//   );
+// };
 
 /* 
   {files?.map((file, index) => (

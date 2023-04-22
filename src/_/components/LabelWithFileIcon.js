@@ -1,20 +1,30 @@
-import { Fade, IconButton, Typography } from "@mui/material";
+import React, { useContext, useState } from "react";
+import { Box, Chip, Fade, IconButton, Typography } from "@mui/material";
 import FileIcon from "./FileIcon";
 import DriveFileRenameOutlineRoundedIcon from "@mui/icons-material/DriveFileRenameOutlineRounded";
-import React, { useContext, useState } from "react";
+import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 
-import RenameDialog from "../dialogs/RenameDialog";
 import { ThemeContext } from "../context/ThemeContext";
+import ConfirmDialog from "../dialogs/ConfirmDialog";
 
 export default function LabelWithFileIcon({
   item,
   labelStyle,
   style,
   renameFile,
+  //
+  isWidget,
+  isSelected,
+  isDraft,
+  codeChangesPresent,
+  //
+  handleOpenFile,
+  handleRenameFile,
+  handleRemoveFile,
 }) {
   const { theme } = useContext(ThemeContext);
 
-  const [showEditButton, setShowEditButton] = useState(false);
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [showEditButtonIcon, setShowEditButtonIcon] = useState(false);
 
   return (
@@ -29,7 +39,15 @@ export default function LabelWithFileIcon({
         onMouseEnter={() => setShowEditButtonIcon(true)}
         onMouseLeave={() => setShowEditButtonIcon(false)}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 7.5 }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 7.5,
+            width: "100%",
+          }}
+          onClick={() => handleOpenFile()}
+        >
           <FileIcon type={item?.type} />
 
           <Typography
@@ -50,27 +68,84 @@ export default function LabelWithFileIcon({
             {/* {`${item.name}.${item.type}`} */}
             {item.name}
           </Typography>
+
+          {isWidget && isDraft && (
+            <Chip
+              label="Draft"
+              sx={{
+                opacity: 0.75,
+                backgroundColor: "#ffdf0033",
+                color: theme?.name === "dark" ? "#ffdf00" : theme.textColor,
+                fontSize: 12,
+                mr: 1,
+                fontSize: 10,
+                height: 18,
+
+                pointerEvents: "none",
+              }}
+              size="small"
+            />
+          )}
         </div>
 
-        {item?.type !== "folder" && (
-          <Fade in={showEditButtonIcon}>
+        {isWidget && (
+          <Box sx={{ display: "flex", gap: 1 }}>
+            {isSelected && (
+              <Fade in={isSelected}>
+                <IconButton
+                  size="small"
+                  sx={{ padding: "3px", margin: 0 }}
+                  onClick={handleRenameFile}
+                >
+                  <DriveFileRenameOutlineRoundedIcon
+                    sx={{
+                      fontSize: "1rem",
+                      fill: theme.textColor3 || "rgba(255,255,255,.75)",
+                    }}
+                  />
+                </IconButton>
+              </Fade>
+            )}
+
             <IconButton
               size="small"
-              sx={{ padding: "3px", margin: 0 }}
-              onClick={() => setShowEditButton((e) => !e)}
+              sx={{
+                padding: "3px",
+                margin: 0,
+                color: isSelected ? theme.textColor3 : theme.textColor3 + 33,
+                transition: "all .2s ease-in-out",
+                "&:hover": {
+                  color: isSelected ? theme.textColor3 : theme.textColor3 + 99,
+                },
+              }}
+              onClick={() => {
+                if (isDraft === true || codeChangesPresent === true) {
+                  setShowConfirmDialog(true);
+                } else {
+                  handleRemoveFile();
+                }
+              }}
             >
-              <DriveFileRenameOutlineRoundedIcon
+              <CancelRoundedIcon
                 sx={{
                   fontSize: "1rem",
-                  fill: theme.textColor3 || "rgba(255,255,255,.75)",
+                  // fill: theme.textColor3 || "rgba(255,255,255,.75)",
                 }}
               />
             </IconButton>
-          </Fade>
+          </Box>
         )}
       </div>
 
-      <RenameDialog
+      <ConfirmDialog
+        open={showConfirmDialog}
+        setOpen={setShowConfirmDialog}
+        onClick={() => handleRemoveFile()}
+        label={`Remove widget`}
+        description={`Are you sure you want to remove "${item?.name}"?`}
+      />
+
+      {/* <RenameDialog
         // open={showEditButton}
         // setOpen={setShowEditButton}
         // item={item}
@@ -80,7 +155,7 @@ export default function LabelWithFileIcon({
         name={item.name}
         onRename={(newName) => renameFile(newName)}
         onHide={() => setShowEditButton(false)}
-      />
+      /> */}
     </>
   );
 }

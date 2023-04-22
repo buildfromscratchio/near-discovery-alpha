@@ -73,7 +73,6 @@ export default function App() {
   const location = window.location;
 
   useEffect(() => {
-    console.log("NetworkId : USEEEEFF1 : ", NetworkId);
     NetworkId &&
       initNear &&
       initNear({

@@ -40,6 +40,8 @@ export default function WidgetViewHeader({
 
   const { theme } = useContext(ThemeContext);
 
+  console.warn = () => {};
+
   return (
     <Box
       sx={{
