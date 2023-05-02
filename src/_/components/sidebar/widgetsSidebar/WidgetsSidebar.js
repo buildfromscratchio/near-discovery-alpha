@@ -64,7 +64,6 @@ export default function WidgetsSidebar({
   // console.log("files : ", files);
 
   const [projectFiles, setProjectFiles] = useState([]);
-  console.log(projectFiles);
 
   // Memoize createFileTree function using useCallback
   const memoizedCreateFileTree = useCallback((files) => {

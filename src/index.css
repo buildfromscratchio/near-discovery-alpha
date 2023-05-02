@@ -104,7 +104,9 @@
   padding: 20px;
 } */
 
-/* PLEASE GO TO app.js er GlobalStyles > styls >  {line number: 151} */
+/* 
+  PLEASE GO TO app.js er GlobalStyles > styls >  {line number: 151} 
+*/
 
 .dangerousStyle h1 {
   color: #1e293b;

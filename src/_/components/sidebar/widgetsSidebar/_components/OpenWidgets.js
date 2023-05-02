@@ -6,7 +6,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import LabelWithFileIcon from "../../../LabelWithFileIcon";
 import { EditorContext } from "../../../../context/EditorContext";
 import { ThemeContext } from "../../../../context/ThemeContext";
-import ConfirmDialog from "../../../../dialogs/ConfirmDialog";
+// import ConfirmDialog from "../../../../dialogs/ConfirmDialog";
 
 export default function OpenWidgets({
   projectFiles,
@@ -17,7 +17,7 @@ export default function OpenWidgets({
   filesDetails,
   removeFromFiles,
 }) {
-  const [expanded, setExpanded] = useState(["1", "5", "6", "7"]);
+  const [expanded, setExpanded] = useState([]);
   const handleToggle = (event, nodeIds) => {
     setExpanded(nodeIds);
   };

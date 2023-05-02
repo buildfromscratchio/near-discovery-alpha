@@ -22,6 +22,10 @@ import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import FileIcon from "../../../FileIcon";
 import { EditorContext } from "../../../../context/EditorContext";
 import createFileTree from "../../../../libs/createFileTree";
+import { TreeItem, TreeView } from "@mui/lab";
+import LabelWithFileIcon from "../../../LabelWithFileIcon";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 export default function MyWidgets({ loadFile }) {
   const near = useNear();
@@ -31,6 +35,8 @@ export default function MyWidgets({ loadFile }) {
   const { theme } = useContext(ThemeContext);
 
   const [myWidgets, setMyWidgets] = useState([]);
+  const [projectFiles, setProjectFiles] = useState([]);
+
   const getData = () => {
     let widget = `${accountId}/widget/*`;
 
@@ -43,19 +49,53 @@ export default function MyWidgets({ loadFile }) {
       getData
     );
     setMyWidgets(code);
-
-    // let widgets = [];
-
-    // if (typeof code === "object") {
-    //   Object.keys(code)?.map((name) => {
-    //     widgets.push({ type: "widget", name });
-    //   });
-    // }
-
-    // const treeCode = createFileTree(widgets);
-    // setMyWidgets(treeCode);
-    // console.log("MyWidgets - treeCode > ", treeCode, "widgets", widgets);
   };
+
+  useEffect(() => {
+    if (myWidgets) {
+      let widgets = [];
+
+      Object.keys(myWidgets)?.map((name) => {
+        widgets.push({ type: "widget", name });
+      });
+
+      setProjectFiles([]);
+      if (widgets.length > 0) {
+        setProjectFiles(createFileTree(widgets));
+      }
+    }
+  }, [myWidgets]);
+
+  const [expanded, setExpanded] = useState([]);
+  const handleToggle = (event, nodeIds) => {
+    setExpanded(nodeIds);
+  };
+  console.log("My widgets expanded : ", expanded);
+
+  function getNodeIds(objArray) {
+    const nodeIds = [];
+    if (Array.isArray(objArray)) {
+      // Iterate through each object in the array
+      for (const obj of objArray) {
+        // If the object has a "nodeId" property, add it to the nodeIds array
+        if (typeof obj === "object" && obj.hasOwnProperty("nodeId")) {
+          nodeIds.push(obj.nodeId);
+        }
+        // If the object has a "children" array, recursively call the function on it and merge the results
+        if (Array.isArray(obj.children) && obj.children.length > 0) {
+          nodeIds.push(...getNodeIds(obj.children));
+        }
+      }
+    }
+    return nodeIds;
+  }
+  const [hasCalledOnce, setHasCalledOnce] = useState(false);
+  useEffect(() => {
+    if (projectFiles?.length > 0 && !hasCalledOnce) {
+      setExpanded(getNodeIds(projectFiles));
+      setHasCalledOnce(true);
+    }
+  }, [projectFiles]);
 
   return (
     <>
@@ -80,13 +120,20 @@ export default function MyWidgets({ loadFile }) {
           </AccordionSummary>
           <AccordionDetails sx={{ backgroundColor: theme.ui }}>
             {myWidgets ? (
-              Object.keys(myWidgets)?.map((fileName, index) => (
-                <MyWidgetsItem
-                  key={index}
-                  label={fileName}
-                  onClick={() => loadFile(fileName)}
-                />
-              ))
+              <>
+                <TreeView
+                  aria-label="multi-select"
+                  defaultCollapseIcon={<ExpandMoreIcon />}
+                  defaultExpandIcon={<ChevronRightIcon />}
+                  expanded={expanded}
+                  onNodeToggle={handleToggle}
+                >
+                  <CustomTreeView
+                    file={{ children: projectFiles }}
+                    loadFile={loadFile}
+                  />
+                </TreeView>
+              </>
             ) : (
               <ButtonBase
                 sx={{
@@ -107,80 +154,122 @@ export default function MyWidgets({ loadFile }) {
   );
 }
 
-const MyWidgetsItem = ({ label, onClick }) => {
+const CustomTreeView = ({ file, loadFile }) => {
   const { theme } = useContext(ThemeContext);
-  const { files } = useContext(EditorContext);
-
-  const [isSelected, setIsSelected] = useState(false);
-
-  useEffect(() => {
-    const xs = files.find((file) => file.name === label);
-
-    setIsSelected(xs ? true : false);
-  }, [files]);
 
   return (
-    <Box
-      sx={{
-        position: "relative",
-        display: "flex",
-        alignItems: "center",
-        width: "100%",
-        backgroundColor: isSelected ? theme.ui2 : theme.ui,
+    <div>
+      {file?.children?.map((item, index) => {
+        const isWidget = item?.type === "widget";
+        const isSelected = false;
 
-        // backgroundColor: theme.ui,
-        "&:hover": {
-          backgroundColor: theme.ui2,
-          cursor: "pointer",
-        },
-      }}
-    >
-      <ButtonBase
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          px: 2,
-          py: 0.5,
-          width: "100%",
-
-          zIndex: 5,
-        }}
-        disabled={isSelected}
-        onClick={() => onClick()}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: 1,
-          }}
-        >
-          <FileIcon type="widget" />
-
-          {/* <Tooltip title={label}> */}
-          <Typography
-            variant="p"
+        return (
+          <TreeItem
             sx={{
-              ml: 0,
-              fontWeight: 400,
-              color: theme.textColor2,
-              paddingBlock: "2.5px",
-              textTransform: "none",
-              fontSize: ".9rem",
-              textAlign: "left",
-              wordBreak: "break-all",
+              backgroundColor:
+                isWidget && isSelected ? theme.buttonColor + "26" : theme.ui,
             }}
-            className="max1Lines"
+            key={index}
+            nodeId={item?.nodeId || item.name}
+            label={
+              <LabelWithFileIcon
+                item={{
+                  ...item,
+                  name: isWidget
+                    ? item?.name.slice(item?.name?.lastIndexOf(".") + 1)
+                    : item.name,
+                }}
+                isWidget={isWidget}
+                handleOpenFile={() => loadFile(item?.name)}
+              />
+            }
           >
-            {label}
-          </Typography>
-          {/* </Tooltip> */}
-        </Box>
-      </ButtonBase>
-    </Box>
+            {item?.children?.length > 0 && (
+              <CustomTreeView file={item} loadFile={loadFile} />
+            )}
+          </TreeItem>
+        );
+      })}
+    </div>
   );
 };
+
+// const CheckItem
+
+// const MyWidgetsItem = ({ label, onClick }) => {
+//   const { theme } = useContext(ThemeContext);
+//   const { files } = useContext(EditorContext);
+
+//   const [isSelected, setIsSelected] = useState(false);
+
+//   useEffect(() => {
+//     const xs = files.find((file) => file.name === label);
+
+//     setIsSelected(xs ? true : false);
+//   }, [files]);
+
+//   return (
+//     <Box
+//       sx={{
+//         position: "relative",
+//         display: "flex",
+//         alignItems: "center",
+//         width: "100%",
+//         backgroundColor: isSelected ? theme.ui2 : theme.ui,
+
+//         // backgroundColor: theme.ui,
+//         "&:hover": {
+//           backgroundColor: theme.ui2,
+//           cursor: "pointer",
+//         },
+//       }}
+//     >
+//       <ButtonBase
+//         sx={{
+//           display: "flex",
+//           alignItems: "center",
+//           justifyContent: "space-between",
+//           px: 2,
+//           py: 0.5,
+//           width: "100%",
+
+//           zIndex: 5,
+//         }}
+//         disabled={isSelected}
+//         onClick={() => onClick()}
+//       >
+//         <Box
+//           sx={{
+//             display: "flex",
+//             alignItems: "center",
+//             gap: 1,
+//           }}
+//         >
+//           <FileIcon type="widget" />
+
+//           {/* <Tooltip title={label}> */}
+//           <Typography
+//             variant="p"
+//             sx={{
+//               ml: 0,
+//               fontWeight: 400,
+//               color: theme.textColor2,
+//               paddingBlock: "2.5px",
+//               textTransform: "none",
+//               fontSize: ".9rem",
+//               textAlign: "left",
+//               wordBreak: "break-all",
+//             }}
+//             className="max1Lines"
+//           >
+//             {label}
+//           </Typography>
+//           {/* </Tooltip> */}
+//         </Box>
+//       </ButtonBase>
+//     </Box>
+//   );
+// };
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
