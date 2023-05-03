@@ -3,6 +3,7 @@ import { Box, Chip, Fade, IconButton, Typography } from "@mui/material";
 import FileIcon from "./FileIcon";
 import DriveFileRenameOutlineRoundedIcon from "@mui/icons-material/DriveFileRenameOutlineRounded";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
+import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 
 import { ThemeContext } from "../context/ThemeContext";
 import ConfirmDialog from "../dialogs/ConfirmDialog";
@@ -21,6 +22,7 @@ export default function LabelWithFileIcon({
   handleOpenFile,
   handleRenameFile,
   handleRemoveFile,
+  handleOpenFolder,
 }) {
   const { theme } = useContext(ThemeContext);
 
@@ -107,32 +109,57 @@ export default function LabelWithFileIcon({
               </Fade>
             )}
 
-            <IconButton
-              size="small"
-              sx={{
-                padding: "3px",
-                margin: 0,
-                color: isSelected ? theme.textColor3 : theme.textColor3 + 33,
-                transition: "all .2s ease-in-out",
-                "&:hover": {
-                  color: isSelected ? theme.textColor3 : theme.textColor3 + 99,
-                },
-              }}
-              onClick={() => {
-                if (isDraft === true || codeChangesPresent === true) {
-                  setShowConfirmDialog(true);
-                } else {
-                  handleRemoveFile();
-                }
-              }}
-            >
-              <CancelRoundedIcon
+            {handleRemoveFile && (
+              <IconButton
+                size="small"
                 sx={{
-                  fontSize: "1rem",
-                  // fill: theme.textColor3 || "rgba(255,255,255,.75)",
+                  padding: "3px",
+                  margin: 0,
+                  color: isSelected ? theme.textColor3 : theme.textColor3 + 33,
+                  transition: "all .2s ease-in-out",
+                  "&:hover": {
+                    color: isSelected
+                      ? theme.textColor3
+                      : theme.textColor3 + 99,
+                  },
                 }}
-              />
-            </IconButton>
+                onClick={() => {
+                  if (isDraft === true || codeChangesPresent === true) {
+                    setShowConfirmDialog(true);
+                  } else {
+                    handleRemoveFile();
+                  }
+                }}
+              >
+                <CancelRoundedIcon
+                  sx={{
+                    fontSize: "1rem",
+                    // fill: theme.textColor3 || "rgba(255,255,255,.75)",
+                  }}
+                />
+              </IconButton>
+            )}
+
+            {console.log(isWidget, item?.name)}
+            {!isWidget && (
+              <IconButton
+                size="small"
+                sx={{
+                  padding: "3px",
+                  margin: 0,
+                  color: isSelected ? theme.textColor3 : theme.textColor3 + 33,
+                  transition: "all .2s ease-in-out",
+                  "&:hover": {
+                    color: isSelected
+                      ? theme.textColor3
+                      : theme.textColor3 + 99,
+                  },
+                }}
+                onClick={() => handleOpenFolder()}
+              >
+                <AddCircleRoundedIcon sx={{ fontSize: "1rem" }} />
+              </IconButton>
+            )}
           </Box>
         )}
       </div>

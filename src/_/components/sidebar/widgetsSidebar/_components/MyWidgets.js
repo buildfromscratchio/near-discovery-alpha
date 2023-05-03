@@ -70,7 +70,7 @@ export default function MyWidgets({ loadFile }) {
   const handleToggle = (event, nodeIds) => {
     setExpanded(nodeIds);
   };
-  console.log("My widgets expanded : ", expanded);
+  // console.log("My widgets expanded : ", expanded);
 
   function getNodeIds(objArray) {
     const nodeIds = [];
@@ -160,8 +160,10 @@ const CustomTreeView = ({ file, loadFile }) => {
   return (
     <div>
       {file?.children?.map((item, index) => {
-        const isWidget = item?.type === "widget";
+        const isWidget = item?.type === "widget" ? true : false;
         const isSelected = false;
+
+        // console.log(item?.name, " - ", item?.type === "widget" ? true : false);
 
         return (
           <TreeItem
@@ -179,8 +181,9 @@ const CustomTreeView = ({ file, loadFile }) => {
                     ? item?.name.slice(item?.name?.lastIndexOf(".") + 1)
                     : item.name,
                 }}
-                isWidget={isWidget}
+                isWidget={false}
                 handleOpenFile={() => loadFile(item?.name)}
+                handleOpenFolder={() => console.log(item)}
               />
             }
           >
