@@ -29,11 +29,6 @@ import MyWidgets from "./_components/MyWidgets";
 import OpenWidgets from "./_components/OpenWidgets";
 import createFileTree from "../../../libs/createFileTree";
 
-const Filetype = {
-  Widget: "widget",
-  Module: "module",
-};
-
 export default function WidgetsSidebar({
   loadFile,
 
@@ -46,10 +41,6 @@ export default function WidgetsSidebar({
   setShowRenameModal,
   setShowOpenModal,
 }) {
-  const near = useNear();
-  const cache = useCache();
-  const accountId = useAccountId();
-
   const { theme } = useContext(ThemeContext);
   const { files, filesDetails } = useContext(EditorContext);
 
@@ -61,7 +52,8 @@ export default function WidgetsSidebar({
     });
   }, [files]);
 
-  // console.log("files : ", files);
+  const [openWidgetsExpanded, setOpenWidgetsExpanded] = useState([]);
+  const [openWidgetsSelected, setOpenWidgetsSelected] = useState();
 
   const [projectFiles, setProjectFiles] = useState([]);
 
@@ -184,6 +176,11 @@ export default function WidgetsSidebar({
         </AccordionSummary>
         <AccordionDetails sx={{ backgroundColor: theme.ui }}>
           <OpenWidgets
+            openWidgetsExpanded={openWidgetsExpanded}
+            setOpenWidgetsExpanded={setOpenWidgetsExpanded}
+            openWidgetsSelected={openWidgetsSelected}
+            setOpenWidgetsSelected={setOpenWidgetsSelected}
+            //
             projectFiles={projectFiles}
             setShowRenameModal={setShowRenameModal}
             createFile={createFile}
@@ -246,7 +243,15 @@ export default function WidgetsSidebar({
         </AccordionDetails>
       </Accordion>
 
-      <MyWidgets loadFile={loadFile} />
+      <MyWidgets
+        loadFile={loadFile}
+        //
+        projectFiles={projectFiles}
+        openWidgetsExpanded={openWidgetsExpanded}
+        setOpenWidgetsExpanded={setOpenWidgetsExpanded}
+        openWidgetsSelected={openWidgetsSelected}
+        setOpenWidgetsSelected={setOpenWidgetsSelected}
+      />
     </div>
   );
 }

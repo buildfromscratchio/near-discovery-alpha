@@ -11,6 +11,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 
 import { styled } from "@mui/material/styles";
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
@@ -27,7 +28,62 @@ import LabelWithFileIcon from "../../../LabelWithFileIcon";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-export default function MyWidgets({ loadFile }) {
+// const findWidgets = (xs) => {
+//   console.log("findWidgets : ", xs?.children);
+//   let array = xs?.children;
+
+//   let widgets = [];
+//   for (let i = 0; i < array?.length; i++) {
+//     const element = array[i];
+//     if (element?.type === "widget") {
+//       widgets.push(element);
+//     }
+//     if (Array.isArray(element?.children)) {
+//       const childWidgets = findWidgets(element?.children);
+//       widgets = widgets?.concat(childWidgets);
+//     }
+//   }
+//   return widgets;
+// };
+
+function findWidgets(obj) {
+  let widgets = [];
+  if (obj.type === "widget") {
+    widgets.push(obj?.name);
+  }
+  if (Array.isArray(obj.children)) {
+    for (let i = 0; i < obj.children.length; i++) {
+      const childWidgets = findWidgets(obj.children[i]);
+      widgets = widgets.concat(childWidgets);
+    }
+  }
+  return widgets;
+}
+
+function findItemsByName(name, arr, path = []) {
+  let result = [];
+  arr.forEach((item) => {
+    if (item.name === name) {
+      result.push({ item, path });
+    }
+    if (item.children) {
+      const childPath = path.concat({ nodeId: item.nodeId, name: item.name });
+      result = result.concat(findItemsByName(name, item.children, childPath));
+    }
+  });
+  return result;
+}
+//
+
+export default function MyWidgets({
+  loadFile,
+  projectFiles: openWidgetsFilesList,
+  //
+  openWidgetsExpanded,
+  setOpenWidgetsExpanded,
+  openWidgetsSelected,
+  setOpenWidgetsSelected,
+}) {
   const near = useNear();
   const cache = useCache();
   const accountId = useAccountId();
@@ -72,30 +128,30 @@ export default function MyWidgets({ loadFile }) {
   };
   // console.log("My widgets expanded : ", expanded);
 
-  function getNodeIds(objArray) {
-    const nodeIds = [];
-    if (Array.isArray(objArray)) {
-      // Iterate through each object in the array
-      for (const obj of objArray) {
-        // If the object has a "nodeId" property, add it to the nodeIds array
-        if (typeof obj === "object" && obj.hasOwnProperty("nodeId")) {
-          nodeIds.push(obj.nodeId);
-        }
-        // If the object has a "children" array, recursively call the function on it and merge the results
-        if (Array.isArray(obj.children) && obj.children.length > 0) {
-          nodeIds.push(...getNodeIds(obj.children));
-        }
-      }
-    }
-    return nodeIds;
-  }
-  const [hasCalledOnce, setHasCalledOnce] = useState(false);
-  useEffect(() => {
-    if (projectFiles?.length > 0 && !hasCalledOnce) {
-      setExpanded(getNodeIds(projectFiles));
-      setHasCalledOnce(true);
-    }
-  }, [projectFiles]);
+  // function getNodeIds(objArray) {
+  //   const nodeIds = [];
+  //   if (Array.isArray(objArray)) {
+  //     // Iterate through each object in the array
+  //     for (const obj of objArray) {
+  //       // If the object has a "nodeId" property, add it to the nodeIds array
+  //       if (typeof obj === "object" && obj.hasOwnProperty("nodeId")) {
+  //         nodeIds.push(obj.nodeId);
+  //       }
+  //       // If the object has a "children" array, recursively call the function on it and merge the results
+  //       if (Array.isArray(obj.children) && obj.children.length > 0) {
+  //         nodeIds.push(...getNodeIds(obj.children));
+  //       }
+  //     }
+  //   }
+  //   return nodeIds;
+  // }
+  // const [hasCalledOnce, setHasCalledOnce] = useState(false);
+  // useEffect(() => {
+  //   if (projectFiles?.length > 0 && !hasCalledOnce) {
+  //     setExpanded(getNodeIds(projectFiles));
+  //     setHasCalledOnce(true);
+  //   }
+  // }, [projectFiles]);
 
   return (
     <>
@@ -130,7 +186,13 @@ export default function MyWidgets({ loadFile }) {
                 >
                   <CustomTreeView
                     file={{ children: projectFiles }}
+                    openWidgetsFilesList={openWidgetsFilesList}
                     loadFile={loadFile}
+                    //
+                    openWidgetsExpanded={openWidgetsExpanded}
+                    setOpenWidgetsExpanded={setOpenWidgetsExpanded}
+                    openWidgetsSelected={openWidgetsSelected}
+                    setOpenWidgetsSelected={setOpenWidgetsSelected}
                   />
                 </TreeView>
               </>
@@ -154,7 +216,15 @@ export default function MyWidgets({ loadFile }) {
   );
 }
 
-const CustomTreeView = ({ file, loadFile }) => {
+const CustomTreeView = ({
+  file,
+  openWidgetsFilesList,
+  loadFile,
+  openWidgetsExpanded,
+  setOpenWidgetsExpanded,
+  openWidgetsSelected,
+  setOpenWidgetsSelected,
+}) => {
   const { theme } = useContext(ThemeContext);
 
   return (
@@ -173,27 +243,170 @@ const CustomTreeView = ({ file, loadFile }) => {
             }}
             key={index}
             nodeId={item?.nodeId || item.name}
+            // label={
+            //   <LabelWithFileIcon
+            //     item={{
+            //       ...item,
+            //       name: isWidget
+            //         ? item?.name.slice(item?.name?.lastIndexOf(".") + 1)
+            //         : item.name,
+            //     }}
+            //     isWidget={true}
+            //     handleOpenFile={() => loadFile(item?.name)}
+            //     handleOpenFolder={() => console.log(item)}
+            //   />
+            // }
             label={
-              <LabelWithFileIcon
-                item={{
-                  ...item,
-                  name: isWidget
-                    ? item?.name.slice(item?.name?.lastIndexOf(".") + 1)
-                    : item.name,
-                }}
-                isWidget={false}
-                handleOpenFile={() => loadFile(item?.name)}
-                handleOpenFolder={() => console.log(item)}
+              <CustomLabel
+                isWidget={isWidget}
+                parentNodeId={file?.nodeId}
+                item={item}
+                openWidgetsFilesList={openWidgetsFilesList}
+                loadFile={loadFile}
+                openWidgetsExpanded={openWidgetsExpanded}
+                setOpenWidgetsExpanded={setOpenWidgetsExpanded}
+                openWidgetsSelected={openWidgetsSelected}
+                setOpenWidgetsSelected={setOpenWidgetsSelected}
               />
             }
           >
             {item?.children?.length > 0 && (
-              <CustomTreeView file={item} loadFile={loadFile} />
+              <CustomTreeView
+                file={item}
+                openWidgetsFilesList={openWidgetsFilesList}
+                loadFile={loadFile}
+                openWidgetsExpanded={openWidgetsExpanded}
+                setOpenWidgetsExpanded={setOpenWidgetsExpanded}
+                openWidgetsSelected={openWidgetsSelected}
+                setOpenWidgetsSelected={setOpenWidgetsSelected}
+              />
             )}
           </TreeItem>
         );
       })}
     </div>
+  );
+};
+
+const CustomLabel = ({
+  loadFile,
+  isWidget,
+  parentNodeId,
+  item,
+  openWidgetsFilesList,
+  //
+  openWidgetsExpanded,
+  setOpenWidgetsExpanded,
+  openWidgetsSelected,
+  setOpenWidgetsSelected,
+}) => {
+  const { theme } = useContext(ThemeContext);
+
+  // isWidget ? (
+  //   `W: ${item?.name.slice(item?.name?.lastIndexOf(".") + 1)}`
+  // ) :
+
+  return (
+    <Box
+      sx={{
+        width: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+      }}
+    >
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "flex-start",
+          gap: 1,
+        }}
+      >
+        <FileIcon type={item?.type} />
+
+        <Typography
+          sx={{
+            ml: 0,
+            fontWeight: 400,
+            color: theme.textColor2,
+            paddingBlock: "2.5px",
+            textTransform: "none",
+            fontSize: ".9rem",
+            textAlign: "left",
+            wordBreak: "break-all",
+          }}
+          className="max1Lines"
+        >
+          {/* {item?.name} */}
+          {item?.name.slice(item?.name?.lastIndexOf(".") + 1)}
+        </Typography>
+      </Box>
+
+      <IconButton
+        size="small"
+        sx={{ p: 0, m: 0 }}
+        onClick={() => {
+          const widgets = findWidgets(item);
+
+          widgets?.map((widget) => {
+            loadFile(widget);
+          });
+
+          // if (item.nodeId) {
+          //   setOpenWidgetsExpanded((e) => [...e, item.nodeId]);
+          // } else if (parentNodeId) {
+          //   setOpenWidgetsExpanded((e) => [...e, parentNodeId]);
+          // }
+          // openWidgetsSelected={openWidgetsSelected}
+
+          // openWidgetsFilesList
+
+          // const
+          // const find = openWidgetsFilesList.find
+
+          let newArray = [];
+          let itemToSelect;
+
+          let result = findItemsByName(
+            widgets[widgets.length - 1],
+            openWidgetsFilesList
+          );
+
+          result?.map((r) => {
+            itemToSelect = r.item.name;
+
+            // newArray.push(r.item?.name);
+            r?.path?.map((p) => {
+              newArray.push(p.nodeId);
+            });
+          });
+
+          // console.log("openWidgetsFilesList : ", newArray);
+
+          setOpenWidgetsExpanded((prevItems) => [
+            ...new Set([...prevItems, ...newArray]),
+          ]);
+
+          // setOpenWidgetsSelected(widgets[widgets.length - 1]);
+          setOpenWidgetsSelected(itemToSelect);
+          // console.log("itemToSelect : ", itemToSelect);
+          // console.log("openWidgetsSelected: ", openWidgetsSelected);
+        }}
+      >
+        <AddCircleRoundedIcon
+          fontSize="small"
+          sx={{
+            fill: theme.textColor3 + 33,
+            minHeight: 16,
+            height: 16,
+            minWidth: 16,
+            width: 16,
+          }}
+        />
+      </IconButton>
+    </Box>
   );
 };
 

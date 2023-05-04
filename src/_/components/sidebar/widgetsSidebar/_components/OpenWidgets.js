@@ -16,36 +16,58 @@ export default function OpenWidgets({
   curPath,
   filesDetails,
   removeFromFiles,
+  //
+  openWidgetsExpanded,
+  setOpenWidgetsExpanded,
+
+  openWidgetsSelected,
+  setOpenWidgetsSelected,
 }) {
-  const [expanded, setExpanded] = useState([]);
   const handleToggle = (event, nodeIds) => {
-    setExpanded(nodeIds);
+    setOpenWidgetsExpanded(nodeIds);
   };
 
-  function getNodeIds(objArray) {
-    const nodeIds = [];
-    if (Array.isArray(objArray)) {
-      // Iterate through each object in the array
-      for (const obj of objArray) {
-        // If the object has a "nodeId" property, add it to the nodeIds array
-        if (typeof obj === "object" && obj.hasOwnProperty("nodeId")) {
-          nodeIds.push(obj.nodeId);
-        }
-        // If the object has a "children" array, recursively call the function on it and merge the results
-        if (Array.isArray(obj.children) && obj.children.length > 0) {
-          nodeIds.push(...getNodeIds(obj.children));
-        }
-      }
-    }
-    return nodeIds;
-  }
-  const [hasCalledOnce, setHasCalledOnce] = useState(false);
+  // function getNodeIds(objArray) {
+  //   const nodeIds = [];
+  //   if (Array.isArray(objArray)) {
+  //     // Iterate through each object in the array
+  //     for (const obj of objArray) {
+  //       // If the object has a "nodeId" property, add it to the nodeIds array
+  //       if (typeof obj === "object" && obj.hasOwnProperty("nodeId")) {
+  //         nodeIds.push(obj.nodeId);
+  //       }
+  //       // If the object has a "children" array, recursively call the function on it and merge the results
+  //       if (Array.isArray(obj.children) && obj.children.length > 0) {
+  //         nodeIds.push(...getNodeIds(obj.children));
+  //       }
+  //     }
+  //   }
+  //   return nodeIds;
+  // }
+  // const [hasCalledOnce, setHasCalledOnce] = useState(false);
+  // useEffect(() => {
+  //   if (projectFiles?.length > 0 && !hasCalledOnce) {
+  //     setOpenWidgetsExpanded(getNodeIds(projectFiles));
+  //     setHasCalledOnce(true);
+  //   }
+  // }, [projectFiles]);
+
   useEffect(() => {
-    if (projectFiles?.length > 0 && !hasCalledOnce) {
-      setExpanded(getNodeIds(projectFiles));
-      setHasCalledOnce(true);
-    }
-  }, [projectFiles]);
+    console.log(
+      "openWidgetsSelected, openWidgetsExpanded : ",
+      openWidgetsSelected,
+      openWidgetsExpanded
+    );
+  }, [openWidgetsSelected, openWidgetsExpanded]);
+
+  const handleNodeSelect = (event, nodeId) => {
+    console.log("handleNodeSelect : ", nodeId);
+    setOpenWidgetsSelected(nodeId);
+  };
+
+  // const handleButtonClick = () => {
+  //   setOpenWidgetsSelected("2");
+  // };
 
   return (
     <Box>
@@ -53,8 +75,11 @@ export default function OpenWidgets({
         aria-label="multi-select"
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}
-        expanded={expanded}
+        expanded={openWidgetsExpanded}
         onNodeToggle={handleToggle}
+        //
+        selected={openWidgetsSelected}
+        onNodeSelect={handleNodeSelect}
       >
         <CustomTreeView
           file={{ children: projectFiles }}

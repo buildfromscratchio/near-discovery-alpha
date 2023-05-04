@@ -27,7 +27,6 @@ export default function LabelWithFileIcon({
   const { theme } = useContext(ThemeContext);
 
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
-  const [showEditButtonIcon, setShowEditButtonIcon] = useState(false);
 
   return (
     <>
@@ -38,8 +37,6 @@ export default function LabelWithFileIcon({
           justifyContent: "space-between",
           ...style,
         }}
-        onMouseEnter={() => setShowEditButtonIcon(true)}
-        onMouseLeave={() => setShowEditButtonIcon(false)}
       >
         <div
           style={{
@@ -89,79 +86,52 @@ export default function LabelWithFileIcon({
             />
           )}
         </div>
-
-        {isWidget && (
-          <Box sx={{ display: "flex", gap: 1 }}>
-            {isSelected && (
-              <Fade in={isSelected}>
-                <IconButton
-                  size="small"
-                  sx={{ padding: "3px", margin: 0 }}
-                  onClick={handleRenameFile}
-                >
-                  <DriveFileRenameOutlineRoundedIcon
-                    sx={{
-                      fontSize: "1rem",
-                      fill: theme.textColor3 || "rgba(255,255,255,.75)",
-                    }}
-                  />
-                </IconButton>
-              </Fade>
-            )}
-
-            {handleRemoveFile && (
+        <Box sx={{ display: "flex", gap: 1 }}>
+          {isSelected && (
+            <Fade in={isSelected}>
               <IconButton
                 size="small"
-                sx={{
-                  padding: "3px",
-                  margin: 0,
-                  color: isSelected ? theme.textColor3 : theme.textColor3 + 33,
-                  transition: "all .2s ease-in-out",
-                  "&:hover": {
-                    color: isSelected
-                      ? theme.textColor3
-                      : theme.textColor3 + 99,
-                  },
-                }}
-                onClick={() => {
-                  if (isDraft === true || codeChangesPresent === true) {
-                    setShowConfirmDialog(true);
-                  } else {
-                    handleRemoveFile();
-                  }
-                }}
+                sx={{ padding: "3px", margin: 0 }}
+                onClick={handleRenameFile}
               >
-                <CancelRoundedIcon
+                <DriveFileRenameOutlineRoundedIcon
                   sx={{
                     fontSize: "1rem",
-                    // fill: theme.textColor3 || "rgba(255,255,255,.75)",
+                    fill: theme.textColor3 || "rgba(255,255,255,.75)",
                   }}
                 />
               </IconButton>
-            )}
-
-            {console.log(isWidget, item?.name)}
-            {!isWidget && (
-              <IconButton
-                size="small"
+            </Fade>
+          )}
+          {handleRemoveFile && (
+            <IconButton
+              size="small"
+              sx={{
+                padding: "3px",
+                margin: 0,
+                color: isSelected ? theme.textColor3 : theme.textColor3 + 33,
+                transition: "all .2s ease-in-out",
+                "&:hover": {
+                  color: isSelected ? theme.textColor3 : theme.textColor3 + 99,
+                },
+              }}
+              onClick={() => {
+                if (isDraft === true || codeChangesPresent === true) {
+                  setShowConfirmDialog(true);
+                } else {
+                  handleRemoveFile();
+                }
+              }}
+            >
+              <CancelRoundedIcon
                 sx={{
-                  padding: "3px",
-                  margin: 0,
-                  color: isSelected ? theme.textColor3 : theme.textColor3 + 33,
-                  transition: "all .2s ease-in-out",
-                  "&:hover": {
-                    color: isSelected
-                      ? theme.textColor3
-                      : theme.textColor3 + 99,
-                  },
+                  fontSize: "1rem",
+                  // fill: theme.textColor3 || "rgba(255,255,255,.75)",
                 }}
-                onClick={() => handleOpenFolder()}
-              >
-                <AddCircleRoundedIcon sx={{ fontSize: "1rem" }} />
-              </IconButton>
-            )}
-          </Box>
-        )}
+              />
+            </IconButton>
+          )}
+        </Box>
       </div>
 
       <ConfirmDialog
