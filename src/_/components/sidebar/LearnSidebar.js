@@ -75,7 +75,7 @@ export default function LearnSidebar() {
             </Typography>
           </Box>
 
-          {!selectedItem?.projectId && (
+          {/* {!selectedItem?.projectId && (
             <Box>
               <Tooltip title="Add Project">
                 <IconButton
@@ -87,7 +87,7 @@ export default function LearnSidebar() {
                 </IconButton>
               </Tooltip>
             </Box>
-          )}
+          )} */}
         </Box>
 
         {selectedProject?.name ? (
