@@ -1,16 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useAccountId, useNear, useCache } from "near-social-vm";
 import { ThemeContext } from "../../../../context/ThemeContext";
-import {
-  Box,
-  Button,
-  ButtonBase,
-  Chip,
-  Fade,
-  IconButton,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Box, ButtonBase, IconButton, Typography } from "@mui/material";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 
 import { styled } from "@mui/material/styles";
@@ -18,13 +9,9 @@ import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 import MuiAccordion from "@mui/material/Accordion";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
-import DriveFileRenameOutlineRoundedIcon from "@mui/icons-material/DriveFileRenameOutlineRounded";
-import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import FileIcon from "../../../FileIcon";
-import { EditorContext } from "../../../../context/EditorContext";
 import createFileTree from "../../../../libs/createFileTree";
 import { TreeItem, TreeView } from "@mui/lab";
-import LabelWithFileIcon from "../../../LabelWithFileIcon";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 

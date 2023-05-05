@@ -1,6 +1,6 @@
 import { TreeItem, TreeView } from "@mui/lab";
 import { Box } from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import LabelWithFileIcon from "../../../LabelWithFileIcon";

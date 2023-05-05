@@ -3,7 +3,6 @@ import { Box, Chip, Fade, IconButton, Typography } from "@mui/material";
 import FileIcon from "./FileIcon";
 import DriveFileRenameOutlineRoundedIcon from "@mui/icons-material/DriveFileRenameOutlineRounded";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
-import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 
 import { ThemeContext } from "../context/ThemeContext";
 import ConfirmDialog from "../dialogs/ConfirmDialog";

@@ -1,29 +1,20 @@
 import {
   Box,
-  ButtonBase,
-  Chip,
-  Fade,
   IconButton,
   Tooltip,
   Typography,
 } from "@mui/material";
 import NoteAddRoundedIcon from "@mui/icons-material/NoteAddRounded";
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { useNear, useCache, useAccountId } from "near-social-vm";
 
 import { styled } from "@mui/material/styles";
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 import MuiAccordion from "@mui/material/Accordion";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
-import DriveFileRenameOutlineRoundedIcon from "@mui/icons-material/DriveFileRenameOutlineRounded";
-import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 
 import { ThemeContext } from "../../../context/ThemeContext";
 import { EditorContext } from "../../../context/EditorContext";
-import FileIcon from "../../FileIcon";
-import RenameDialog from "../../../dialogs/RenameDialog";
-import ConfirmDialog from "../../../dialogs/ConfirmDialog";
 
 import MyWidgets from "./_components/MyWidgets";
 import OpenWidgets from "./_components/OpenWidgets";
