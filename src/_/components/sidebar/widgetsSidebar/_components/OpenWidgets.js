@@ -1,12 +1,25 @@
 import { TreeItem, TreeView } from "@mui/lab";
 import { Box } from "@mui/material";
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import LabelWithFileIcon from "../../../LabelWithFileIcon";
 import { EditorContext } from "../../../../context/EditorContext";
 import { ThemeContext } from "../../../../context/ThemeContext";
 // import ConfirmDialog from "../../../../dialogs/ConfirmDialog";
+
+function getWidgets(node, widgetsArray) {
+  if (node.type === "widget") {
+    // widgetsArray.push({ name: node.name, type: "widget" });
+    widgetsArray.push({ type: "widget", name: node.name });
+  }
+
+  if (node.children && node.children.length > 0) {
+    for (let child of node.children) {
+      getWidgets(child, widgetsArray);
+    }
+  }
+}
 
 export default function OpenWidgets({
   projectFiles,
@@ -52,18 +65,19 @@ export default function OpenWidgets({
   //   }
   // }, [projectFiles]);
 
-  useEffect(() => {
-    console.log(
-      "openWidgetsSelected, openWidgetsExpanded : ",
-      openWidgetsSelected,
-      openWidgetsExpanded
-    );
-  }, [openWidgetsSelected, openWidgetsExpanded]);
+  //
 
-  const handleNodeSelect = (event, nodeId) => {
-    console.log("handleNodeSelect : ", nodeId);
-    setOpenWidgetsSelected(nodeId);
-  };
+  // useEffect(() => {
+  //   console.log(
+  //     "openWidgetsSelected, openWidgetsExpanded : ",
+  //     openWidgetsSelected,
+  //     openWidgetsExpanded
+  //   );
+  // }, [openWidgetsSelected, openWidgetsExpanded]);
+
+  //
+
+  const handleNodeSelect = (event, nodeId) => setOpenWidgetsSelected(nodeId);
 
   // const handleButtonClick = () => {
   //   setOpenWidgetsSelected("2");
@@ -158,18 +172,27 @@ const CustomTreeView = ({
         };
 
         const handleRemoveFile = () => {
-          removeFromFiles(fileFromItem);
-          console.log("handleRemoveFile > fileFromItem", fileFromItem);
+          // console.log("handleRemoveFile ==========> : ", item);
+
+          if (item.type === "folder") {
+            let widgets = [];
+            getWidgets(item, widgets);
+
+            widgets?.map((widget) => {
+              console.log("handleRemoveFile.widgets.widget: ", widget);
+              removeFromFiles(widget);
+            });
+            // console.log("handleRemoveFile.widgets: ", widgets);
+          } else {
+            console.log("handleRemoveFile.fileFromItem: ", fileFromItem);
+            removeFromFiles(fileFromItem);
+            // console.log("handleRemoveFile > fileFromItem", fileFromItem);
+          }
 
           if (fileFromItem === curPath) {
-            if (files.length > 1) {
+            if (files.length > 1)
               openFile(files[index - 1] || files[index + 1]);
-
-              // console.log("HI FORM FILS ASE ARO>...");
-            } else {
-              createFile("widget");
-              // console.log("HI FORM FILE NAI R>...");
-            }
+            else createFile("widget");
           }
         };
 
