@@ -1,8 +1,5 @@
 import React, { useContext } from "react";
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import HelpOutlineRoundedIcon from "@mui/icons-material/HelpOutlineRounded";
-import WifiRoundedIcon from "@mui/icons-material/WifiRounded";
 import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import WidgetsRoundedIcon from "@mui/icons-material/WidgetsRounded";
@@ -16,7 +13,7 @@ import { ThemeContext } from "../context/ThemeContext";
 import { EditorContext } from "../context/EditorContext";
 
 import DiamondRoundedIcon from "@mui/icons-material/DiamondRounded";
-import { Box, ButtonBase, Divider, Tooltip } from "@mui/material";
+import { ButtonBase, Tooltip } from "@mui/material";
 import { useHistory, useLocation } from "react-router-dom";
 import { Widget, useAccount } from "near-social-vm";
 import { AuthContext } from "../context/AuthContext";

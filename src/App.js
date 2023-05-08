@@ -42,19 +42,17 @@ import AuthPage from "./_/pages/AuthPage";
 
 import { EditorContext } from "./_/context/EditorContext";
 import { ThemeContext } from "./_/context/ThemeContext";
-import { AuthContext } from "./_/context/AuthContext";
 import LearnContextProvider from "./_/context/LearnContext";
 
 import LoginDialog from "./_/dialogs/LoginDialog";
 import PagesContainer from "./_/components/PagesContainer";
 import Footer from "./_/components/Footer";
+import CreateLearnPage from "./_/pages/createLearnPage/CreateLearnPage";
 
 export const refreshAllowanceObj = {};
 ReactGA.initialize("G-YJ2FL738R6");
 
 export default function App() {
-  const { uesr } = useContext(AuthContext);
-  const { theme } = useContext(ThemeContext);
   const { NetworkId, Widgets } = useContext(EditorContext);
 
   const [connected, setConnected] = useState(false);
@@ -202,6 +200,13 @@ export default function App() {
             <Footer />
           </Route>
 
+          <Route path={"/learn/create"}>
+            <LearnContextProvider>
+              <CreateLearnPage {...passProps} />
+            </LearnContextProvider>
+            <Footer />
+          </Route>
+
           <Route path={"/learn"}>
             <LearnContextProvider>
               <LearnPage {...passProps} />
@@ -250,7 +255,8 @@ export default function App() {
             {/* {uesr ? <Redirect to="/editor" /> : <HomePage {...passProps} />} */}
           </Route>
         </Switch>
-        <LoginDialog />
+
+        <LoginDialog requestSignIn={requestSignIn} />
       </BrowserRouter>
     </Box>
   );

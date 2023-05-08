@@ -76,6 +76,7 @@ export default function ProfileSidebar({ appProps, logOut, requestSignIn }) {
             startIcon={<LogoutIcon />}
             onClick={() => {
               logOut();
+              logout();
             }}
           >
             Disconnect

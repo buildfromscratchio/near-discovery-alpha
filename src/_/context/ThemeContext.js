@@ -181,6 +181,6 @@ export const theme = createTheme({
   },
   spacing: 8,
   shape: {
-    borderRadius: 8,
+    borderRadius: 4,
   },
 });

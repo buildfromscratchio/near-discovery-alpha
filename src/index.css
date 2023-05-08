@@ -121,3 +121,17 @@
   padding: 8px;
   border-radius: 4px;
 }
+
+/* #md-editor-rt-textarea { */
+.cm-content.cm-lineWrapping {
+  margin: 8px 4px !important;
+  padding: 0px;
+  height: calc(100% - 25px);
+}
+
+#md-editor-rt-textarea::placeholder {
+  color: rgb(160, 165, 178);
+}
+
+#near-wallet-selector-modal .nws-modal {
+}
