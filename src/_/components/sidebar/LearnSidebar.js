@@ -14,7 +14,7 @@ import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 // import { Widget } from "near-social-vm";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
-import AddLearnProjectDialog from "../../dialogs/AddLearnProjectDialog";
+// import AddLearnProjectDialog from "../../dialogs/AddLearnProjectDialog";
 import { useState } from "react";
 
 export default function LearnSidebar() {
@@ -227,10 +227,10 @@ export default function LearnSidebar() {
         )}
       </Box>
 
-      <AddLearnProjectDialog
+      {/* <AddLearnProjectDialog
         open={showAddLearnProjectDialog}
         setOpen={setShowAddLearnProjectDialog}
-      />
+      /> */}
     </>
   );
 }
