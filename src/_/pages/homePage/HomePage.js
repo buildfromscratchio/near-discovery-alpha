@@ -7,20 +7,19 @@ import { useParams } from "react-router-dom";
 import ViewPage from "../../../pages/ViewPage";
 import HomeHeader from "./_components/HomeHeader";
 import HomeEditorContainer from "./_components/HomeEditorContainer";
-import HomeOurPartnersSection from "./_components/HomeOurPartnersSection";
 import HomeTestimonialSection from "./_components/HomeTestimonialSection";
 import { Widget } from "near-social-vm";
 import { Box } from "@mui/material";
 
 export default function HomePage(props) {
   const { widgetSrc } = useParams();
-  const { theme, bp } = useContext(ThemeContext);
+  const { theme,  } = useContext(ThemeContext);
 
   return widgetSrc ? (
     <ViewPage {...props} />
   ) : (
     <>
-      <HomeHeader />
+      <HomeHeader {...props} />
       <HomeTopSection />
       {/* <HomeOurPartnersSection /> */}
       <HomeEditorContainer />

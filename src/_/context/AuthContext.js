@@ -1,9 +1,12 @@
 import React, { useEffect, useState, createContext } from "react";
 import { useHistory } from "react-router-dom";
+import { useAccount } from "near-social-vm";
 
 export const AuthContext = createContext();
 
 export const AuthContextProvider = (props) => {
+  const account = useAccount();
+
   const history = useHistory();
   const [showDialog, setShowDialog] = useState(false);
 
@@ -19,7 +22,7 @@ export const AuthContextProvider = (props) => {
 
   useEffect(() => {
     checkAuth();
-  }, []);
+  }, [account]);
 
   const checkAuth = async () => {
     // let data = await localStorage.getItem("githubToken");

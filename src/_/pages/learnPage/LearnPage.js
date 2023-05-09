@@ -161,3 +161,5 @@ const EmptyPage = () => {
     </Box>
   );
 };
+
+export { EmptyPage };

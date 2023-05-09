@@ -1,9 +1,22 @@
-@font-face {
+/* @font-face {
   font-family: "Mona Sans";
   src: url("./fonts/Mona-Sans.woff2") format("woff2 supports variations"),
     url("./fonts/Mona-Sans.woff2") format("woff2-variations");
   font-weight: 200 900;
   font-stretch: 75% 125%;
+} */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Public+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+* {
+  /* font-family: "Montserrat", sans-serif; */
+  font-family: "Inter", sans-serif !important;
+  /* font-family: "Public Sans", sans-serif; */
+
+  box-sizing: border-box;
+  padding: 0px;
+  margin: 0px;
+  /* line-height: 1.1; */
 }
 
 :root {
@@ -133,5 +146,11 @@
   color: rgb(160, 165, 178);
 }
 
-#near-wallet-selector-modal .nws-modal {
+/* #near-wallet-selector-modal .nws-modal {} */
+
+* input::placeholder {
+  opacity: 1 !important;
+  color: #888a88 !important;
+  font-size: 0.9rem;
+  font-weight: 400 !important;
 }

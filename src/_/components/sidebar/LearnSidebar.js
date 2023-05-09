@@ -16,6 +16,7 @@ import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 // import AddLearnProjectDialog from "../../dialogs/AddLearnProjectDialog";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function LearnSidebar() {
   const { theme } = useContext(ThemeContext);
@@ -75,9 +76,9 @@ export default function LearnSidebar() {
             </Typography>
           </Box>
 
-          {/* {!selectedItem?.projectId && (
-            <Box>
-              <Tooltip title="Add Project">
+          <Box>
+            <Tooltip title="Add Project">
+              <Link to="/learn/create">
                 <IconButton
                   onClick={() => setShowAddLearnProjectDialog((e) => !e)}
                 >
@@ -85,9 +86,9 @@ export default function LearnSidebar() {
                     sx={{ fontSize: "1.25rem", fill: theme.textColor3 }}
                   />
                 </IconButton>
-              </Tooltip>
-            </Box>
-          )} */}
+              </Link>
+            </Tooltip>
+          </Box>
         </Box>
 
         {selectedProject?.name ? (

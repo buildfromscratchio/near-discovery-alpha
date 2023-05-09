@@ -1,5 +1,4 @@
 import React from "react";
-
 import {
   Button,
   Dialog,
@@ -7,7 +6,6 @@ import {
   DialogTitle,
   Typography,
 } from "@mui/material";
-
 import { AuthContext } from "../context/AuthContext";
 import { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
@@ -75,7 +73,7 @@ const NearButton = ({ requestSignIn }) => {
         gap: 1,
         textTransform: "none",
         color: theme.textColor,
-        borderRadius: 0.5,
+        borderRadius: 1,
 
         backgroundColor: theme.textColor,
 
@@ -129,7 +127,7 @@ const GithubButton = () => {
           gap: 1,
           textTransform: "none",
           color: theme.textColor,
-          borderRadius: 0.5,
+          borderRadius: 1,
 
           backgroundColor: theme.textColor,
 

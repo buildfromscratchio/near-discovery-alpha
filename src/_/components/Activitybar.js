@@ -284,8 +284,9 @@ export default function Activitybar(props) {
             }
             label="logout"
             onClick={() => {
-              history.push("/");
+              props.logOut();
               logout();
+              history.push("/");
             }}
           />
         )}
