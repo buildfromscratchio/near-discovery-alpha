@@ -71,15 +71,17 @@ export default function LearnSidebar() {
           </Box>
 
           <Box>
-            <Tooltip title="Add Project">
-              <Link to="/learn/create">
-                <IconButton>
-                  <AddCircleOutlineRoundedIcon
-                    sx={{ fontSize: "1.25rem", fill: theme.textColor3 }}
-                  />
-                </IconButton>
-              </Link>
-            </Tooltip>
+            {!selectedProject?.name && (
+              <Tooltip title="Add Project">
+                <Link to="/learn/create">
+                  <IconButton>
+                    <AddCircleOutlineRoundedIcon
+                      sx={{ fontSize: "1.25rem", fill: theme.textColor3 }}
+                    />
+                  </IconButton>
+                </Link>
+              </Tooltip>
+            )}
           </Box>
         </Box>
 

@@ -43,7 +43,7 @@ export default function CustomInput(props) {
       {label && (
         <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
           <Typography variant="p1" sx={labelStyle}>
-            {label}:
+            {label}
           </Typography>
           {required && (
             <Typography variant="p1" sx={{ ...labelStyle, color: "#bc002d" }}>

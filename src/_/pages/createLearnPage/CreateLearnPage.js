@@ -5,9 +5,12 @@ import { Allotment } from "allotment";
 import VerticalCodePreview from "../../components/VerticalCodePreview";
 import { useEffect } from "react";
 import { useContext } from "react";
-import { EditorContext } from "../../context/EditorContext";
-import MdEditor from "md-editor-rt";
-import "md-editor-rt/lib/style.css";
+import { EditorContext as OurEditorContext } from "../../context/EditorContext";
+// import MdEditor from "md-editor-rt";
+// import "md-editor-rt/lib/style.css";
+
+import MDEditor, { commands, EditorContext } from "@uiw/react-md-editor";
+
 import { useState } from "react";
 import { ThemeContext } from "../../context/ThemeContext";
 import CustomInput from "../../components/custom/CustomInput";
@@ -15,7 +18,9 @@ import { EmptyPage } from "../learnPage/LearnPage";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 
 export default function CreateLearnPage(props) {
-  const { selectedActivity, setSelectedActivity } = useContext(EditorContext);
+  const { theme } = useContext(ThemeContext);
+  const { selectedActivity, setSelectedActivity } =
+    useContext(OurEditorContext);
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -43,6 +48,7 @@ export default function CreateLearnPage(props) {
         height: "100%",
         width: "100%",
         display: "flex",
+        backgroundColor: theme.ui,
       }}
     >
       <Activitybar {...props} />
@@ -145,6 +151,7 @@ const SetupProjectSection = ({
         display: "flex",
         flexDirection: "column",
         gap: 1,
+        overflowY: "auto",
       }}
     >
       <Box
@@ -154,6 +161,12 @@ const SetupProjectSection = ({
           alignItems: "center",
         }}
       >
+        <Typography
+          variant="h6"
+          sx={{ color: theme.textColor2, fontWeight: 600 }}
+        >
+          Content
+        </Typography>
         <Button
           disabled={name?.length < 1 || description?.length < 1}
           sx={{
@@ -168,6 +181,11 @@ const SetupProjectSection = ({
             "&:hover": {
               opacity: 0.75,
               backgroundColor: theme.buttonColor,
+            },
+
+            "&:disabled": {
+              backgroundColor: theme.textColor3 + 33,
+              color: theme.textColor3,
             },
           }}
           onClick={() => onSubmit()}
@@ -186,7 +204,7 @@ const SetupProjectSection = ({
         sx={{ backgroundColor: theme.ui }}
       />
 
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
+      {/* <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
         <Typography
           variant="p1"
           sx={{ color: theme.textColor2, fontWeight: 500 }}
@@ -207,7 +225,31 @@ const SetupProjectSection = ({
           onChange={setDescription}
           placeholder="Enter project description"
         />
-      </Box>
+      </Box> */}
+
+      <div data-color-mode={theme.name} style={{ padding: 1 }}>
+        <Typography
+          variant="p1"
+          style={{ color: theme.textColor2, fontWeight: 500 }}
+        >
+          Description:
+        </Typography>
+        <div style={{ height: 8 }} />
+        <MDEditor
+          height="300px"
+          value={description}
+          onChange={setDescription}
+          preview="edit"
+          // extraCommands={[codePreview, commands.fullscreen]}
+          // extraCommands={[codePreview]}
+        />
+        {/* <MDEditor.Markdown
+          source={
+            sections?.find((s) => s._id === selectedSection._id)?.description
+          }
+          style={{ whiteSpace: "pre-wrap" }}
+        /> */}
+      </div>
 
       <Box>
         <Button
@@ -323,7 +365,7 @@ const DetailSection = ({
         sx={{ backgroundColor: theme.ui }}
       />
 
-      <CustomInput
+      {/* <CustomInput
         label="Description"
         placeholder="Enter project description"
         value={
@@ -332,10 +374,37 @@ const DetailSection = ({
         onChange={(e) =>
           updateItem(selectedSection?._id, { description: e.target.value })
         }
-        sx={{ backgroundColor: theme.ui }}
+        sx={{ backgroundColor: theme.ui, height: "100%" }}
         multiline={true}
         rows={15}
-      />
+      /> */}
+
+      <div data-color-mode={theme.name} style={{}}>
+        <Typography
+          variant="p1"
+          sx={{ color: theme.textColor2, fontWeight: 500, pb: 1 }}
+        >
+          Description:
+        </Typography>
+        <div style={{ height: 8 }} />
+
+        <MDEditor
+          height="calc(100vh - 115px)"
+          value={
+            sections?.find((s) => s._id === selectedSection._id)?.description
+          }
+          onChange={(e) => updateItem(selectedSection?._id, { description: e })}
+          preview="edit"
+          // extraCommands={[codePreview, commands.fullscreen]}
+          // extraCommands={[codePreview]}
+        />
+        {/* <MDEditor.Markdown
+          source={
+            sections?.find((s) => s._id === selectedSection._id)?.description
+          }
+          style={{ whiteSpace: "pre-wrap" }}
+        /> */}
+      </div>
 
       {/* 
         <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
