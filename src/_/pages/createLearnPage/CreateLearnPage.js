@@ -6,7 +6,6 @@ import VerticalCodePreview from "../../components/VerticalCodePreview";
 import { useEffect } from "react";
 import { useContext } from "react";
 import { EditorContext } from "../../context/EditorContext";
-import { LearnContext } from "../../context/LearnContext";
 import MdEditor from "md-editor-rt";
 import "md-editor-rt/lib/style.css";
 import { useState } from "react";
@@ -28,6 +27,16 @@ export default function CreateLearnPage(props) {
     setSelectedActivity("learn");
   }, []);
 
+  const onSubmit = () => {
+    const data = {
+      name,
+      description,
+      sections,
+    };
+
+    console.log(data);
+  };
+
   return (
     <Box
       sx={{
@@ -45,7 +54,6 @@ export default function CreateLearnPage(props) {
           defaultSizes={selectedSection?.name ? [100, 200, 200] : [100, 300]}
         >
           <Allotment.Pane minSize={200} visible={selectedActivity === "learn"}>
-            {/* LearnSidebar */}
             <SetupProjectSection
               name={name}
               setName={setName}
@@ -57,13 +65,17 @@ export default function CreateLearnPage(props) {
               //
               selectedSection={selectedSection}
               setSelectedSection={setSelectedSection}
+              //
+              onSubmit={onSubmit}
             />
           </Allotment.Pane>
 
-          {/* <AddSectionView /> */}
-
-          {selectedSection?.name ? (
-            <AddSectionView {...selectedSection} />
+          {selectedSection?._id ? (
+            <AddSectionView
+              selectedSection={selectedSection}
+              sections={sections}
+              setSections={setSections}
+            />
           ) : (
             <Allotment.Pane minSize={400}>
               <EmptyPage />
@@ -75,14 +87,36 @@ export default function CreateLearnPage(props) {
   );
 }
 
-const AddSectionView = ({ name, description, code }) => {
+const AddSectionView = ({ selectedSection, sections, setSections }) => {
+  const updateItem = (id, updatedItem) => {
+    setSections((prevItems) =>
+      prevItems.map((item) => {
+        if (item._id === id) {
+          console.log(item, updatedItem, selectedSection.name, id);
+          return { ...item, ...updatedItem };
+        }
+
+        return item;
+      })
+    );
+  };
+
   return (
     <Allotment>
       <Allotment.Pane minSize={200}>
-        <DetailSection name={name} description={description} />
+        <DetailSection
+          selectedSection={selectedSection}
+          //
+          sections={sections}
+          setSections={setSections}
+        />
       </Allotment.Pane>
 
-      <VerticalCodePreview initialCode={code} />
+      <VerticalCodePreview
+        initialCode={selectedSection?.code}
+        code={sections?.find((s) => s._id === selectedSection._id)?.code}
+        setCode={(e) => updateItem(selectedSection?._id, { code: e })}
+      />
     </Allotment>
   );
 };
@@ -98,6 +132,8 @@ const SetupProjectSection = ({
   //
   selectedSection,
   setSelectedSection,
+  //
+  onSubmit,
 }) => {
   const { theme } = useContext(ThemeContext);
 
@@ -134,6 +170,7 @@ const SetupProjectSection = ({
               backgroundColor: theme.buttonColor,
             },
           }}
+          onClick={() => onSubmit()}
         >
           Save
         </Button>
@@ -186,8 +223,9 @@ const SetupProjectSection = ({
             setSections((e) => [
               ...e,
               {
-                name: `Step: ${sections?.length}`,
-                discription: "",
+                _id: Math.floor(Math.random() * (100000000 - 1000 + 1)) + 1000,
+                name: `Step: ${sections?.length + 1}`,
+                description: "",
                 code: "return <div>Hello World</div>;",
               },
             ])
@@ -204,7 +242,7 @@ const SetupProjectSection = ({
                 textTransform: "none",
                 width: "100%",
                 backgroundColor:
-                  selectedSection === section
+                  selectedSection?._id === section?._id
                     ? `${theme?.buttonColor}22 !important`
                     : theme.backgroundColor,
                 p: 1,
@@ -222,10 +260,18 @@ const SetupProjectSection = ({
                     : `1px ${theme.borderColor} solid`,
               }}
               onClick={() => {
-                setSelectedSection(section === selectedSection ? {} : section);
+                setSelectedSection(
+                  section?._id === selectedSection?._id ? {} : section
+                );
               }}
             >
-              <Typography variant="p1">
+              <Typography
+                variant="p1"
+                sx={{
+                  wordBreak: "break-all",
+                  textAlign: "left",
+                }}
+              >
                 {index + 1}: {section?.name}
               </Typography>
             </Button>
@@ -237,18 +283,25 @@ const SetupProjectSection = ({
 };
 
 const DetailSection = ({
-  name: initialName,
-  description: initialDescription,
+  selectedSection,
+  //
+  sections,
+  setSections,
 }) => {
   const { theme } = useContext(ThemeContext);
 
-  const [name, setName] = useState(initialName);
-  const [description, setDescription] = useState(initialDescription);
+  const updateItem = (id, updatedItem) => {
+    setSections((prevItems) =>
+      prevItems.map((item) => {
+        if (item._id === id) {
+          console.log(item, updatedItem, selectedSection.name, id);
+          return { ...item, ...updatedItem };
+        }
 
-  useEffect(() => {
-    setName(initialName);
-    setDescription(initialDescription);
-  }, [initialName, initialDescription]);
+        return item;
+      })
+    );
+  };
 
   return (
     <Box
@@ -263,33 +316,53 @@ const DetailSection = ({
       <CustomInput
         label="Name"
         placeholder="Enter project name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
+        value={sections?.find((s) => s._id === selectedSection._id)?.name}
+        onChange={(e) =>
+          updateItem(selectedSection?._id, { name: e.target.value })
+        }
         sx={{ backgroundColor: theme.ui }}
       />
 
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
-        <Typography
-          variant="p1"
-          sx={{ color: theme.textColor2, fontWeight: 500 }}
-        >
-          Description:
-        </Typography>
+      <CustomInput
+        label="Description"
+        placeholder="Enter project description"
+        value={
+          sections?.find((s) => s._id === selectedSection._id)?.description
+        }
+        onChange={(e) =>
+          updateItem(selectedSection?._id, { description: e.target.value })
+        }
+        sx={{ backgroundColor: theme.ui }}
+        multiline={true}
+        rows={15}
+      />
 
-        <MdEditor
-          style={{
-            backgroundColor: theme.backgroundColor,
-            height: "max(300px, (calc(100vh - 140px)))",
-            borderRadius: 4,
-          }}
-          toolbars={[]}
-          language="en-US"
-          preview={false}
-          modelValue={description}
-          onChange={setDescription}
-          placeholder="Enter project description"
-        />
-      </Box>
+      {/* 
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
+          <Typography
+            variant="p1"
+            sx={{ color: theme.textColor2, fontWeight: 500 }}
+          >
+            Description:
+          </Typography>
+
+          <MdEditor
+            style={{
+              backgroundColor: theme.backgroundColor,
+              height: "max(300px, (calc(100vh - 140px)))",
+              borderRadius: 4,
+            }}
+            toolbars={[]}
+            language="en-US"
+            preview={false}
+            modelValue={
+              sections?.find((s) => s._id === selectedSection._id)?.description
+            }
+            onChange={(e) => updateItem(selectedSection?._id, { description: e })}
+            placeholder="Enter project description"
+          />
+        </Box> 
+      */}
     </Box>
   );
 };

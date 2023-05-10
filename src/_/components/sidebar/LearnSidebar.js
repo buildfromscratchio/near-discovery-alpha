@@ -11,20 +11,14 @@ import {
 } from "@mui/material";
 import { LearnContext } from "../../context/LearnContext";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
-// import { Widget } from "near-social-vm";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
-// import AddLearnProjectDialog from "../../dialogs/AddLearnProjectDialog";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function LearnSidebar() {
   const { theme } = useContext(ThemeContext);
   const { projects, selectedItem, setSelectedItem, selectedProject, goBack } =
     useContext(LearnContext);
-
-  const [showAddLearnProjectDialog, setShowAddLearnProjectDialog] =
-    useState(false);
 
   return (
     <>
@@ -79,9 +73,7 @@ export default function LearnSidebar() {
           <Box>
             <Tooltip title="Add Project">
               <Link to="/learn/create">
-                <IconButton
-                  onClick={() => setShowAddLearnProjectDialog((e) => !e)}
-                >
+                <IconButton>
                   <AddCircleOutlineRoundedIcon
                     sx={{ fontSize: "1.25rem", fill: theme.textColor3 }}
                   />

@@ -26,7 +26,7 @@ export default function CustomInput(props) {
   const inputStyle = {
     color: theme.textColor,
     backgroundColor: theme.backgroundColor,
-    height: 40,
+    height: !otherProps?.rows && 40,
     width: "100%",
     border: `1px ${theme.borderColor} solid`,
     borderRadius: 1,
