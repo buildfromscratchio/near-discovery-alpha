@@ -1,11 +1,12 @@
 import { TreeItem, TreeView } from "@mui/lab";
 import { Box } from "@mui/material";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import LabelWithFileIcon from "../../../LabelWithFileIcon";
 import { EditorContext } from "../../../../context/EditorContext";
 import { ThemeContext } from "../../../../context/ThemeContext";
+import ConfirmDialog from "../../../../dialogs/ConfirmDialog";
 // import ConfirmDialog from "../../../../dialogs/ConfirmDialog";
 
 function getWidgets(node, widgetsArray) {
@@ -142,6 +143,8 @@ const CustomTreeView = ({
   const { theme } = useContext(ThemeContext);
   const { files } = useContext(EditorContext);
 
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+
   return (
     <div>
       {file?.children?.map((item, index) => {
@@ -175,14 +178,15 @@ const CustomTreeView = ({
           // console.log("handleRemoveFile ==========> : ", item);
 
           if (item.type === "folder") {
-            let widgets = [];
-            getWidgets(item, widgets);
+            setShowConfirmDialog(true);
+            // let widgets = [];
+            // getWidgets(item, widgets);
 
-            widgets?.map((widget) => {
-              console.log("handleRemoveFile.widgets.widget: ", widget);
-              removeFromFiles(widget);
-            });
-            // console.log("handleRemoveFile.widgets: ", widgets);
+            // widgets?.map((widget) => {
+            //   console.log("handleRemoveFile.widgets.widget: ", widget);
+            //   removeFromFiles(widget);
+            // });
+            // // console.log("handleRemoveFile.widgets: ", widgets);
           } else {
             console.log("handleRemoveFile.fileFromItem: ", fileFromItem);
             removeFromFiles(fileFromItem);
@@ -197,61 +201,80 @@ const CustomTreeView = ({
         };
 
         return (
-          <TreeItem
-            sx={{
-              backgroundColor:
-                isWidget && isSelected ? theme.buttonColor + "26" : theme.ui,
-            }}
-            key={index}
-            nodeId={item.nodeId || item.name}
-            // nodeId={item.nodeId}
-            icon={
-              isWidget &&
-              codeChangesPresent && (
-                <Box
-                  style={{
-                    minWidth: 8,
-                    height: 8,
-                    borderRadius: 4,
-                    backgroundColor: "rgba(255,0,0,.75)",
+          <>
+            <TreeItem
+              sx={{
+                backgroundColor:
+                  isWidget && isSelected ? theme.buttonColor + "26" : theme.ui,
+              }}
+              key={index}
+              nodeId={item.nodeId || item.name}
+              // nodeId={item.nodeId}
+              icon={
+                isWidget &&
+                codeChangesPresent && (
+                  <Box
+                    style={{
+                      minWidth: 8,
+                      height: 8,
+                      borderRadius: 4,
+                      backgroundColor: "rgba(255,0,0,.75)",
+                    }}
+                  />
+                )
+              }
+              label={
+                <LabelWithFileIcon
+                  item={{
+                    ...item,
+                    name: isWidget
+                      ? item?.name.slice(item?.name?.lastIndexOf(".") + 1)
+                      : item.name,
                   }}
+                  isWidget={isWidget}
+                  isSelected={isSelected}
+                  isDraft={isDraft}
+                  codeChangesPresent={codeChangesPresent}
+                  //
+                  handleOpenFile={handleOpenFile}
+                  handleRenameFile={handleRenameFile}
+                  handleRemoveFile={handleRemoveFile}
                 />
-              )
-            }
-            label={
-              <LabelWithFileIcon
-                item={{
-                  ...item,
-                  name: isWidget
-                    ? item?.name.slice(item?.name?.lastIndexOf(".") + 1)
-                    : item.name,
-                }}
-                isWidget={isWidget}
-                isSelected={isSelected}
-                isDraft={isDraft}
-                codeChangesPresent={codeChangesPresent}
-                //
-                handleOpenFile={handleOpenFile}
-                handleRenameFile={handleRenameFile}
-                handleRemoveFile={handleRemoveFile}
-              />
-            }
-            // onClick={() => {
-            //   handleOpenFile();
-            // }}
-          >
-            {item?.children?.length > 0 && (
-              <CustomTreeView
-                file={item}
-                setShowRenameModal={setShowRenameModal}
-                createFile={createFile}
-                openFile={openFile}
-                curPath={curPath}
-                filesDetails={filesDetails}
-                removeFromFiles={removeFromFiles}
-              />
-            )}
-          </TreeItem>
+              }
+              // onClick={() => {
+              //   handleOpenFile();
+              // }}
+            >
+              {item?.children?.length > 0 && (
+                <CustomTreeView
+                  file={item}
+                  setShowRenameModal={setShowRenameModal}
+                  createFile={createFile}
+                  openFile={openFile}
+                  curPath={curPath}
+                  filesDetails={filesDetails}
+                  removeFromFiles={removeFromFiles}
+                />
+              )}
+            </TreeItem>
+
+            <ConfirmDialog
+              open={showConfirmDialog}
+              setOpen={setShowConfirmDialog}
+              onClick={() => {
+                let widgets = [];
+                getWidgets(item, widgets);
+
+                widgets?.map((widget) => {
+                  console.log("handleRemoveFile.widgets.widget: ", widget);
+                  removeFromFiles(widget);
+                });
+                // console.log("handleRemoveFile.widgets: ", widgets);
+              }}
+              label={`Remove widget`}
+              description={`Are you sure you want to remove "Folder"?`}
+            />
+          </>
         );
       })}
     </div>

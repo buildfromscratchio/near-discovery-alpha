@@ -1,5 +1,4 @@
 import React, { useEffect, useState, createContext } from "react";
-import { useHistory } from "react-router-dom";
 import { useAccount } from "near-social-vm";
 import { useSnackbar } from "notistack";
 import httpClient from "../libs/httpClient";
@@ -8,7 +7,6 @@ export const AuthContext = createContext();
 
 export const AuthContextProvider = (props) => {
   const { enqueueSnackbar } = useSnackbar();
-  const history = useHistory();
   const nearUser = useAccount();
 
   const [loadingCheck, setLoadingCheck] = useState(false);
@@ -22,12 +20,6 @@ export const AuthContextProvider = (props) => {
 
   const [showDialog, setShowDialog] = useState(false);
 
-  // const saveAuth = async (value) => {
-  //   setUser(value);
-  //   await localStorage.setItem("githubToken", JSON.stringify(value));
-  //   setShowDialog(false);
-  // };
-
   useEffect(() => {
     if (!isAuthenticated) checkAuth();
   }, []);
@@ -39,6 +31,8 @@ export const AuthContextProvider = (props) => {
 
     const accessToken = await localStorage.getItem("accessToken");
     const userId = await localStorage.getItem("userId");
+
+    console.log(`Access userId: ${userId} , : accessToken : ${accessToken}`);
 
     if (!accessToken || !userId) {
       setLoadingCheck(false);
@@ -61,6 +55,7 @@ export const AuthContextProvider = (props) => {
           );
 
           setLoadingCheck(false);
+          console.log("I am calling saveUserData");
           saveUserData(data);
           setLoading(false);
           setShowDialog(false);
@@ -74,8 +69,8 @@ export const AuthContextProvider = (props) => {
     }
   };
 
-  useEffect(async () => {
-    if (nearUser) {
+  useEffect(() => {
+    if (!isAuthenticated && nearUser) {
       loginWithNear();
     }
   }, [nearUser]);
@@ -83,7 +78,7 @@ export const AuthContextProvider = (props) => {
   const saveUserData = async (user) => {
     setLoading(true);
     try {
-      console.log("Saving user: ", user);
+      console.log("saveUserData: ", user);
       setUser(user);
       setRole(user.role);
       setToken(user.accessToken);
@@ -92,6 +87,7 @@ export const AuthContextProvider = (props) => {
       user.accessToken &&
         (await localStorage.setItem("accessToken", user.accessToken));
       await localStorage.setItem("userId", user._id || user.id);
+      setShowDialog(false);
     } catch (err) {
       console.log(err);
     }
@@ -107,8 +103,9 @@ export const AuthContextProvider = (props) => {
     const accessToken = await localStorage.getItem("accessToken");
     const userId = await localStorage.getItem("userId");
 
-    if ((nearUser?.accountId && !accessToken) || !userId) {
+    if (nearUser?.accountId && (!accessToken || !userId)) {
       setLoading(true);
+      setLoadingCheck(true);
 
       httpClient()
         .post(`/auth/near`, { nearAccountId: nearUser.accountId })
@@ -124,6 +121,7 @@ export const AuthContextProvider = (props) => {
             }`,
             { variant: "success" }
           );
+          console.log("I am a nearUser and I am calling ");
 
           saveUserData(res.data);
           setLoadingCheck(false);
@@ -190,6 +188,7 @@ export const AuthContextProvider = (props) => {
     <AuthContext.Provider
       value={{
         loading,
+        loadingCheck,
 
         isAuthenticated,
         user,

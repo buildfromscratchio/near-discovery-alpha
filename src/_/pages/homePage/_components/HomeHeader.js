@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Divider,
+  IconButton,
   Menu,
   MenuItem,
   Typography,
@@ -13,10 +14,12 @@ import { useContext } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import DiamondRoundedIcon from "@mui/icons-material/DiamondRounded";
 import { stringify } from "querystring";
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+import { useHistory } from "react-router-dom";
 
 export default function HomeHeader(props) {
   const { theme, bp } = useContext(ThemeContext);
-  const { isAuthenticated, user } = useContext(AuthContext);
+  const { isAuthenticated } = useContext(AuthContext);
 
   return (
     <Box
@@ -77,12 +80,9 @@ export default function HomeHeader(props) {
           </Link> */}
 
           {isAuthenticated ? (
-            <Avatar
-              src={user?.avatar}
-              alt={user?.fullName || user?.nearAccountId}
-            />
+            <HeaderMenuForUser {...props} />
           ) : (
-            <HeaderMenu {...props} />
+            <HeaderMenuForSignup {...props} />
           )}
         </Box>
       </Box>
@@ -90,7 +90,137 @@ export default function HomeHeader(props) {
   );
 }
 
-const HeaderMenu = (props) => {
+const HeaderMenuForUser = (props) => {
+  const history = useHistory();
+
+  const { theme } = useContext(ThemeContext);
+  const { user, logout } = useContext(AuthContext);
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  console.error = () => {};
+
+  return (
+    <Box sx={{ cursor: "pointer", display: "flex", alignItems: "center" }}>
+      <IconButton
+        // onMouseOver={handleClick}
+        onClick={handleClick}
+        // size="small"
+        sx={{
+          color: theme.buttonColor,
+
+          "&:hover": {
+            backgroundColor: theme.buttonColor + 22,
+          },
+        }}
+        aria-controls={open ? "account-menu" : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? "true" : undefined}
+      >
+        <Avatar
+          src={user?.avatar}
+          alt={user?.fullName || user?.nearAccountId}
+        />
+      </IconButton>
+
+      <Menu
+        anchorEl={anchorEl}
+        id="account-menu"
+        open={open}
+        onClose={handleClose}
+        onClick={handleClose}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            overflow: "visible",
+            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+            mt: 1.5,
+            minWidth: 200,
+            "& .MuiAvatar-root": {
+              width: 32,
+              height: 32,
+              ml: -0.5,
+              mr: 1,
+            },
+            "&:before": {
+              content: '""',
+              display: "block",
+              position: "absolute",
+              top: 0,
+              right: 22,
+              width: 10,
+              height: 10,
+              bgcolor: "background.paper",
+              transform: "translateY(-50%) rotate(45deg)",
+              zIndex: 0,
+            },
+          },
+        }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+      >
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            history.push("/editor");
+          }}
+          sx={{ display: "flex", gap: 1 }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill={theme.textColor4}
+            width="1.4em"
+            height="1.4em"
+          >
+            <path
+              fillRule="evenodd"
+              d="M8.5 0h9L22 4.5v12.068L20.705 18H16v4.568L14.568 24H2.5L1 22.568V7.5L2.5 6H7V1.5L8.5 0zM16 1.5V6h4.5v10.5h-12v-15H16zm3.879 3L17.5 2.121V4.5h2.379zM7 7.5v9.068L8.5 18h6v4.5h-12v-15H7z"
+            ></path>
+          </svg>
+
+          <Typography
+            variant="p1"
+            sx={{ fontWeight: 500, color: theme.textColor }}
+          >
+            Editor
+          </Typography>
+        </MenuItem>
+
+        <Divider />
+
+        <MenuItem
+          onClick={() => {
+            handleClose();
+
+            props.logOut();
+            logout();
+          }}
+          sx={{ display: "flex", gap: 1 }}
+        >
+          <LogoutRoundedIcon
+            sx={{ fill: theme.textColor4, fontSize: "1.5rem" }}
+          />
+
+          <Typography
+            variant="p1"
+            sx={{ fontWeight: 500, color: theme.textColor }}
+          >
+            Logout
+          </Typography>
+        </MenuItem>
+      </Menu>
+    </Box>
+  );
+};
+const HeaderMenuForSignup = (props) => {
   const { theme } = useContext(ThemeContext);
 
   const [anchorEl, setAnchorEl] = useState(null);

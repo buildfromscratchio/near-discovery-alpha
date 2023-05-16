@@ -15,13 +15,18 @@ import { stringify } from "querystring";
 export default function LoginDialog({ requestSignIn }) {
   const { pathname } = useLocation();
 
-  const { showDialog } = useContext(AuthContext);
+  const { loadingCheck, showDialog, isAuthenticated } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
 
   return (
     <Dialog
       //   onClose={() => setShowDialog(false)}
-      open={showDialog && !["/", "/auth"].includes(pathname)}
+      open={
+        !isAuthenticated &&
+        !loadingCheck &&
+        showDialog &&
+        !["/", "/auth"].includes(pathname)
+      }
       fullWidth={true}
       maxWidth="xs"
       PaperProps={{
