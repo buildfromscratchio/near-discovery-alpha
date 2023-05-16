@@ -37,35 +37,41 @@ export const AuthContextProvider = (props) => {
 
     setLoadingCheck(true);
 
+    const accessToken = await localStorage.getItem("accessToken");
     const userId = await localStorage.getItem("userId");
 
-    httpClient()
-      .get(`/users/${userId}`)
-      .then((res) => {
-        const { data } = res;
-        console.log(data);
+    if (!accessToken || !userId) {
+      setLoadingCheck(false);
+      setIsAuthenticated(false);
+      return;
+    } else {
+      console.log("User exists? ", userId);
 
-        enqueueSnackbar(
-          `Welcom back, ${
-            data?.fullName ? data?.fullName : data.nearAccountId
-          }`,
-          { variant: "success" }
-        );
+      httpClient()
+        .get(`/users/${userId}`)
+        .then((res) => {
+          const { data } = res;
+          console.log(data);
 
-        setLoadingCheck(false);
-        saveUserData(data);
-        setLoading(false);
-        setShowDialog(false);
-      })
-      .catch((err) => {
-        console.log("ERROR from ToggleAuth : ", err);
-        enqueueSnackbar("Fail to login.", { variant: "error" });
+          enqueueSnackbar(
+            `Welcom back, ${
+              data?.fullName ? data?.fullName : data.nearAccountId
+            }`,
+            { variant: "success" }
+          );
 
-        logout();
-        setIsAuthenticated(false);
-        setLoadingCheck(false);
-        setLoading(false);
-      });
+          setLoadingCheck(false);
+          saveUserData(data);
+          setLoading(false);
+          setShowDialog(false);
+        })
+        .catch((err) => {
+          console.log("ERROR from ToggleAuth : ", err);
+          enqueueSnackbar("Fail to login.", { variant: "error" });
+
+          logout();
+        });
+    }
   };
 
   useEffect(async () => {
@@ -169,10 +175,15 @@ export const AuthContextProvider = (props) => {
   // );
 
   const logout = async () => {
-    await localStorage.removeItem("githubToken");
+    await localStorage.removeItem("accessToken");
+    await localStorage.removeItem("userId");
     setShowDialog(true);
     setUser();
-    history.push("/editor");
+    setIsAuthenticated(false);
+    setLoadingCheck(false);
+    setLoading(false);
+
+    // history.push("/editor");
   };
 
   return (
