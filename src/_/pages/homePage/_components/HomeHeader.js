@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Button,
   Divider,
@@ -11,10 +12,11 @@ import { ThemeContext } from "../../../context/ThemeContext";
 import { useContext } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import DiamondRoundedIcon from "@mui/icons-material/DiamondRounded";
+import { stringify } from "querystring";
 
 export default function HomeHeader(props) {
   const { theme, bp } = useContext(ThemeContext);
-  const { uesr } = useContext(AuthContext);
+  const { isAuthenticated, user } = useContext(AuthContext);
 
   return (
     <Box
@@ -74,7 +76,14 @@ export default function HomeHeader(props) {
             <HeaderButton>Documentation</HeaderButton>
           </Link> */}
 
-          {!uesr && <HeaderMenu {...props} />}
+          {isAuthenticated ? (
+            <Avatar
+              src={user?.avatar}
+              alt={user?.fullName || user?.nearAccountId}
+            />
+          ) : (
+            <HeaderMenu {...props} />
+          )}
         </Box>
       </Box>
     </Box>
@@ -83,7 +92,6 @@ export default function HomeHeader(props) {
 
 const HeaderMenu = (props) => {
   const { theme } = useContext(ThemeContext);
-  const { logout, user } = useContext(AuthContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -95,6 +103,12 @@ const HeaderMenu = (props) => {
   };
 
   console.error = () => {};
+
+  const query = {
+    client_id: process.env.GITHUB_CLIENT_ID,
+    redirect_uri: process.env.GITHUB_REDIRECT_URL,
+    scope: "user:email",
+  };
 
   return (
     <Box sx={{ cursor: "pointer", display: "flex", alignItems: "center" }}>
@@ -190,7 +204,8 @@ const HeaderMenu = (props) => {
 
         <a
           style={{ textDecoration: "none" }}
-          href={`https://github.com/login/oauth/authorize?scope=user&client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=${process.env.GITHUB_REDIRECT_URL}`}
+          // href={`https://github.com/login/oauth/authorize?scope=user&client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=${process.env.GITHUB_REDIRECT_URL}&scope=user:email`}
+          href={`https://github.com/login/oauth/authorize?${stringify(query)}`}
         >
           <MenuItem onClick={handleClose} sx={{ display: "flex", gap: 1 }}>
             <svg aria-label="github" height="20" viewBox="0 0 14 14" width="20">

@@ -1,50 +1,163 @@
 import React, { useEffect, useState, createContext } from "react";
 import { useHistory } from "react-router-dom";
 import { useAccount } from "near-social-vm";
+import { useSnackbar } from "notistack";
+import httpClient from "../libs/httpClient";
 
 export const AuthContext = createContext();
 
 export const AuthContextProvider = (props) => {
-  const account = useAccount();
-
+  const { enqueueSnackbar } = useSnackbar();
   const history = useHistory();
+  const nearUser = useAccount();
+
+  const [loadingCheck, setLoadingCheck] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
+
+  const [user, setUser] = useState();
+  const [role, setRole] = useState();
+  const [token, setToken] = useState();
+
   const [showDialog, setShowDialog] = useState(false);
 
-  const [uesr, setUser] = useState();
-
-  let requestNearSignIn;
-
-  const saveAuth = async (value) => {
-    setUser(value);
-    await localStorage.setItem("githubToken", JSON.stringify(value));
-    setShowDialog(false);
-  };
+  // const saveAuth = async (value) => {
+  //   setUser(value);
+  //   await localStorage.setItem("githubToken", JSON.stringify(value));
+  //   setShowDialog(false);
+  // };
 
   useEffect(() => {
-    checkAuth();
-  }, [account]);
+    if (!isAuthenticated) checkAuth();
+  }, []);
 
   const checkAuth = async () => {
-    // let data = await localStorage.getItem("githubToken");
+    if (isAuthenticated) return;
 
-    let githubToken = await localStorage.getItem("githubToken");
+    setLoadingCheck(true);
 
-    let near_app_wallet_auth_key = await localStorage.getItem(
-      "near_app_wallet_auth_key"
-    );
+    const userId = await localStorage.getItem("userId");
 
-    let data = githubToken || near_app_wallet_auth_key;
+    httpClient()
+      .get(`/users/${userId}`)
+      .then((res) => {
+        const { data } = res;
+        console.log(data);
 
-    setUser(JSON.parse(data));
+        enqueueSnackbar(
+          `Welcom back, ${
+            data?.fullName ? data?.fullName : data.nearAccountId
+          }`,
+          { variant: "success" }
+        );
 
-    console.log("XD", data);
+        setLoadingCheck(false);
+        saveUserData(data);
+        setLoading(false);
+        setShowDialog(false);
+      })
+      .catch((err) => {
+        console.log("ERROR from ToggleAuth : ", err);
+        enqueueSnackbar("Fail to login.", { variant: "error" });
 
-    if (!data) {
-      setShowDialog(true);
+        logout();
+        setIsAuthenticated(false);
+        setLoadingCheck(false);
+        setLoading(false);
+      });
+  };
+
+  useEffect(async () => {
+    if (nearUser) {
+      loginWithNear();
+    }
+  }, [nearUser]);
+
+  const saveUserData = async (user) => {
+    setLoading(true);
+    try {
+      console.log("Saving user: ", user);
+      setUser(user);
+      setRole(user.role);
+      setToken(user.accessToken);
+      setIsAuthenticated(true);
+
+      user.accessToken &&
+        (await localStorage.setItem("accessToken", user.accessToken));
+      await localStorage.setItem("userId", user._id || user.id);
+    } catch (err) {
+      console.log(err);
+    }
+    setLoading(false);
+  };
+
+  //
+  //
+  // useEffect(() => {
+  //   if (!isAuthenticated && nearUser) loginWithNear();
+  // }, [nearUser, isAuthenticated]);
+  const loginWithNear = async () => {
+    const accessToken = await localStorage.getItem("accessToken");
+    const userId = await localStorage.getItem("userId");
+
+    if ((nearUser?.accountId && !accessToken) || !userId) {
+      setLoading(true);
+
+      httpClient()
+        .post(`/auth/near`, { nearAccountId: nearUser.accountId })
+        .then((res) => {
+          // console.log(res.data);
+          const { data } = res;
+
+          enqueueSnackbar(
+            `Welcom back, ${
+              data?.firstName
+                ? data?.firstName + " " + data?.lastName
+                : data.nearAccountId
+            }`,
+            { variant: "success" }
+          );
+
+          saveUserData(res.data);
+          setLoadingCheck(false);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log("ERROR from loginWithNear : ", err);
+          enqueueSnackbar("Fail to login with near.", { variant: "error" });
+        });
     } else {
-      setShowDialog(false);
+      // console.log("Near Key is not available");
+
+      setShowDialog(true);
+      setLoadingCheck(false);
+      setIsAuthenticated(false);
     }
   };
+  //
+  //
+  // const checkAuth = async () => {
+  //   // let data = await localStorage.getItem("githubToken");
+
+  //   let githubToken = await localStorage.getItem("githubToken");
+
+  //   let near_app_wallet_auth_key = await localStorage.getItem(
+  //     "near_app_wallet_auth_key"
+  //   );
+
+  //   let data = githubToken || near_app_wallet_auth_key;
+
+  //   setUser(JSON.parse(data));
+
+  //   console.log("XD", data);
+
+  //   if (!data) {
+  //     setShowDialog(true);
+  //   } else {
+  //     setShowDialog(false);
+  //   }
+  // };
 
   // const requestNearSignIn = useCallback(
   //   (e) => {
@@ -65,14 +178,18 @@ export const AuthContextProvider = (props) => {
   return (
     <AuthContext.Provider
       value={{
-        uesr,
-        saveAuth,
+        loading,
+
+        isAuthenticated,
+        user,
+        // saveAuth,
         checkAuth,
-        requestNearSignIn,
         logout,
         //
         showDialog,
         setShowDialog,
+        //
+        saveUserData,
       }}
     >
       {props.children}

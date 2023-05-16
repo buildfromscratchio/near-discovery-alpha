@@ -10,6 +10,7 @@ import { AuthContext } from "../context/AuthContext";
 import { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
 import { useLocation } from "react-router-dom";
+import { stringify } from "querystring";
 
 export default function LoginDialog({ requestSignIn }) {
   const { pathname } = useLocation();
@@ -20,7 +21,7 @@ export default function LoginDialog({ requestSignIn }) {
   return (
     <Dialog
       //   onClose={() => setShowDialog(false)}
-      open={showDialog && pathname !== "/"}
+      open={showDialog && !["/", "/auth"].includes(pathname)}
       fullWidth={true}
       maxWidth="xs"
       PaperProps={{
@@ -37,7 +38,7 @@ export default function LoginDialog({ requestSignIn }) {
           variant="h4"
           sx={{ fontWeight: 600, color: theme.textColor2, textAlign: "center" }}
         >
-          Please login nearPad
+          Sign In
         </Typography>
       </DialogTitle>
 
@@ -103,7 +104,7 @@ const NearButton = ({ requestSignIn }) => {
         variant="h6"
         sx={{ fontWeight: 500, color: theme.buttonTextColor }}
       >
-        Continue with Near
+        Continue with Wallet
       </Typography>
     </Button>
   );
@@ -112,10 +113,16 @@ const NearButton = ({ requestSignIn }) => {
 const GithubButton = () => {
   const { theme } = useContext(ThemeContext);
 
+  const query = {
+    client_id: process.env.GITHUB_CLIENT_ID,
+    redirect_uri: process.env.GITHUB_REDIRECT_URL,
+    scope: "user:email",
+  };
   return (
     <a
       style={{ textDecoration: "none" }}
-      href={`https://github.com/login/oauth/authorize?scope=user&client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=${process.env.GITHUB_REDIRECT_URL}`}
+      // href={`https://github.com/login/oauth/authorize?scope=user&client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=${process.env.GITHUB_REDIRECT_URL}`}
+      href={`https://github.com/login/oauth/authorize?${stringify(query)}`}
     >
       <Button
         sx={{
