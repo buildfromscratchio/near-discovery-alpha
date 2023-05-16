@@ -2,14 +2,16 @@ import React, { useEffect, useState, createContext } from "react";
 import { useAccount } from "near-social-vm";
 import { useSnackbar } from "notistack";
 import httpClient from "../libs/httpClient";
+import { useHistory } from "react-router-dom";
 
 export const AuthContext = createContext();
 
 export const AuthContextProvider = (props) => {
+  const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
   const nearUser = useAccount();
 
-  const [loadingCheck, setLoadingCheck] = useState(false);
+  const [loadingCheck, setLoadingCheck] = useState(true);
   const [loading, setLoading] = useState(false);
 
   const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -32,8 +34,6 @@ export const AuthContextProvider = (props) => {
     const accessToken = await localStorage.getItem("accessToken");
     const userId = await localStorage.getItem("userId");
 
-    console.log(`Access userId: ${userId} , : accessToken : ${accessToken}`);
-
     if (!accessToken || !userId) {
       setLoadingCheck(false);
       setIsAuthenticated(false);
@@ -47,15 +47,13 @@ export const AuthContextProvider = (props) => {
           const { data } = res;
           console.log(data);
 
-          enqueueSnackbar(
-            `Welcom back, ${
-              data?.fullName ? data?.fullName : data.nearAccountId
-            }`,
-            { variant: "success" }
-          );
+          // enqueueSnackbar(
+          //   `Welcom back, ${data?.fullName || data?.userName || data.email}`,
+          //   { variant: "success" }
+          // );
 
           setLoadingCheck(false);
-          console.log("I am calling saveUserData");
+          // console.log("I am calling saveUserData");
           saveUserData(data);
           setLoading(false);
           setShowDialog(false);
@@ -63,6 +61,7 @@ export const AuthContextProvider = (props) => {
         .catch((err) => {
           console.log("ERROR from ToggleAuth : ", err);
           enqueueSnackbar("Fail to login.", { variant: "error" });
+          setLoadingCheck(false);
 
           logout();
         });
@@ -111,24 +110,23 @@ export const AuthContextProvider = (props) => {
         .post(`/auth/near`, { nearAccountId: nearUser.accountId })
         .then((res) => {
           // console.log(res.data);
-          const { data } = res;
+          // const { data } = res;
 
-          enqueueSnackbar(
-            `Welcom back, ${
-              data?.firstName
-                ? data?.firstName + " " + data?.lastName
-                : data.nearAccountId
-            }`,
-            { variant: "success" }
-          );
-          console.log("I am a nearUser and I am calling ");
+          // enqueueSnackbar(
+          //   `Welcom back, ${data?.fullName || data?.userName || data.email}`,
+          //   { variant: "success" }
+          // );
+          // console.log("I am a nearUser and I am calling ");
 
           saveUserData(res.data);
           setLoadingCheck(false);
           setLoading(false);
+
+          history.push("/editor");
         })
         .catch((err) => {
           console.log("ERROR from loginWithNear : ", err);
+          setLoadingCheck(false);
           enqueueSnackbar("Fail to login with near.", { variant: "error" });
         });
     } else {

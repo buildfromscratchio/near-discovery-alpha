@@ -8,8 +8,10 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import CustomButton from "../custom/CustomButton";
 import { ThemeContext } from "../../context/ThemeContext";
 import { AuthContext } from "../../context/AuthContext";
+import { useHistory } from "react-router-dom";
 
 export default function ProfileSidebar({ appProps, logOut, requestSignIn }) {
+  const history = useHistory();
   const account = useAccount();
   const { logout } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
@@ -77,6 +79,8 @@ export default function ProfileSidebar({ appProps, logOut, requestSignIn }) {
             onClick={() => {
               logOut();
               logout();
+
+              history.push("/");
             }}
           >
             Disconnect

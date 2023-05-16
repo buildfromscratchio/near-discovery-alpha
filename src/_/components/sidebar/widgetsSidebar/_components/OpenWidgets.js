@@ -271,8 +271,8 @@ const CustomTreeView = ({
                 });
                 // console.log("handleRemoveFile.widgets: ", widgets);
               }}
-              label={`Remove widget`}
-              description={`Are you sure you want to remove "Folder"?`}
+              label={`Remove Folder`}
+              description={`Are you sure you want to remove this folder?`}
             />
           </>
         );

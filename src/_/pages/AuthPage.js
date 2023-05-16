@@ -38,7 +38,7 @@ export default function AuthPage() {
             variant: "success",
           });
 
-          push("/");
+          push("/editor");
         })
         .catch((err) => {
           console.log("Login Error, your code is: ", err);

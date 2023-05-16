@@ -19,48 +19,54 @@ export default function LoginDialog({ requestSignIn }) {
   const { theme } = useContext(ThemeContext);
 
   return (
-    <Dialog
-      //   onClose={() => setShowDialog(false)}
-      open={
-        !isAuthenticated &&
-        !loadingCheck &&
-        showDialog &&
-        !["/", "/auth"].includes(pathname)
-      }
-      fullWidth={true}
-      maxWidth="xs"
-      PaperProps={{
-        style: {
-          backgroundColor: theme.ui,
-          borderRadius: 4,
-          zIndex: 0,
-          position: "absolute",
-        },
-      }}
-    >
-      <DialogTitle sx={{ padding: "16px 16px 16px 16px" }}>
-        <Typography
-          variant="h4"
-          sx={{ fontWeight: 600, color: theme.textColor2, textAlign: "center" }}
-        >
-          Sign In
-        </Typography>
-      </DialogTitle>
-
-      <DialogContent
-        sx={{
-          padding: "16px",
-          width: "100%",
-          mt: 2,
-          display: "flex",
-          flexDirection: "column",
-          gap: 2,
+    isAuthenticated && (
+      <Dialog
+        //   onClose={() => setShowDialog(false)}
+        open={
+          !isAuthenticated &&
+          !loadingCheck &&
+          showDialog &&
+          !["/", "/auth"].includes(pathname)
+        }
+        fullWidth={true}
+        maxWidth="xs"
+        PaperProps={{
+          style: {
+            backgroundColor: theme.ui,
+            borderRadius: 4,
+            zIndex: 0,
+            position: "absolute",
+          },
         }}
       >
-        <GithubButton />
-        <NearButton requestSignIn={requestSignIn} />
-      </DialogContent>
-    </Dialog>
+        <DialogTitle sx={{ padding: "16px 16px 16px 16px" }}>
+          <Typography
+            variant="h4"
+            sx={{
+              fontWeight: 600,
+              color: theme.textColor2,
+              textAlign: "center",
+            }}
+          >
+            Sign In
+          </Typography>
+        </DialogTitle>
+
+        <DialogContent
+          sx={{
+            padding: "16px",
+            width: "100%",
+            mt: 2,
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+          }}
+        >
+          <GithubButton />
+          <NearButton requestSignIn={requestSignIn} />
+        </DialogContent>
+      </Dialog>
+    )
   );
 }
 

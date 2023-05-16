@@ -48,6 +48,7 @@ import LoginDialog from "./_/dialogs/LoginDialog";
 import PagesContainer from "./_/components/PagesContainer";
 import Footer from "./_/components/Footer";
 import CreateLearnPage from "./_/pages/createLearnPage/CreateLearnPage";
+import AuthContextProvider from "./_/context/AuthContext";
 
 export const refreshAllowanceObj = {};
 ReactGA.initialize("G-YJ2FL738R6");
@@ -69,6 +70,10 @@ export default function App() {
   const accountId = account.accountId;
 
   const location = window.location;
+
+  console.log = () => {};
+  console.warn = () => {};
+  console.error = () => {};
 
   useEffect(() => {
     NetworkId &&
@@ -175,88 +180,83 @@ export default function App() {
       </Helmet> */}
 
       <BrowserRouter basename={process.env.PUBLIC_URL}>
-        <Switch>
-          <Route path={"/components/:widgetSrc*"}>
-            {/* <NavigationWrapper {...passProps} /> */}
-            <EmbedPage {...passProps} />
-          </Route>
+        <AuthContextProvider>
+          <Switch>
+            <Route path={"/components/:widgetSrc*"}>
+              {/* <NavigationWrapper {...passProps} /> */}
+              <EmbedPage {...passProps} />
+            </Route>
 
-          <Route path={"/auth"}>
-            <AuthPage {...passProps} />{" "}
-          </Route>
+            <Route path={"/auth"}>
+              <AuthPage {...passProps} />{" "}
+            </Route>
 
-          <Route path={"/profile"}>
-            <ProfilePage {...passProps} />
-            <Footer />
-          </Route>
+            <Route path={"/profile"}>
+              <ProfilePage {...passProps} />
+              <Footer />
+            </Route>
 
-          <Route path={"/settings"}>
-            <EmptyPage {...passProps} />
-            <Footer />
-          </Route>
+            <Route path={"/settings"}>
+              <EmptyPage {...passProps} />
+              <Footer />
+            </Route>
 
-          <Route path={"/notifications"}>
-            <EmptyPage {...passProps} />
-            <Footer />
-          </Route>
+            <Route path={"/notifications"}>
+              <EmptyPage {...passProps} />
+              <Footer />
+            </Route>
 
-          <Route path={"/learn/create"}>
-            <LearnContextProvider>
-              <CreateLearnPage {...passProps} />
-            </LearnContextProvider>
-            <Footer />
-          </Route>
+            <Route path={"/learn/create"}>
+              <LearnContextProvider>
+                <CreateLearnPage {...passProps} />
+              </LearnContextProvider>
+              <Footer />
+            </Route>
 
-          <Route path={"/learn"}>
-            <LearnContextProvider>
-              <LearnPage {...passProps} />
-            </LearnContextProvider>
-            <Footer />
-          </Route>
+            <Route path={"/learn"}>
+              <LearnContextProvider>
+                <LearnPage {...passProps} />
+              </LearnContextProvider>
+              <Footer />
+            </Route>
 
-          <Route path={"/chat"}>
-            <ChatPage {...passProps} />
-            <Footer />
-          </Route>
+            <Route path={"/chat"}>
+              <ChatPage {...passProps} />
+              <Footer />
+            </Route>
 
-          <Route path={"/changeNetwork"}>
-            <EmptyPage {...passProps} />
-            <Footer />
-          </Route>
+            <Route path={"/changeNetwork"}>
+              <EmptyPage {...passProps} />
+              <Footer />
+            </Route>
 
-          <Route path={"/search"}>
-            <SearchPage {...passProps} />
-            <Footer />
-          </Route>
+            <Route path={"/search"}>
+              <SearchPage {...passProps} />
+              <Footer />
+            </Route>
 
-          <Route path={"/editor/:widgetSrc*"}>
-            <MyEditorPage {...passProps} />
-            <Footer />
-          </Route>
+            <Route path={"/editor/:widgetSrc*"}>
+              <MyEditorPage {...passProps} />
+              <Footer />
+            </Route>
 
-          <Route path={"/editorBeta/:widgetSrc*"}>
-            <MyBetaEditorPage {...passProps} />
-            <Footer />
-          </Route>
+            <Route path={"/editorBeta/:widgetSrc*"}>
+              <MyBetaEditorPage {...passProps} />
+              <Footer />
+            </Route>
 
-          <Route path="/discover">
-            <DiscoverPage {...passProps} />
-            <Footer />
-          </Route>
+            <Route path="/discover">
+              <DiscoverPage {...passProps} />
+              <Footer />
+            </Route>
 
-          {/* <>
-                <MyEditorPage {...passProps} />
-                <Footer />
-              </> */}
-          <Route path="/:widgetSrc*">
-            {/* <ViewPage {...passProps} /> */}
+            <Route path="/:widgetSrc*">
+              <HomePage {...passProps} />
+            </Route>
+          </Switch>
 
-            <HomePage {...passProps} />
-            {/* {uesr ? <Redirect to="/editor" /> : <HomePage {...passProps} />} */}
-          </Route>
-        </Switch>
-
-        <LoginDialog requestSignIn={requestSignIn} />
+          <LoginDialog requestSignIn={requestSignIn} />
+        </AuthContextProvider>
       </BrowserRouter>
     </Box>
   );

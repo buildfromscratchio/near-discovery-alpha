@@ -13,13 +13,11 @@ const root = createRoot(container);
 root.render(
   <SnackbarProvider>
     <ThemeContextProvider>
-      <AuthContextProvider>
-        <ThemeProvider theme={theme}>
-          <EditorContextProvider>
-            <App />
-          </EditorContextProvider>
-        </ThemeProvider>
-      </AuthContextProvider>
+      <ThemeProvider theme={theme}>
+        <EditorContextProvider>
+          <App />
+        </EditorContextProvider>
+      </ThemeProvider>
     </ThemeContextProvider>
   </SnackbarProvider>
 );
