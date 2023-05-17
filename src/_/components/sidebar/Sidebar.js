@@ -10,6 +10,7 @@ import EnvironmentlSidebar from "./EnvironmentlSidebar";
 import SearchSidebar from "./SearchSidebar";
 import NotificationsSidebar from "./NotificationsSidebar";
 import LearnSidebar from "./LearnSidebar";
+import CollaborationSidebar from "../../pages/collaborationPage/_components/CollaborationSidebar";
 
 export default function Sidebar({
   appProps,
@@ -67,6 +68,9 @@ export default function Sidebar({
             (selectedActivity === "learn" && <LearnSidebar />) ||
             (selectedActivity === "notifications" && (
               <NotificationsSidebar />
+            )) ||
+            (selectedActivity === "collaboration" && (
+              <CollaborationSidebar />
             )) ||
             (selectedActivity === "profile" && (
               <ProfileSidebar

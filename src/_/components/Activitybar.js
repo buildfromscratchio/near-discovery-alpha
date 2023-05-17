@@ -4,6 +4,7 @@ import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import WidgetsRoundedIcon from "@mui/icons-material/WidgetsRounded";
 import CellTowerRoundedIcon from "@mui/icons-material/CellTowerRounded";
+import Groups3RoundedIcon from "@mui/icons-material/Groups3Rounded";
 
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
@@ -14,9 +15,10 @@ import { EditorContext } from "../context/EditorContext";
 
 import DiamondRoundedIcon from "@mui/icons-material/DiamondRounded";
 import { ButtonBase, Tooltip } from "@mui/material";
-import { useHistory, useLocation } from "react-router-dom";
+
 import { Widget, useAccount } from "near-social-vm";
 import { AuthContext } from "../context/AuthContext";
+import { useHistory, useLocation } from "react-router-dom";
 
 export default function Activitybar(props) {
   const history = useHistory();
@@ -169,6 +171,20 @@ export default function Activitybar(props) {
           onClick={() => {
             history.push("/learn");
             setSelectedActivity((e) => (e === "learn" ? "" : "learn"));
+          }}
+        />
+
+        <ActivityButton
+          icon={
+            <Groups3RoundedIcon
+              sx={{ fill: theme.textColor4, fontSize: "1.5rem" }}
+            />
+          }
+          label="collaboration"
+          to="/collaboration"
+          onClick={() => {
+            history.push("/collaboration");
+            setSelectedActivity("collaboration");
           }}
         />
 

@@ -49,6 +49,8 @@ import PagesContainer from "./_/components/PagesContainer";
 import Footer from "./_/components/Footer";
 import CreateLearnPage from "./_/pages/createLearnPage/CreateLearnPage";
 import AuthContextProvider from "./_/context/AuthContext";
+import CollaborationPage from "./_/pages/collaborationPage/CollaborationPage";
+import CollaborationContextProvider from "./_/pages/collaborationPage/_components/CollaborationContext";
 
 export const refreshAllowanceObj = {};
 ReactGA.initialize("G-YJ2FL738R6");
@@ -203,6 +205,13 @@ export default function App() {
 
             <Route path={"/notifications"}>
               <EmptyPage {...passProps} />
+              <Footer />
+            </Route>
+
+            <Route path={"/collaboration/:currentChannel*"}>
+              <CollaborationContextProvider>
+                <CollaborationPage {...passProps} />
+              </CollaborationContextProvider>
               <Footer />
             </Route>
 
