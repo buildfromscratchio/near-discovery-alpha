@@ -21,11 +21,11 @@ export default function LabelWithFileIcon({
   handleOpenFile,
   handleRenameFile,
   handleRemoveFile,
+  handleOpenFolder,
 }) {
   const { theme } = useContext(ThemeContext);
 
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
-  const [showEditButtonIcon, setShowEditButtonIcon] = useState(false);
 
   return (
     <>
@@ -36,8 +36,6 @@ export default function LabelWithFileIcon({
           justifyContent: "space-between",
           ...style,
         }}
-        onMouseEnter={() => setShowEditButtonIcon(true)}
-        onMouseLeave={() => setShowEditButtonIcon(false)}
       >
         <div
           style={{
@@ -87,26 +85,24 @@ export default function LabelWithFileIcon({
             />
           )}
         </div>
-
-        {isWidget && (
-          <Box sx={{ display: "flex", gap: 1 }}>
-            {isSelected && (
-              <Fade in={isSelected}>
-                <IconButton
-                  size="small"
-                  sx={{ padding: "3px", margin: 0 }}
-                  onClick={handleRenameFile}
-                >
-                  <DriveFileRenameOutlineRoundedIcon
-                    sx={{
-                      fontSize: "1rem",
-                      fill: theme.textColor3 || "rgba(255,255,255,.75)",
-                    }}
-                  />
-                </IconButton>
-              </Fade>
-            )}
-
+        <Box sx={{ display: "flex", gap: 1 }}>
+          {isSelected && (
+            <Fade in={isSelected}>
+              <IconButton
+                size="small"
+                sx={{ padding: "3px", margin: 0 }}
+                onClick={handleRenameFile}
+              >
+                <DriveFileRenameOutlineRoundedIcon
+                  sx={{
+                    fontSize: "1rem",
+                    fill: theme.textColor3 || "rgba(255,255,255,.75)",
+                  }}
+                />
+              </IconButton>
+            </Fade>
+          )}
+          {handleRemoveFile && (
             <IconButton
               size="small"
               sx={{
@@ -133,8 +129,8 @@ export default function LabelWithFileIcon({
                 }}
               />
             </IconButton>
-          </Box>
-        )}
+          )}
+        </Box>
       </div>
 
       <ConfirmDialog

@@ -1,42 +1,34 @@
 import React, { useContext } from "react";
-import ParticleBackground from "react-particle-backgrounds";
+// import ParticleBackground from "react-particle-backgrounds";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { Box, Typography, Button } from "@mui/material";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 import ReactPlayer from "react-player";
+import { useHistory } from "react-router-dom";
 
 export default function HomeTopSection() {
-  // const min720 = useMediaQuery("(min-width:820px)");
+  const history = useHistory();
 
   const { theme, bp } = useContext(ThemeContext);
 
-  // const handleClick = (gateway) => {
-  //   const gateways = {
-  //     alpha: "https://alpha.near.org/#/",
-  //     social: "https://near.social/#/",
-  //     bos: "https://bos.gg/#/",
-  //   };
-  //   window.open(gateways[gateway], "_blank", "noreferrer");
+  // const settings = {
+  //   particle: {
+  //     particleCount: 150,
+  //     color: theme?.name === "dark" ? "#e3d5d5" : theme.textColor,
+  //     maxSize: 2,
+  //   },
+  //   velocity: {
+  //     directionAngle: 180,
+  //     directionAngleVariance: 60,
+  //     minSpeed: 0.1,
+  //     maxSpeed: 0.3,
+  //   },
+  //   opacity: {
+  //     minOpacity: 0,
+  //     maxOpacity: 0.4,
+  //     opacityTransitionTime: 10000,
+  //   },
   // };
-
-  const settings = {
-    particle: {
-      particleCount: 150,
-      color: theme?.name === "dark" ? "#e3d5d5" : theme.textColor,
-      maxSize: 2,
-    },
-    velocity: {
-      directionAngle: 180,
-      directionAngleVariance: 60,
-      minSpeed: 0.1,
-      maxSpeed: 0.3,
-    },
-    opacity: {
-      minOpacity: 0,
-      maxOpacity: 0.4,
-      opacityTransitionTime: 10000,
-    },
-  };
 
   return (
     <Box
@@ -54,13 +46,13 @@ export default function HomeTopSection() {
         // overflow: "hidden",
       }}
     >
-      <ParticleBackground
+      {/* <ParticleBackground
         settings={settings}
         style={{
           position: "absolute",
           userSelect: "none",
         }}
-      />
+      /> */}
 
       <Box
         sx={{
@@ -101,68 +93,6 @@ export default function HomeTopSection() {
             web3 contracts and ui components
           </Typography>
 
-          {/* <Typography
-            fontWeight={bp ? 300 : 200}
-            // variant={bp ? "h4" : "h3"}
-            variant="h5"
-            sx={{
-              marginTop: 4,
-              color: theme.textColor,
-            }}
-          >
-            Create decentralized frontend widgets without limits.
-          </Typography> */}
-
-          {/* <Box
-            sx={{
-              mt: 2,
-              display: "flex",
-              flexWrap: "nowrap",
-              alignItems: "center",
-              gap: 2,
-            }}
-          >
-            <Typography style={{ color: theme.textColor }}>
-              We &#x2665;
-            </Typography>
-            <Chip
-              sx={{ color: theme.textColor3 }}
-              label="Developers"
-              avatar={<SupervisedUserCircleRoundedIcon />}
-            />
-            <Chip
-              label="Discovery"
-              color="info"
-              onClick={(e) => handleClick("alpha")}
-            />
-            <Chip
-              label="NEAR.social"
-              color="primary"
-              onClick={(e) => handleClick("social")}
-            />
-            <Chip
-              label="BOS.gg"
-              color="warning"
-              onClick={(e) => handleClick("bos")}
-            />
-          </Box> */}
-
-          {/* <Typography
-            style={{
-              marginTop: 100,
-            }}
-          >
-            <span style={{ color: theme.textColor }}>
-              We're still working out the kinks. Want to help us get ready for
-              the prime time? Join the telegram channel and ask for the private
-              beta access.
-            </span>
-          </Typography> */}
-          {/* <Link
-        target="_blank"
-        to="https://t.me/+7k9u4Pa23sUyM2Qx"
-        style={{ textDecoration: "none" }}
-      > */}
           <Button
             sx={{
               mt: 4,
@@ -180,7 +110,7 @@ export default function HomeTopSection() {
             }}
             //to="/discover"
             onClick={(e) => {
-              window.location.href = "/editor";
+              history.push("/editor");
             }}
           >
             Try for free
@@ -188,7 +118,6 @@ export default function HomeTopSection() {
               sx={{ marginLeft: 3, fontSize: bp ? "1rem" : "2rem" }}
             />
           </Button>
-          {/* </Link> */}
         </Box>
 
         {/* <Box> */}

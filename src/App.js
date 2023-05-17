@@ -10,7 +10,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import "@near-wallet-selector/modal-ui/styles.css";
 import "bootstrap/dist/js/bootstrap.bundle";
 import "App.scss";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch, useLocation } from "react-router-dom";
 // import EditorPage from "./pages/EditorPage";
 // import ViewPage from "./pages/ViewPage";
 import { setupWalletSelector } from "@near-wallet-selector/core";
@@ -42,19 +42,22 @@ import AuthPage from "./_/pages/AuthPage";
 
 import { EditorContext } from "./_/context/EditorContext";
 import { ThemeContext } from "./_/context/ThemeContext";
-import { AuthContext } from "./_/context/AuthContext";
 import LearnContextProvider from "./_/context/LearnContext";
 
 import LoginDialog from "./_/dialogs/LoginDialog";
 import PagesContainer from "./_/components/PagesContainer";
 import Footer from "./_/components/Footer";
+import CreateLearnPage from "./_/pages/createLearnPage/CreateLearnPage";
+import AuthContextProvider from "./_/context/AuthContext";
+
+// import CollaborationsPage from "./_/pages/collaborations/collaborationsPage/CollaborationsPage";
+
+import CollaborationPage from "./_/pages/collaborations/collaborationPage/CollaborationPage";
 
 export const refreshAllowanceObj = {};
 ReactGA.initialize("G-YJ2FL738R6");
 
 export default function App() {
-  const { uesr } = useContext(AuthContext);
-  const { theme } = useContext(ThemeContext);
   const { NetworkId, Widgets } = useContext(EditorContext);
 
   const [connected, setConnected] = useState(false);
@@ -71,6 +74,10 @@ export default function App() {
   const accountId = account.accountId;
 
   const location = window.location;
+
+  // console.log = () => {};
+  // console.warn = () => {};
+  // console.error = () => {};
 
   useEffect(() => {
     NetworkId &&
@@ -177,80 +184,92 @@ export default function App() {
       </Helmet> */}
 
       <BrowserRouter basename={process.env.PUBLIC_URL}>
-        <Switch>
-          <Route path={"/components/:widgetSrc*"}>
-            {/* <NavigationWrapper {...passProps} /> */}
-            <EmbedPage {...passProps} />
-          </Route>
+        <AuthContextProvider>
+          <Switch>
+            <Route path={"/components/:widgetSrc*"}>
+              {/* <NavigationWrapper {...passProps} /> */}
+              <EmbedPage {...passProps} />
+            </Route>
 
-          <Route path={"/auth"}>
-            <AuthPage {...passProps} />{" "}
-          </Route>
+            <Route path={"/auth"}>
+              <AuthPage {...passProps} />{" "}
+            </Route>
 
-          <Route path={"/profile"}>
-            <ProfilePage {...passProps} />
-            <Footer />
-          </Route>
+            <Route path={"/profile"}>
+              <ProfilePage {...passProps} />
+              <Footer />
+            </Route>
 
-          <Route path={"/settings"}>
-            <EmptyPage {...passProps} />
-            <Footer />
-          </Route>
+            <Route path={"/settings"}>
+              <EmptyPage {...passProps} />
+              <Footer />
+            </Route>
 
-          <Route path={"/notifications"}>
-            <EmptyPage {...passProps} />
-            <Footer />
-          </Route>
+            <Route path={"/notifications"}>
+              <EmptyPage {...passProps} />
+              <Footer />
+            </Route>
 
-          <Route path={"/learn"}>
-            <LearnContextProvider>
-              <LearnPage {...passProps} />
-            </LearnContextProvider>
-            <Footer />
-          </Route>
+            <Route path={"/collaborations/:currentChannel"}>
+              <CollaborationPage {...passProps} />
+              <Footer />
+            </Route>
+            <Route path={"/collaborations"}>
+              <EmptyPage {...passProps} />
+              <Footer />
+            </Route>
 
-          <Route path={"/chat"}>
-            <ChatPage {...passProps} />
-            <Footer />
-          </Route>
+            <Route path={"/learn/create"}>
+              <LearnContextProvider>
+                <CreateLearnPage {...passProps} />
+              </LearnContextProvider>
+              <Footer />
+            </Route>
 
-          <Route path={"/changeNetwork"}>
-            <EmptyPage {...passProps} />
-            <Footer />
-          </Route>
+            <Route path={"/learn"}>
+              <LearnContextProvider>
+                <LearnPage {...passProps} />
+              </LearnContextProvider>
+              <Footer />
+            </Route>
 
-          <Route path={"/search"}>
-            <SearchPage {...passProps} />
-            <Footer />
-          </Route>
+            <Route path={"/chat"}>
+              <ChatPage {...passProps} />
+              <Footer />
+            </Route>
 
-          <Route path={"/editor/:widgetSrc*"}>
-            <MyEditorPage {...passProps} />
-            <Footer />
-          </Route>
+            <Route path={"/changeNetwork"}>
+              <EmptyPage {...passProps} />
+              <Footer />
+            </Route>
 
-          <Route path={"/editorBeta/:widgetSrc*"}>
-            <MyBetaEditorPage {...passProps} />
-            <Footer />
-          </Route>
+            <Route path={"/search"}>
+              <SearchPage {...passProps} />
+              <Footer />
+            </Route>
 
-          <Route path="/discover">
-            <DiscoverPage {...passProps} />
-            <Footer />
-          </Route>
+            <Route path={"/editor/:widgetSrc*"}>
+              <MyEditorPage {...passProps} />
+              <Footer />
+            </Route>
 
-          {/* <>
-                <MyEditorPage {...passProps} />
-                <Footer />
-              </> */}
-          <Route path="/:widgetSrc*">
-            {/* <ViewPage {...passProps} /> */}
+            <Route path={"/editorBeta/:widgetSrc*"}>
+              <MyBetaEditorPage {...passProps} />
+              <Footer />
+            </Route>
 
-            <HomePage {...passProps} />
-            {/* {uesr ? <Redirect to="/editor" /> : <HomePage {...passProps} />} */}
-          </Route>
-        </Switch>
-        <LoginDialog />
+            <Route path="/discover">
+              <DiscoverPage {...passProps} />
+              <Footer />
+            </Route>
+
+            <Route path="/:widgetSrc*">
+              <HomePage {...passProps} />
+            </Route>
+          </Switch>
+
+          <LoginDialog requestSignIn={requestSignIn} />
+        </AuthContextProvider>
       </BrowserRouter>
     </Box>
   );
@@ -258,6 +277,13 @@ export default function App() {
 
 const EmptyPage = (props) => {
   const { theme } = useContext(ThemeContext);
+
+  const { pathname } = useLocation();
+  const { setSelectedActivity } = useContext(EditorContext);
+
+  useEffect(() => {
+    setSelectedActivity(pathname.replace(/\//g, ""));
+  }, []);
 
   return (
     <PagesContainer {...props}>

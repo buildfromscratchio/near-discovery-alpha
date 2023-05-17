@@ -1,38 +1,24 @@
 import {
   Box,
-  ButtonBase,
-  Chip,
-  Fade,
   IconButton,
   Tooltip,
   Typography,
 } from "@mui/material";
 import NoteAddRoundedIcon from "@mui/icons-material/NoteAddRounded";
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { useNear, useCache, useAccountId } from "near-social-vm";
 
 import { styled } from "@mui/material/styles";
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 import MuiAccordion from "@mui/material/Accordion";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
-import DriveFileRenameOutlineRoundedIcon from "@mui/icons-material/DriveFileRenameOutlineRounded";
-import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 
 import { ThemeContext } from "../../../context/ThemeContext";
 import { EditorContext } from "../../../context/EditorContext";
-import FileIcon from "../../FileIcon";
-import RenameDialog from "../../../dialogs/RenameDialog";
-import ConfirmDialog from "../../../dialogs/ConfirmDialog";
 
 import MyWidgets from "./_components/MyWidgets";
 import OpenWidgets from "./_components/OpenWidgets";
 import createFileTree from "../../../libs/createFileTree";
-
-const Filetype = {
-  Widget: "widget",
-  Module: "module",
-};
 
 export default function WidgetsSidebar({
   loadFile,
@@ -46,10 +32,6 @@ export default function WidgetsSidebar({
   setShowRenameModal,
   setShowOpenModal,
 }) {
-  const near = useNear();
-  const cache = useCache();
-  const accountId = useAccountId();
-
   const { theme } = useContext(ThemeContext);
   const { files, filesDetails } = useContext(EditorContext);
 
@@ -61,10 +43,10 @@ export default function WidgetsSidebar({
     });
   }, [files]);
 
-  // console.log("files : ", files);
+  const [openWidgetsExpanded, setOpenWidgetsExpanded] = useState([]);
+  const [openWidgetsSelected, setOpenWidgetsSelected] = useState();
 
   const [projectFiles, setProjectFiles] = useState([]);
-  console.log(projectFiles);
 
   // Memoize createFileTree function using useCallback
   const memoizedCreateFileTree = useCallback((files) => {
@@ -185,6 +167,11 @@ export default function WidgetsSidebar({
         </AccordionSummary>
         <AccordionDetails sx={{ backgroundColor: theme.ui }}>
           <OpenWidgets
+            openWidgetsExpanded={openWidgetsExpanded}
+            setOpenWidgetsExpanded={setOpenWidgetsExpanded}
+            openWidgetsSelected={openWidgetsSelected}
+            setOpenWidgetsSelected={setOpenWidgetsSelected}
+            //
             projectFiles={projectFiles}
             setShowRenameModal={setShowRenameModal}
             createFile={createFile}
@@ -247,7 +234,15 @@ export default function WidgetsSidebar({
         </AccordionDetails>
       </Accordion>
 
-      <MyWidgets loadFile={loadFile} />
+      <MyWidgets
+        loadFile={loadFile}
+        //
+        projectFiles={projectFiles}
+        openWidgetsExpanded={openWidgetsExpanded}
+        setOpenWidgetsExpanded={setOpenWidgetsExpanded}
+        openWidgetsSelected={openWidgetsSelected}
+        setOpenWidgetsSelected={setOpenWidgetsSelected}
+      />
     </div>
   );
 }

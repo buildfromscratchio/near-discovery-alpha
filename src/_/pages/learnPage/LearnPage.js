@@ -60,8 +60,10 @@ export default function LearnPage(props) {
 
 const Projectbar = () => {
   const { theme } = useContext(ThemeContext);
-  const { selectedProject, selectedItem, setSelectedItem, selectedSection } =
-    useContext(LearnContext);
+  const {
+    //  selectedProject, selectedItem, setSelectedItem,
+    selectedSection,
+  } = useContext(LearnContext);
 
   return (
     <Box sx={{ height: "100%", overflowY: "auto", backgroundColor: theme.ui }}>
@@ -91,10 +93,12 @@ const Projectbar = () => {
             dangerouslySetInnerHTML={{ __html: selectedSection?.discription }}
           />
 
-          {/* <Widget
-            src="saidulbadhon.near/widget/LearnPage.Markdown"
-            props={{ text: selectedSection?.discription, theme: theme }}
-          /> */}
+          {/*
+            <Widget
+              src="saidulbadhon.near/widget/LearnPage.Markdown"
+              props={{ text: selectedSection?.discription, theme: theme }}
+            />
+          */}
         </Box>
       </Box>
     </Box>
@@ -161,3 +165,5 @@ const EmptyPage = () => {
     </Box>
   );
 };
+
+export { EmptyPage };

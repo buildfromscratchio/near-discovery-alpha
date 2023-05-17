@@ -14,11 +14,16 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useSnackbar } from "notistack";
 
-export default function VerticalCodePreview({ initialCode, horizontal }) {
+export default function VerticalCodePreview({
+  initialCode,
+  horizontal,
+  code,
+  setCode,
+}) {
   const { theme, editorFontSize } = useContext(ThemeContext);
   const { enqueueSnackbar } = useSnackbar();
 
-  const [code, setCode] = useState("");
+  const [myCode, setMyCode] = useState("");
 
   useEffect(() => {
     if (initialCode?.length > 0) format(initialCode);
@@ -32,18 +37,18 @@ export default function VerticalCodePreview({ initialCode, horizontal }) {
           plugins: [parserBabel],
         });
 
-        setCode(formattedCode);
+        setCode ? setCode(formattedCode) : setMyCode(formattedCode);
       } catch (e) {
         console.log(e);
       }
     },
-    [code]
+    [code, myCode]
   );
 
   const onCopyButtonClick = async () => {
     try {
       // await navigator.clipboard.writeText(`<Widget src="${textToCopy}" />`);
-      await navigator.clipboard.writeText(code);
+      await navigator.clipboard.writeText(code || myCode);
 
       enqueueSnackbar("Code copied to clipboard!", { variant: "success" });
     } catch (error) {
@@ -65,9 +70,9 @@ export default function VerticalCodePreview({ initialCode, horizontal }) {
             fontSize: editorFontSize || "16px",
           }}
           defaultLanguage="javascript"
-          value={code}
+          value={code || myCode}
           onChange={(props) => setCode(props)}
-          wrapperProps={{ onBlur: () => format(code) }}
+          wrapperProps={{ onBlur: () => format(code || myCode) }}
         />
       </Allotment.Pane>
 
@@ -84,7 +89,7 @@ export default function VerticalCodePreview({ initialCode, horizontal }) {
             overflowY: "auto",
           }}
         >
-          <Widget code={code} props={{ theme }} />
+          <Widget code={code || myCode} props={{ theme }} />
         </Box>
       </Allotment.Pane>
     </Allotment>

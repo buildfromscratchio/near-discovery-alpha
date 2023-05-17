@@ -1,12 +1,10 @@
 import React, { useContext } from "react";
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import HelpOutlineRoundedIcon from "@mui/icons-material/HelpOutlineRounded";
-import WifiRoundedIcon from "@mui/icons-material/WifiRounded";
 import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import WidgetsRoundedIcon from "@mui/icons-material/WidgetsRounded";
 import CellTowerRoundedIcon from "@mui/icons-material/CellTowerRounded";
+import Groups3RoundedIcon from "@mui/icons-material/Groups3Rounded";
 
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
@@ -16,10 +14,11 @@ import { ThemeContext } from "../context/ThemeContext";
 import { EditorContext } from "../context/EditorContext";
 
 import DiamondRoundedIcon from "@mui/icons-material/DiamondRounded";
-import { Box, ButtonBase, Divider, Tooltip } from "@mui/material";
-import { useHistory, useLocation } from "react-router-dom";
+import { ButtonBase, Tooltip } from "@mui/material";
+
 import { Widget, useAccount } from "near-social-vm";
 import { AuthContext } from "../context/AuthContext";
+import { useHistory, useLocation } from "react-router-dom";
 
 export default function Activitybar(props) {
   const history = useHistory();
@@ -177,6 +176,20 @@ export default function Activitybar(props) {
 
         <ActivityButton
           icon={
+            <Groups3RoundedIcon
+              sx={{ fill: theme.textColor4, fontSize: "1.5rem" }}
+            />
+          }
+          label="collaboration"
+          to="/collaborations"
+          onClick={() => {
+            history.push("/collaborations");
+            setSelectedActivity("collaborations");
+          }}
+        />
+
+        <ActivityButton
+          icon={
             <SettingsOutlinedIcon
               sx={{ fill: theme.textColor4, fontSize: "1.5rem" }}
             />
@@ -287,8 +300,9 @@ export default function Activitybar(props) {
             }
             label="logout"
             onClick={() => {
-              history.push("/");
+              props.logOut();
               logout();
+              history.push("/");
             }}
           />
         )}

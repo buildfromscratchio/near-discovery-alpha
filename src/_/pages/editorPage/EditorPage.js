@@ -342,6 +342,7 @@ export default function EditorPage(props) {
 
   const removeFromFiles = useCallback(
     (path) => {
+      console.log("Removing ", path);
       path = JSON.stringify(path);
       setFiles((files) =>
         files.filter((file) => JSON.stringify(file) !== path)
