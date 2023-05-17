@@ -181,10 +181,10 @@ export default function Activitybar(props) {
             />
           }
           label="collaboration"
-          to="/collaboration"
+          to="/collaborations"
           onClick={() => {
-            history.push("/collaboration");
-            setSelectedActivity("collaboration");
+            history.push("/collaborations");
+            setSelectedActivity("collaborations");
           }}
         />
 

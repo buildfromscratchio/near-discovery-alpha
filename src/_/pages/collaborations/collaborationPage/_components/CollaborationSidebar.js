@@ -1,8 +1,8 @@
 import React from "react";
 import { useContext } from "react";
-import { ThemeContext } from "../../../context/ThemeContext";
+import { ThemeContext } from "../../../../context/ThemeContext";
 import { Avatar, Box, Typography } from "@mui/material";
-import { CollaborationContext } from "./CollaborationContext";
+import { CollaborationContext } from "../../../../context/CollaborationContext";
 
 export default function CollaborationSidebar() {
   const { theme } = useContext(ThemeContext);
@@ -41,7 +41,7 @@ export default function CollaborationSidebar() {
               color: theme.textColor3,
             }}
           >
-            Connected Users:
+            Participants ({memberList?.length}):
           </Typography>
         </Box>
         {memberList?.map((item, index) => (
@@ -70,9 +70,8 @@ export default function CollaborationSidebar() {
               fontWeight={500}
               sx={{ color: theme.textColor }}
             >
-              {item.fullName}
+              {item.name}
             </Typography>
-            {/* {JSON.stringify(user)} */}
           </Box>
         ))}
       </Box>

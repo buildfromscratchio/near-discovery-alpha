@@ -9,18 +9,16 @@ import React, {
 import { useDebouncedCallback } from "use-debounce";
 import io from "socket.io-client";
 import { useParams } from "react-router-dom";
-import { AuthContext } from "../../../../context/AuthContext";
+import { AuthContext } from "./AuthContext";
 
 export const CollaborationContext = createContext();
 
 export const CollaborationContextProvider = (props) => {
   const { currentChannel } = useParams();
   const { enqueueSnackbar } = useSnackbar();
-  // const { accountId } = useAccount();
 
-  const { user } = useContext(AuthContext);
+  const { isAuthenticated, user } = useContext(AuthContext);
 
-  console.log("useruseruseruseruseruseruser: ", user);
   const [socket, setSocket] = useState(null);
   const [code, setCode] = useState("return (<div><h1>hello world</h1></div>)");
 
@@ -32,7 +30,7 @@ export const CollaborationContextProvider = (props) => {
     (newMembers) => {
       const uniqueMembers = newMembers.filter(
         (member, index, array) =>
-          array.findIndex((m) => m.fullName === member.fullName) === index
+          array.findIndex((m) => m.name === member.name) === index
       );
       setMemberList(uniqueMembers);
     },
@@ -54,11 +52,11 @@ export const CollaborationContextProvider = (props) => {
   }, []);
 
   useEffect(() => {
-    if (socket) {
+    if (socket && isAuthenticated) {
       console.log("user?.name || user?.userName || user?.email, : ", user);
       // Join channel with user object
       socket.emit("joinChannel", currentChannel, {
-        fullName: user?.name || user?.userName || user?.email,
+        name: user?.name || user?.userName || user?.email,
         avatar: user?.avatar,
       });
       // ||
@@ -82,35 +80,29 @@ export const CollaborationContextProvider = (props) => {
           // Find added members
           const addedMembers = newMembers.filter(
             (newMember) =>
-              !memberListRow.some(
-                (member) => member.fullName === newMember.fullName
-              )
+              !memberListRow.some((member) => member.name === newMember.name)
           );
 
           // Find removed members
           const removedMembers = memberListRow.filter(
             (member) =>
-              !newMembers.some(
-                (newMember) => newMember.fullName === member.fullName
-              )
+              !newMembers.some((newMember) => newMember.name === member.name)
           );
 
           // Log details of added members
           addedMembers.forEach((newMember) => {
             console.log(
-              `New member added: ${newMember.fullName}, ID: ${newMember.fullName}`
+              `New member added: ${newMember.name}, ID: ${newMember.name}`
             );
-            enqueueSnackbar(`${newMember.fullName} has connected.`, {
+            enqueueSnackbar(`${newMember.name} has connected.`, {
               variant: "success",
             });
           });
 
           // Log details of removed members
           removedMembers.forEach((member) => {
-            console.log(
-              `Member removed: ${member.fullName}, ID: ${member.fullName}`
-            );
-            enqueueSnackbar(`${member.fullName} has disconnected.`, {
+            console.log(`Member removed: ${member.name}, ID: ${member.name}`);
+            enqueueSnackbar(`${member.name} has disconnected.`, {
               variant: "warning",
             });
           });

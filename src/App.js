@@ -10,7 +10,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import "@near-wallet-selector/modal-ui/styles.css";
 import "bootstrap/dist/js/bootstrap.bundle";
 import "App.scss";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch, useLocation } from "react-router-dom";
 // import EditorPage from "./pages/EditorPage";
 // import ViewPage from "./pages/ViewPage";
 import { setupWalletSelector } from "@near-wallet-selector/core";
@@ -49,8 +49,10 @@ import PagesContainer from "./_/components/PagesContainer";
 import Footer from "./_/components/Footer";
 import CreateLearnPage from "./_/pages/createLearnPage/CreateLearnPage";
 import AuthContextProvider from "./_/context/AuthContext";
-import CollaborationPage from "./_/pages/collaborationPage/CollaborationSessionPage";
-import CollaborationContextProvider from "./_/pages/collaborationPage/_components/CollaborationContext";
+
+// import CollaborationsPage from "./_/pages/collaborations/collaborationsPage/CollaborationsPage";
+
+import CollaborationPage from "./_/pages/collaborations/collaborationPage/CollaborationPage";
 
 export const refreshAllowanceObj = {};
 ReactGA.initialize("G-YJ2FL738R6");
@@ -208,14 +210,12 @@ export default function App() {
               <Footer />
             </Route>
 
-            <Route path={"/collaboration/:currentChannel"}>
-              <CollaborationContextProvider>
-                <CollaborationSessionPage {...passProps} />
-              </CollaborationContextProvider>
+            <Route path={"/collaborations/:currentChannel"}>
+              <CollaborationPage {...passProps} />
               <Footer />
             </Route>
-            <Route path={"/collaboration"}>
-              <CollaborationPage {...passProps} />
+            <Route path={"/collaborations"}>
+              <EmptyPage {...passProps} />
               <Footer />
             </Route>
 
@@ -277,6 +277,13 @@ export default function App() {
 
 const EmptyPage = (props) => {
   const { theme } = useContext(ThemeContext);
+
+  const { pathname } = useLocation();
+  const { setSelectedActivity } = useContext(EditorContext);
+
+  useEffect(() => {
+    setSelectedActivity(pathname.replace(/\//g, ""));
+  }, []);
 
   return (
     <PagesContainer {...props}>

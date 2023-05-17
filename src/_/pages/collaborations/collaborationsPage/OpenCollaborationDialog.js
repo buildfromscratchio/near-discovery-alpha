@@ -7,13 +7,28 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useContext } from "react";
-import { ThemeContext } from "../../../../context/ThemeContext";
-import CustomButton from "../../../../components/custom/CustomButton";
+import { ThemeContext } from "../../../context/ThemeContext";
+import CustomButton from "../../../components/custom/CustomButton";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 const pattern =
   /^(https?:\/\/)?([\w.-]+)\.([a-z]{2,})(:[0-9]{1,5})?(\/[\w.-]*)*\/?$/;
+
+const validateRandomString = (str) => {
+  // Check if the string is exactly 15 characters long
+  if (str.length !== 15) {
+    return false;
+  }
+
+  // Check if all characters are alphanumeric
+  const alphanumericRegex = /^[a-zA-Z0-9]+$/;
+  if (!alphanumericRegex.test(str)) {
+    return false;
+  }
+
+  return true;
+};
 
 export default function OpenCollaborationDialog({ open, setOpen }) {
   const history = useHistory();
@@ -61,7 +76,8 @@ export default function OpenCollaborationDialog({ open, setOpen }) {
 
       <DialogActions sx={{ padding: "0 16px 16px 0", gap: 1 }}>
         <CustomButton
-          disabled={collaborationId?.length <= 3}
+          // disabled={collaborationId?.length <= 3}
+          disabled={!validateRandomString(collaborationId)}
           sx={{
             textTransform: "none",
             fontWeight: 500,
@@ -72,11 +88,11 @@ export default function OpenCollaborationDialog({ open, setOpen }) {
             borderRadius: 0.5,
           }}
           onClick={() => {
-            if (pattern.test(collaborationId)) {
-              location.href = collaborationId;
-            } else {
-              history.push(`/collaboration/${collaborationId}`);
-            }
+            // if (pattern.test(collaborationId)) {
+            //   location.href = collaborationId;
+            // } else {
+            history.push(`/collaborations/${collaborationId}`);
+            // }
 
             setOpen(false);
           }}
