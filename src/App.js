@@ -49,7 +49,7 @@ import PagesContainer from "./_/components/PagesContainer";
 import Footer from "./_/components/Footer";
 import CreateLearnPage from "./_/pages/createLearnPage/CreateLearnPage";
 import AuthContextProvider from "./_/context/AuthContext";
-import CollaborationPage from "./_/pages/collaborationPage/CollaborationPage";
+import CollaborationPage from "./_/pages/collaborationPage/CollaborationSessionPage";
 import CollaborationContextProvider from "./_/pages/collaborationPage/_components/CollaborationContext";
 
 export const refreshAllowanceObj = {};
@@ -208,10 +208,14 @@ export default function App() {
               <Footer />
             </Route>
 
-            <Route path={"/collaboration/:currentChannel*"}>
+            <Route path={"/collaboration/:currentChannel"}>
               <CollaborationContextProvider>
-                <CollaborationPage {...passProps} />
+                <CollaborationSessionPage {...passProps} />
               </CollaborationContextProvider>
+              <Footer />
+            </Route>
+            <Route path={"/collaboration"}>
+              <CollaborationPage {...passProps} />
               <Footer />
             </Route>
 

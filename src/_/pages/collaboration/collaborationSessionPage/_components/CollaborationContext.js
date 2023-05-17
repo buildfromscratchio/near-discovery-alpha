@@ -9,7 +9,7 @@ import React, {
 import { useDebouncedCallback } from "use-debounce";
 import io from "socket.io-client";
 import { useParams } from "react-router-dom";
-import { AuthContext } from "../../../context/AuthContext";
+import { AuthContext } from "../../../../context/AuthContext";
 
 export const CollaborationContext = createContext();
 

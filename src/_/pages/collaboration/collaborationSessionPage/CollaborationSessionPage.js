@@ -1,16 +1,16 @@
 import React, { useContext, useCallback, useEffect } from "react";
-import PagesContainer from "../../components/PagesContainer";
+import PagesContainer from "../../../components/PagesContainer";
 import { Box } from "@mui/material";
-import { ThemeContext } from "../../context/ThemeContext";
+import { ThemeContext } from "../../../context/ThemeContext";
 import { Allotment } from "allotment";
-import LearnPageHeader from "../learnPage/_components/LearnPageHeader";
+import LearnPageHeader from "../../learnPage/_components/LearnPageHeader";
 import prettier from "prettier";
 import parserBabel from "prettier/parser-babel";
 import { Widget } from "near-social-vm";
 
 import MonacoEditor from "@monaco-editor/react";
 import { CollaborationContext } from "./_components/CollaborationContext";
-import { EditorContext } from "../../context/EditorContext";
+import { EditorContext } from "../../../context/EditorContext";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import OpenCollaborationDialog from "./_components/OpenCollaborationDialog";

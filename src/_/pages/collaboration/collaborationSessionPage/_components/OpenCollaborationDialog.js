@@ -7,8 +7,8 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useContext } from "react";
-import { ThemeContext } from "../../../context/ThemeContext";
-import CustomButton from "../../../components/custom/CustomButton";
+import { ThemeContext } from "../../../../context/ThemeContext";
+import CustomButton from "../../../../components/custom/CustomButton";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 
