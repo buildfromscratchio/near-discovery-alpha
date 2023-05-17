@@ -65,6 +65,8 @@ const Projectbar = () => {
     selectedSection,
   } = useContext(LearnContext);
 
+  console.log;
+
   return (
     <Box sx={{ height: "100%", overflowY: "auto", backgroundColor: theme.ui }}>
       <Box
@@ -90,13 +92,13 @@ const Projectbar = () => {
           <div
             className="dangerousStyle"
             style={{ color: theme.textColor }}
-            dangerouslySetInnerHTML={{ __html: selectedSection?.discription }}
+            dangerouslySetInnerHTML={{ __html: selectedSection?.description }}
           />
 
           {/*
             <Widget
               src="saidulbadhon.near/widget/LearnPage.Markdown"
-              props={{ text: selectedSection?.discription, theme: theme }}
+              props={{ text: selectedSection?.description, theme: theme }}
             />
           */}
         </Box>

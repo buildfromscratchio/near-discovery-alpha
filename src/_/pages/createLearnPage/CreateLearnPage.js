@@ -16,11 +16,16 @@ import { ThemeContext } from "../../context/ThemeContext";
 import CustomInput from "../../components/custom/CustomInput";
 import { EmptyPage } from "../learnPage/LearnPage";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import httpClient from "../../libs/httpClient";
+import { useHistory } from "react-router-dom";
 
 export default function CreateLearnPage(props) {
+  const history = useHistory();
   const { theme } = useContext(ThemeContext);
   const { selectedActivity, setSelectedActivity } =
     useContext(OurEditorContext);
+
+  const [loading, setLoading] = useState(false);
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -38,8 +43,21 @@ export default function CreateLearnPage(props) {
       description,
       sections,
     };
+    setLoading(true);
 
-    console.log(data);
+    httpClient()
+      .post("/learn", data)
+      .then((res) => {
+        setLoading(false);
+        console.log(res.data);
+        history.push("/learn");
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+
+    console.log("data: ", data);
   };
 
   return (
@@ -61,6 +79,7 @@ export default function CreateLearnPage(props) {
         >
           <Allotment.Pane minSize={200} visible={selectedActivity === "learn"}>
             <SetupProjectSection
+              loading={loading}
               name={name}
               setName={setName}
               description={description}
@@ -76,7 +95,7 @@ export default function CreateLearnPage(props) {
             />
           </Allotment.Pane>
 
-          {selectedSection?._id ? (
+          {selectedSection?.localId ? (
             <AddSectionView
               selectedSection={selectedSection}
               sections={sections}
@@ -97,7 +116,7 @@ const AddSectionView = ({ selectedSection, sections, setSections }) => {
   const updateItem = (id, updatedItem) => {
     setSections((prevItems) =>
       prevItems.map((item) => {
-        if (item._id === id) {
+        if (item.localId === id) {
           console.log(item, updatedItem, selectedSection.name, id);
           return { ...item, ...updatedItem };
         }
@@ -120,14 +139,17 @@ const AddSectionView = ({ selectedSection, sections, setSections }) => {
 
       <VerticalCodePreview
         initialCode={selectedSection?.code}
-        code={sections?.find((s) => s._id === selectedSection._id)?.code}
-        setCode={(e) => updateItem(selectedSection?._id, { code: e })}
+        code={
+          sections?.find((s) => s.localId === selectedSection.localId)?.code
+        }
+        setCode={(e) => updateItem(selectedSection?.localId, { code: e })}
       />
     </Allotment>
   );
 };
 
 const SetupProjectSection = ({
+  loading,
   name,
   setName,
   description,
@@ -190,7 +212,7 @@ const SetupProjectSection = ({
           }}
           onClick={() => onSubmit()}
         >
-          Save
+          {loading ? "Loading..." : "Save"}
         </Button>
       </Box>
 
@@ -245,7 +267,7 @@ const SetupProjectSection = ({
         />
         {/* <MDEditor.Markdown
           source={
-            sections?.find((s) => s._id === selectedSection._id)?.description
+            sections?.find((s) => s.localId === selectedSection.localId)?.description
           }
           style={{ whiteSpace: "pre-wrap" }}
         /> */}
@@ -265,7 +287,8 @@ const SetupProjectSection = ({
             setSections((e) => [
               ...e,
               {
-                _id: Math.floor(Math.random() * (100000000 - 1000 + 1)) + 1000,
+                localId:
+                  Math.floor(Math.random() * (100000000 - 1000 + 1)) + 1000,
                 name: `Step: ${sections?.length + 1}`,
                 description: "",
                 code: "return <div>Hello World</div>;",
@@ -284,7 +307,7 @@ const SetupProjectSection = ({
                 textTransform: "none",
                 width: "100%",
                 backgroundColor:
-                  selectedSection?._id === section?._id
+                  selectedSection?.localId === section?.localId
                     ? `${theme?.buttonColor}22 !important`
                     : theme.backgroundColor,
                 p: 1,
@@ -303,7 +326,7 @@ const SetupProjectSection = ({
               }}
               onClick={() => {
                 setSelectedSection(
-                  section?._id === selectedSection?._id ? {} : section
+                  section?.localId === selectedSection?.localId ? {} : section
                 );
               }}
             >
@@ -335,7 +358,7 @@ const DetailSection = ({
   const updateItem = (id, updatedItem) => {
     setSections((prevItems) =>
       prevItems.map((item) => {
-        if (item._id === id) {
+        if (item.localId === id) {
           console.log(item, updatedItem, selectedSection.name, id);
           return { ...item, ...updatedItem };
         }
@@ -358,9 +381,11 @@ const DetailSection = ({
       <CustomInput
         label="Name"
         placeholder="Enter project name"
-        value={sections?.find((s) => s._id === selectedSection._id)?.name}
+        value={
+          sections?.find((s) => s.localId === selectedSection.localId)?.name
+        }
         onChange={(e) =>
-          updateItem(selectedSection?._id, { name: e.target.value })
+          updateItem(selectedSection?.localId, { name: e.target.value })
         }
         sx={{ backgroundColor: theme.ui }}
       />
@@ -369,10 +394,10 @@ const DetailSection = ({
         label="Description"
         placeholder="Enter project description"
         value={
-          sections?.find((s) => s._id === selectedSection._id)?.description
+          sections?.find((s) => s.localId === selectedSection.localId)?.description
         }
         onChange={(e) =>
-          updateItem(selectedSection?._id, { description: e.target.value })
+          updateItem(selectedSection?.localId, { description: e.target.value })
         }
         sx={{ backgroundColor: theme.ui, height: "100%" }}
         multiline={true}
@@ -391,16 +416,19 @@ const DetailSection = ({
         <MDEditor
           height="calc(100vh - 115px)"
           value={
-            sections?.find((s) => s._id === selectedSection._id)?.description
+            sections?.find((s) => s.localId === selectedSection.localId)
+              ?.description
           }
-          onChange={(e) => updateItem(selectedSection?._id, { description: e })}
+          onChange={(e) =>
+            updateItem(selectedSection?.localId, { description: e })
+          }
           preview="edit"
           // extraCommands={[codePreview, commands.fullscreen]}
           // extraCommands={[codePreview]}
         />
         {/* <MDEditor.Markdown
           source={
-            sections?.find((s) => s._id === selectedSection._id)?.description
+            sections?.find((s) => s.localId === selectedSection.localId)?.description
           }
           style={{ whiteSpace: "pre-wrap" }}
         /> */}
@@ -425,9 +453,9 @@ const DetailSection = ({
             language="en-US"
             preview={false}
             modelValue={
-              sections?.find((s) => s._id === selectedSection._id)?.description
+              sections?.find((s) => s.localId === selectedSection.localId)?.description
             }
-            onChange={(e) => updateItem(selectedSection?._id, { description: e })}
+            onChange={(e) => updateItem(selectedSection?.localId, { description: e })}
             placeholder="Enter project description"
           />
         </Box> 

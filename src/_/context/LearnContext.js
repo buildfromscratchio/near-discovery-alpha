@@ -1,4 +1,5 @@
 import React, { useState, createContext, useEffect } from "react";
+import httpClient from "../libs/httpClient";
 
 export const LearnContext = createContext();
 
@@ -6,12 +7,12 @@ const data = [
   {
     _id: "1563435165",
     name: "Tutorial: Build a decentralized linktree profile",
-    discription: `<p>In this workshop, we will learn how to build a decentralized frontend on <a href="https://near.org/blog/near-announces-the-blockchain-operating-system/">Blockchain Operating System</a>. We will create <a href="https://linktr.ee/">linktree</a> clone for our profile. \n \n At the end we will have a working decentralized profile deployed on-chain in near protocol.</p>`,
+    description: `<p>In this workshop, we will learn how to build a decentralized frontend on <a href="https://near.org/blog/near-announces-the-blockchain-operating-system/">Blockchain Operating System</a>. We will create <a href="https://linktr.ee/">linktree</a> clone for our profile. \n \n At the end we will have a working decentralized profile deployed on-chain in near protocol.</p>`,
     sections: [
       {
         _id: "1",
         name: "Step 1: Setting up development environment",
-        discription: `<p class="has-line-data" data-line-start="0" data-line-end="1">We will build a decentralized fronent on BOS using <code>nearpad</code> devtool. <code>nearpad</code> is a cloud IDE so we don’t have to install anything in our local machine. However, to save frontend code in NEAR blockchain we will need a NEAR wallet.</p>
+        description: `<p class="has-line-data" data-line-start="0" data-line-end="1">We will build a decentralized fronent on BOS using <code>nearpad</code> devtool. <code>nearpad</code> is a cloud IDE so we don’t have to install anything in our local machine. However, to save frontend code in NEAR blockchain we will need a NEAR wallet.</p>
         <p class="has-line-data" data-line-start="2" data-line-end="3">For our workshop we will use Testnet. You can create a wallet in testnet from <a href="https://testnet.mynearwallet.com/">here</a>.</p>
         <p class="has-line-data" data-line-start="4" data-line-end="5">You can signin to <a href="https://nearpad.dev">nearpad</a> using your github profile.</p>
         <p class="has-line-data" data-line-start="6" data-line-end="7">After you login to <code>nearpad</code> you will see the below code in the code editor.</p>
@@ -24,7 +25,7 @@ const data = [
       {
         _id: "2",
         name: "Step 2: What we will build",
-        discription: `
+        description: `
         <p class="has-line-data" data-line-start="0" data-line-end="1">What we will build:</p>
 <pre><code class="has-line-data" data-line-start="3" data-line-end="90">const profile = {
   avatar:
@@ -206,7 +207,7 @@ return (
       {
         _id: "3",
         name: "Step 3: Create first decentralized component",
-        discription: `
+        description: `
         <p class="has-line-data" data-line-start="0" data-line-end="1">Let’s build our first component where we want to show the name and title.</p>
 <pre><code class="has-line-data" data-line-start="3" data-line-end="12">return (
   &lt;div&gt;
@@ -271,7 +272,7 @@ align-items: &quot;center&quot;;
       {
         _id: "4",
         name: "Step 4: Create more advance component",
-        discription: `
+        description: `
         <p class="has-line-data" data-line-start="0" data-line-end="1">Let’s create more advance component which will display a list of links/buttons in our profile.</p>
 <pre><code class="has-line-data" data-line-start="3" data-line-end="27">const links = [
   { title: &quot;Link 1&quot;, url: &quot;#&quot; },
@@ -336,13 +337,13 @@ return (
       {
         _id: "5",
         name: "Step 5: Reading data from NEAR Social contract",
-        discription: ``,
+        description: ``,
         code: `//TODO:`,
       },
       {
         _id: "6",
         name: "Step 6: Reading data from external API",
-        discription: ``,
+        description: ``,
         code: `//TODO:`,
       },
     ],
@@ -350,7 +351,8 @@ return (
 ];
 
 export const LearnContextProvider = (props) => {
-  const [projects, setProjects] = useState(data);
+  const [loading, setLoading] = useState(false);
+  const [projects, setProjects] = useState();
 
   const [showProjectbar, setShowProjectbar] = useState(false);
 
@@ -361,6 +363,27 @@ export const LearnContextProvider = (props) => {
 
   const [selectedProject, setSelectedProject] = useState();
   const [selectedSection, setSelectedSection] = useState();
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = () => {
+    setLoading(true);
+
+    httpClient()
+      .get("/learn")
+      .then((res) => {
+        setProjects(res.data);
+        setLoading(false);
+
+        console.log("LearnContextProvider : ", res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  };
 
   useEffect(() => {
     loadSelectedProject();

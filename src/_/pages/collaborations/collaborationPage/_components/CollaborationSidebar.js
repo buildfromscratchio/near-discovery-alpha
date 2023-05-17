@@ -6,7 +6,7 @@ import { CollaborationContext } from "../../../../context/CollaborationContext";
 
 export default function CollaborationSidebar() {
   const { theme } = useContext(ThemeContext);
-  const { memberList } = useContext(CollaborationContext);
+  const collaborationContext = useContext(CollaborationContext);
 
   return (
     <div>
@@ -41,10 +41,11 @@ export default function CollaborationSidebar() {
               color: theme.textColor3,
             }}
           >
-            Participants ({memberList?.length}):
+            Participants ({collaborationContext?.memberList?.length}):
           </Typography>
         </Box>
-        {memberList?.map((item, index) => (
+
+        {collaborationContext?.memberList?.map((item, index) => (
           <Box
             key={index}
             sx={{
