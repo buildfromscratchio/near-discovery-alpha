@@ -124,10 +124,7 @@ const HeaderMenuForUser = (props) => {
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
       >
-        <Avatar
-          src={user?.avatar}
-          alt={user?.fullName || user?.nearAccountId}
-        />
+        <Avatar src={user?.avatar} alt={user?.name || user?.nearAccountId} />
       </IconButton>
 
       <Menu

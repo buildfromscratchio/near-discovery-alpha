@@ -17,8 +17,6 @@ export const AuthContextProvider = (props) => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
 
   const [user, setUser] = useState();
-  const [role, setRole] = useState();
-  const [token, setToken] = useState();
 
   const [showDialog, setShowDialog] = useState(false);
 
@@ -47,13 +45,7 @@ export const AuthContextProvider = (props) => {
           const { data } = res;
           console.log(data);
 
-          // enqueueSnackbar(
-          //   `Welcom back, ${data?.fullName || data?.userName || data.email}`,
-          //   { variant: "success" }
-          // );
-
           setLoadingCheck(false);
-          // console.log("I am calling saveUserData");
           saveUserData(data);
           setLoading(false);
           setShowDialog(false);
@@ -79,8 +71,6 @@ export const AuthContextProvider = (props) => {
     try {
       console.log("saveUserData: ", user);
       setUser(user);
-      setRole(user.role);
-      setToken(user.accessToken);
       setIsAuthenticated(true);
 
       user.accessToken &&
@@ -93,11 +83,6 @@ export const AuthContextProvider = (props) => {
     setLoading(false);
   };
 
-  //
-  //
-  // useEffect(() => {
-  //   if (!isAuthenticated && nearUser) loginWithNear();
-  // }, [nearUser, isAuthenticated]);
   const loginWithNear = async () => {
     const accessToken = await localStorage.getItem("accessToken");
     const userId = await localStorage.getItem("userId");
@@ -109,15 +94,6 @@ export const AuthContextProvider = (props) => {
       httpClient()
         .post(`/auth/near`, { nearAccountId: nearUser.accountId })
         .then((res) => {
-          // console.log(res.data);
-          // const { data } = res;
-
-          // enqueueSnackbar(
-          //   `Welcom back, ${data?.fullName || data?.userName || data.email}`,
-          //   { variant: "success" }
-          // );
-          // console.log("I am a nearUser and I am calling ");
-
           saveUserData(res.data);
           setLoadingCheck(false);
           setLoading(false);
@@ -178,8 +154,6 @@ export const AuthContextProvider = (props) => {
     setIsAuthenticated(false);
     setLoadingCheck(false);
     setLoading(false);
-
-    // history.push("/editor");
   };
 
   return (
