@@ -4,7 +4,7 @@ import { ThemeContext } from "../../../context/ThemeContext";
 import { Box, Typography, IconButton } from "@mui/material";
 import ContentPasteRoundedIcon from "@mui/icons-material/ContentPasteRounded";
 
-export default function LearnPageHeader({ title, onCopyButtonClick }) {
+export default function LearnPageHeader({ title, onCopyButtonClick, others }) {
   const { theme } = useContext(ThemeContext);
 
   return (
@@ -37,6 +37,8 @@ export default function LearnPageHeader({ title, onCopyButtonClick }) {
           />
         </IconButton>
       )}
+
+      {others}
     </Box>
   );
 }

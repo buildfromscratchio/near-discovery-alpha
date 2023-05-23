@@ -1,4 +1,4 @@
-import React, { useContext, useCallback, useEffect } from "react";
+import React, { useContext, useCallback, useEffect, useState } from "react";
 import PagesContainer from "../../../components/PagesContainer";
 import { Box, CircularProgress } from "@mui/material";
 import { ThemeContext } from "../../../context/ThemeContext";
@@ -6,7 +6,7 @@ import { Allotment } from "allotment";
 import LearnPageHeader from "../../learnPage/_components/LearnPageHeader";
 import prettier from "prettier";
 import parserBabel from "prettier/parser-babel";
-import { Widget } from "near-social-vm";
+import { Widget, CommitButton, useNear, useAccount } from "near-social-vm";
 
 import MonacoEditor from "@monaco-editor/react";
 import { EditorContext } from "../../../context/EditorContext";
@@ -14,6 +14,8 @@ import CollaborationContextProvider, {
   CollaborationContext,
 } from "../../../context/CollaborationContext";
 import { AuthContext } from "../../../context/AuthContext";
+import { useParams } from "react-router-dom";
+import ReactGA from "react-ga4";
 
 export default function CollaborationContainer(props) {
   const { isAuthenticated } = useContext(AuthContext);
@@ -38,6 +40,10 @@ export default function CollaborationContainer(props) {
 }
 
 const CollaborationPage = (props) => {
+  const near = useNear();
+  const { currentChannel } = useParams();
+  const { accountId } = useAccount();
+
   const { theme, editorFontSize } = useContext(ThemeContext);
   const { setSelectedActivity } = useContext(EditorContext);
   const { code, onChange } = useContext(CollaborationContext);
@@ -66,11 +72,40 @@ const CollaborationPage = (props) => {
     [code]
   );
 
+  const PublishButton = () => (
+    <CommitButton
+      id="publishButton"
+      className={`btn btn-primary`}
+      style={{
+        backgroundColor: theme.buttonColor,
+
+        paddingInline: 16,
+        marginRight: 8,
+
+        borderRadius: 4,
+
+        fontWeight: 500,
+      }}
+      //
+      // disabled={!widgetName}
+      near={near}
+      data={{
+        widget: {
+          [currentChannel]: {
+            "": code,
+          },
+        },
+      }}
+    >
+      Publish
+    </CommitButton>
+  );
+
   return (
     <PagesContainer {...props}>
       <Allotment defaultSizes={[100, 100]}>
         <Allotment.Pane priority={2}>
-          <LearnPageHeader title="Code" />
+          <LearnPageHeader title="Code " />
 
           <MonacoEditor
             theme={theme.name === "dark" ? "vs-dark" : "light"}
@@ -87,7 +122,36 @@ const CollaborationPage = (props) => {
         </Allotment.Pane>
 
         <Allotment.Pane priority={1} style={{ flex: 1, height: "100vh" }}>
-          <LearnPageHeader title="Preview" />
+          <LearnPageHeader
+            title="Preview"
+            others={
+              <>
+                {accountId ? (
+                  <PublishButton />
+                ) : (
+                  <button
+                    className="btn btn-primary"
+                    style={{
+                      backgroundColor: theme.buttonColor,
+                      paddingInline: 16,
+                      marginRight: 8,
+                      borderRadius: 4,
+                      fontWeight: 500,
+                    }}
+                    onClick={() => {
+                      props.requestSignIn();
+                      ReactGA.event({
+                        category: "SignIn",
+                        action: "signin",
+                      });
+                    }}
+                  >
+                    Connect
+                  </button>
+                )}
+              </>
+            }
+          />
           <Box
             sx={{
               flex: 1,
