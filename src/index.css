@@ -154,3 +154,58 @@
   font-size: 0.9rem;
   font-weight: 400 !important;
 }
+
+/* */
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap");
+
+.s3BuildspaceHome * {
+  font-family: "Manrope", sans-serif !important;
+}
+
+.s3BuildspaceHome .scroll-container {
+  /* height: 300px; */
+  overflow: hidden;
+}
+
+.s3BuildspaceHome .scroll-container .image-container {
+  height: 100%;
+  display: flex;
+}
+.s3BuildspaceHome .scroll-container .image-container > div {
+  animation: scroll 500s infinite linear;
+}
+
+.s3BuildspaceHome .scroll-container .image-container.reverse > div {
+  animation: scrollReverse 500s infinite linear;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    /* transform: translateY(-7776px); */
+    transform: translateY(-10500px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes scrollReverse {
+  0% {
+    transform: translateY(-10500px);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-10500px);
+  }
+}
+
+/* .image-container .div img {
+  height: 300px;
+  width: auto;
+} */
+
+/*  */

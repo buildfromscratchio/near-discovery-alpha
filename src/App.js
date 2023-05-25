@@ -36,6 +36,7 @@ import HomePage from "./_/pages/homePage/HomePage";
 import EmbedPage from "./_/pages/EmbedPage";
 import DiscoverPage from "./_/pages/DiscoverPage";
 import ProfilePage from "./_/pages/ProfilePage";
+import BuildspacePage from "./_/pages/BuildspacePage";
 import LearnPage from "./_/pages/learnPage/LearnPage";
 import ChatPage from "./_/pages/chatPage/ChatPage";
 import AuthPage from "./_/pages/AuthPage";
@@ -189,6 +190,10 @@ export default function App() {
             <Route path={"/components/:widgetSrc*"}>
               {/* <NavigationWrapper {...passProps} /> */}
               <EmbedPage {...passProps} />
+            </Route>
+            <Route path={"/s3"}>
+              {/* <NavigationWrapper {...passProps} /> */}
+              <BuildspacePage {...passProps} />
             </Route>
 
             <Route path={"/auth"}>
