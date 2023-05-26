@@ -159,7 +159,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap");
 
 .s3BuildspaceHome {
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
 }
 .s3BuildspaceHome * {
   font-family: "Manrope", sans-serif !important;
@@ -202,5 +203,12 @@
   }
   100% {
     transform: translateY(-2775px);
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .scroll-container {
+    display: none !important;
+    background-color: red;
   }
 }
