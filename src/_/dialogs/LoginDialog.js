@@ -19,14 +19,14 @@ export default function LoginDialog({ requestSignIn }) {
   const { theme } = useContext(ThemeContext);
 
   return (
-    isAuthenticated && (
+    !isAuthenticated && (
       <Dialog
         //   onClose={() => setShowDialog(false)}
         open={
           !isAuthenticated &&
           !loadingCheck &&
           showDialog &&
-          !["/", "/auth"].includes(pathname)
+          !["/", "/auth", "/s3"].includes(pathname)
         }
         fullWidth={true}
         maxWidth="xs"

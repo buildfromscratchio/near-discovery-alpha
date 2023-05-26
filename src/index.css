@@ -158,6 +158,9 @@
 /* */
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap");
 
+.s3BuildspaceHome {
+  height: 100vh;
+}
 .s3BuildspaceHome * {
   font-family: "Manrope", sans-serif !important;
 }
@@ -172,40 +175,32 @@
   display: flex;
 }
 .s3BuildspaceHome .scroll-container .image-container > div {
-  animation: scroll 500s infinite linear;
+  animation: scroll 300s infinite linear;
 }
 
 .s3BuildspaceHome .scroll-container .image-container.reverse > div {
-  animation: scrollReverse 500s infinite linear;
+  animation: scrollReverse 300s infinite linear;
 }
 
 @keyframes scroll {
   0% {
-    transform: translateY(0);
+    transform: translateY(24px);
   }
   50% {
-    /* transform: translateY(-7776px); */
-    transform: translateY(-10500px);
+    transform: translateY(-2775px);
   }
   100% {
-    transform: translateY(0);
+    transform: translateY(24px);
   }
 }
 @keyframes scrollReverse {
   0% {
-    transform: translateY(-10500px);
+    transform: translateY(-2775px);
   }
   50% {
-    transform: translateY(0);
+    transform: translateY(24px);
   }
   100% {
-    transform: translateY(-10500px);
+    transform: translateY(-2775px);
   }
 }
-
-/* .image-container .div img {
-  height: 300px;
-  width: auto;
-} */
-
-/*  */
