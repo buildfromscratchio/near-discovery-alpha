@@ -10,7 +10,7 @@
 
 * {
   /* font-family: "Montserrat", sans-serif; */
-  font-family: "Inter", sans-serif !important;
+  /* font-family: "Inter", sans-serif !important; */
   /* font-family: "Public Sans", sans-serif; */
 
   box-sizing: border-box;
@@ -161,6 +161,7 @@
 .s3BuildspaceHome {
   min-height: 100vh;
   height: 100%;
+  background-color: #000;
 }
 .s3BuildspaceHome * {
   font-family: "Manrope", sans-serif !important;

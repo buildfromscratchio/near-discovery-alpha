@@ -188,12 +188,19 @@ export default function App() {
         <AuthContextProvider>
           <Switch>
             <Route path={"/components/:widgetSrc*"}>
-              {/* <NavigationWrapper {...passProps} /> */}
               <EmbedPage {...passProps} />
             </Route>
-            <Route path={"/s3"}>
-              {/* <NavigationWrapper {...passProps} /> */}
-              <BuildspacePage {...passProps} />
+            <Route path="/s3/:name">
+              <BuildspacePage
+                {...passProps}
+                widgetSrc="saidulbadhon.near/widget/s3.buildspace.user"
+              />
+            </Route>
+            <Route path="/s3">
+              <BuildspacePage
+                {...passProps}
+                widgetSrc="saidulbadhon.near/widget/s3.buildspace.home"
+              />
             </Route>
 
             <Route path={"/auth"}>

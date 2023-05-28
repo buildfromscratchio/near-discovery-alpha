@@ -26,7 +26,7 @@ export default function LoginDialog({ requestSignIn }) {
           !isAuthenticated &&
           !loadingCheck &&
           showDialog &&
-          !["/", "/auth", "/s3"].includes(pathname)
+          !["/", "/auth", "/s3"].some((i) => pathname.includes(i))
         }
         fullWidth={true}
         maxWidth="xs"
