@@ -161,7 +161,7 @@
 .s3BuildspaceHome {
   min-height: 100vh;
   height: 100%;
-  background-color: #000;
+  background-color: #0f0;
 }
 .s3BuildspaceHome * {
   font-family: "Manrope", sans-serif !important;
@@ -176,11 +176,11 @@
   height: 100%;
   display: flex;
 }
-.s3BuildspaceHome .scroll-container .image-container > div {
+.s3BuildspaceHome .scroll-container .image-container > a {
   animation: scroll 300s infinite linear;
 }
 
-.s3BuildspaceHome .scroll-container .image-container.reverse > div {
+.s3BuildspaceHome .scroll-container .image-container.reverse > a {
   animation: scrollReverse 300s infinite linear;
 }
 
