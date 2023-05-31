@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Dialog,
@@ -18,15 +18,25 @@ export default function LoginDialog({ requestSignIn }) {
   const { loadingCheck, showDialog, isAuthenticated } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
 
+  const [allowWithoutLogin, setAllowWithoutLogin] = useState(false);
+
+  useEffect(() => {
+    let match = ["/auth", "/s3"];
+
+    const data = match?.filter((url) => {
+      return pathname.includes(url);
+    });
+    console.log({ data, pathname });
+    setAllowWithoutLogin(
+      data?.length > 0 ? true : false || (pathname === "/" && true)
+    );
+  }, [pathname]);
+
   return (
     !isAuthenticated && (
       <Dialog
-        //   onClose={() => setShowDialog(false)}
         open={
-          !isAuthenticated &&
-          !loadingCheck &&
-          showDialog &&
-          !["/", "/auth", "/s3"].some((i) => pathname.includes(i))
+          !isAuthenticated && !loadingCheck && showDialog && !allowWithoutLogin
         }
         fullWidth={true}
         maxWidth="xs"

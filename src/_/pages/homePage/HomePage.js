@@ -13,13 +13,14 @@ import { Box } from "@mui/material";
 
 export default function HomePage(props) {
   const { widgetSrc } = useParams();
-  const { theme,  } = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext);
 
   return widgetSrc ? (
     <ViewPage {...props} />
   ) : (
     <>
       <HomeHeader {...props} />
+
       <HomeTopSection />
       {/* <HomeOurPartnersSection /> */}
       <HomeEditorContainer />
