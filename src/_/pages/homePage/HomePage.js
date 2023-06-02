@@ -10,6 +10,7 @@ import HomeEditorContainer from "./_components/HomeEditorContainer";
 import HomeTestimonialSection from "./_components/HomeTestimonialSection";
 import { Widget } from "near-social-vm";
 import { Box } from "@mui/material";
+import HomeLearnSection from "./_components/HomeLearnSection";
 
 export default function HomePage(props) {
   const { widgetSrc } = useParams();
@@ -54,16 +55,18 @@ export default function HomePage(props) {
         sxSx={{ gridTemplateColumns: bp ? "1fr" : "1fr 1fr" }}
       />*/}
 
-      <Box
-        className="containerCSS"
-        sx={{ py: 10, backgroundColor: theme.backgroundColor }}
-      >
+      <HomeLearnSection />
+
+      <Box className="containerCSS" sx={{ py: 10, backgroundColor: theme.ui }}>
         <Box className="contentCSS">
           <Widget src="near/widget/PeoplePage" />
         </Box>
       </Box>
 
-      <Box className="containerCSS" sx={{ py: 10, backgroundColor: theme.ui }}>
+      <Box
+        className="containerCSS"
+        sx={{ py: 10, backgroundColor: theme.backgroundColor }}
+      >
         <Box className="contentCSS">
           <Widget src="near/widget/ComponentsPage" />
         </Box>

@@ -39,10 +39,13 @@ export const CollaborationContextProvider = (props) => {
 
   useEffect(() => {
     // Connect to Socket.IO server
-    // const newSocket = io("http://localhost:3001");
-    // const newSocket = io("https://nodejs-production-d40b.up.railway.app");
     console.log(`SOCKET_URL`, process.env.SOCKET_URL);
     const newSocket = io(process.env.SOCKET_URL);
+    // const newSocket = io(
+    //   "https://cjn8k6noib.execute-api.us-east-1.amazonaws.com/"
+    // );
+
+    console.log(`SOCKET_URL`, newSocket);
     setSocket(newSocket);
 
     return () => {

@@ -23,7 +23,7 @@ export const ThemeContextProvider = (props) => {
     ui2: "#f2f2f2",
     backgroundColor: "#f6f8fa",
 
-    borderRadius: 5,
+    borderRadius: 1,
     borderColor: "#e1e4e8",
 
     name: "light",
@@ -44,7 +44,7 @@ export const ThemeContextProvider = (props) => {
     ui2: "#262626",
     backgroundColor: "#1a1a1a",
 
-    borderRadius: 5,
+    borderRadius: 1,
     // borderColor: "#101010",
     borderColor: "#414141",
 

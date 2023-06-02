@@ -34,6 +34,10 @@
   --font-weight-bold: 600;
 }
 
+a:hover {
+  text-decoration: none !important;
+}
+
 .MuiSvgIcon-root.MuiSvgIcon-fontSizeSmall.css-ptiqhd-MuiSvgIcon-root {
   fill: #fff !important;
 }

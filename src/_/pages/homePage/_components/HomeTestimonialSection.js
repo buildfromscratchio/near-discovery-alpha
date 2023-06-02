@@ -9,7 +9,6 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import TwitterIcon from "@mui/icons-material/Twitter";
-// import { Masonry } from "@mui/lab";
 
 const testimonies = [
   {

@@ -23,6 +23,7 @@ export const AuthContextProvider = (props) => {
   useEffect(() => {
     if (!isAuthenticated) checkAuth();
   }, []);
+  console.log(user)
 
   const checkAuth = async () => {
     if (isAuthenticated) return;

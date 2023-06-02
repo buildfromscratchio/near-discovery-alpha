@@ -52,6 +52,7 @@ import CreateLearnPage from "./_/pages/createLearnPage/CreateLearnPage";
 import AuthContextProvider from "./_/context/AuthContext";
 
 // import CollaborationsPage from "./_/pages/collaborations/collaborationsPage/CollaborationsPage";
+import AccessController from "./_/libs/accessController";
 
 import CollaborationPage from "./_/pages/collaborations/collaborationPage/CollaborationPage";
 
@@ -232,10 +233,14 @@ export default function App() {
             </Route>
 
             <Route path={"/learn/create"}>
-              <LearnContextProvider>
-                <CreateLearnPage {...passProps} />
-              </LearnContextProvider>
-              <Footer />
+              <AccessController requiredRole="admin">
+                <div>
+                  <LearnContextProvider>
+                    <CreateLearnPage {...passProps} />
+                  </LearnContextProvider>
+                  <Footer />
+                </div>
+              </AccessController>
             </Route>
 
             <Route path={"/learn"}>
