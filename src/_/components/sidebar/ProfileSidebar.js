@@ -12,8 +12,8 @@ import { useHistory } from "react-router-dom";
 
 export default function ProfileSidebar({ appProps, logOut, requestSignIn }) {
   const history = useHistory();
-  const account = useAccount();
-  const { logout } = useContext(AuthContext);
+  const { accountId } = useAccount();
+  const { logout, user } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
 
   return (
@@ -43,10 +43,10 @@ export default function ProfileSidebar({ appProps, logOut, requestSignIn }) {
         </Typography>
       </div>
 
-      {account.accountId && (
+      {accountId && (
         <Widget
           src={appProps.widgets.profilePageSidebar}
-          props={{ accountId: account.accountId, theme: theme }}
+          props={{ accountId, theme: theme }}
         />
       )}
 
@@ -60,7 +60,7 @@ export default function ProfileSidebar({ appProps, logOut, requestSignIn }) {
           pt: 2,
         }}
       >
-        {account.accountId ? (
+        {accountId ? (
           <CustomButton
             sx={{
               flex: 1,
@@ -107,7 +107,11 @@ export default function ProfileSidebar({ appProps, logOut, requestSignIn }) {
                 overflow: "hidden",
               }}
             >
-              <Widget src={appProps?.widgets?.profileImage} />
+              {accountId ? (
+                <Widget src={appProps?.widgets?.profileImage} />
+              ) : (
+                <img width={250} src={user?.avatar} alt={user?.name} />
+              )}
             </div>
             <div
               style={{
@@ -117,14 +121,18 @@ export default function ProfileSidebar({ appProps, logOut, requestSignIn }) {
               }}
             >
               <Typography variant="h3" style={{ color: theme.textColor }}>
-                <Widget src={appProps?.widgets?.profileName} />
+                {accountId ? (
+                  <Widget src={appProps?.widgets?.profileName} />
+                ) : (
+                  user?.name || user?.userName
+                )}
               </Typography>
               <Typography variant="p1" style={{ color: theme.textColor3 }}>
-                @{account.accountId || "Not_logged_in"}
+                @{accountId || user?.userName || user?.email || "Not_logged_in"}
               </Typography>
             </div>
 
-            <CustomButton
+            {/* <CustomButton
               style={{
                 height: 40,
                 backgroundColor: theme.buttonColor,
@@ -136,8 +144,8 @@ export default function ProfileSidebar({ appProps, logOut, requestSignIn }) {
                 requestSignIn();
               }}
             >
-              Connect
-            </CustomButton>
+              Connect Near
+            </CustomButton> */}
 
             {/* <CustomButton
               sx={{

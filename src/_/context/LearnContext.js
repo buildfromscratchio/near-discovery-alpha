@@ -88,6 +88,7 @@ export const LearnContextProvider = (props) => {
         setSelectedSection,
         //
         goBack,
+        getData,
       }}
     >
       {props.children}

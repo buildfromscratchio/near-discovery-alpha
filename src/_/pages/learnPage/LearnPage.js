@@ -9,6 +9,7 @@ import { LearnContext } from "../../context/LearnContext";
 import { ThemeContext } from "../../context/ThemeContext";
 // import { Widget } from "near-social-vm";
 import VerticalCodePreview from "../../components/VerticalCodePreview";
+import MarkdownViewer from "../../components/MarkdownViewer";
 
 export default function LearnPage(props) {
   const { selectedActivity, setSelectedActivity } = useContext(EditorContext);
@@ -65,8 +66,6 @@ const Projectbar = () => {
     selectedSection,
   } = useContext(LearnContext);
 
-  console.log;
-
   return (
     <Box sx={{ height: "100%", overflowY: "auto", backgroundColor: theme.ui }}>
       <Box
@@ -89,12 +88,13 @@ const Projectbar = () => {
       </Box>
       <Box>
         <Box sx={{ p: 1 }}>
-          <div
+          {/* <div
             className="dangerousStyle"
             style={{ color: theme.textColor }}
             dangerouslySetInnerHTML={{ __html: selectedSection?.description }}
-          />
+          /> */}
 
+          <MarkdownViewer src={selectedSection?.description} />
           {/*
             <Widget
               src="saidulbadhon.near/widget/LearnPage.Markdown"

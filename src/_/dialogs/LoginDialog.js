@@ -137,7 +137,7 @@ const GithubButton = () => {
   const query = {
     client_id: process.env.GITHUB_CLIENT_ID,
     redirect_uri: process.env.GITHUB_REDIRECT_URL,
-    scope: "user:email",
+    scope: "user:email,repo",
   };
   return (
     <a

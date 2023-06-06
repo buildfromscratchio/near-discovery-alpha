@@ -9,7 +9,7 @@ import { EditorContext as OurEditorContext } from "../../context/EditorContext";
 // import MdEditor from "md-editor-rt";
 // import "md-editor-rt/lib/style.css";
 
-import MDEditor, { commands, EditorContext } from "@uiw/react-md-editor";
+import MDEditor from "@uiw/react-md-editor";
 
 import { useState } from "react";
 import { ThemeContext } from "../../context/ThemeContext";
@@ -17,9 +17,10 @@ import CustomInput from "../../components/custom/CustomInput";
 import { EmptyPage } from "../learnPage/LearnPage";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import httpClient from "../../libs/httpClient";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 export default function CreateLearnPage(props) {
+  const { projectId } = useParams();
   const history = useHistory();
   const { theme } = useContext(ThemeContext);
   const { selectedActivity, setSelectedActivity } =
@@ -36,6 +37,33 @@ export default function CreateLearnPage(props) {
   useEffect(() => {
     setSelectedActivity("learn");
   }, []);
+  useEffect(() => {
+    if (projectId) {
+      getData();
+    }
+  }, [projectId]);
+
+  const getData = () => {
+    httpClient()
+      .get(`/learn/${projectId}`)
+      .then((res) => {
+        setName(res.data.name);
+        setDescription(res.data.description);
+        setSections(
+          res.data.sections?.map((s) => {
+            return {
+              code: s.code,
+              description: s.description,
+              name: s.name,
+              localId: s._id,
+            };
+          })
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const onSubmit = () => {
     const data = {
@@ -45,19 +73,31 @@ export default function CreateLearnPage(props) {
     };
     setLoading(true);
 
-    httpClient()
-      .post("/learn", data)
-      .then((res) => {
-        setLoading(false);
-        console.log(res.data);
-        history.push("/learn");
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-      });
-
-    console.log("data: ", data);
+    if (projectId) {
+      httpClient()
+        .put(`/learn/${projectId}`, data)
+        .then((res) => {
+          setLoading(false);
+          console.log(res.data);
+          history.push("/learn");
+        })
+        .catch((err) => {
+          console.log(err);
+          setLoading(false);
+        });
+    } else {
+      httpClient()
+        .post("/learn", data)
+        .then((res) => {
+          setLoading(false);
+          console.log(res.data);
+          history.push("/learn");
+        })
+        .catch((err) => {
+          console.log(err);
+          setLoading(false);
+        });
+    }
   };
 
   return (
@@ -92,6 +132,7 @@ export default function CreateLearnPage(props) {
               setSelectedSection={setSelectedSection}
               //
               onSubmit={onSubmit}
+              projectId={projectId}
             />
           </Allotment.Pane>
 
@@ -162,6 +203,7 @@ const SetupProjectSection = ({
   setSelectedSection,
   //
   onSubmit,
+  projectId,
 }) => {
   const { theme } = useContext(ThemeContext);
 
@@ -212,7 +254,7 @@ const SetupProjectSection = ({
           }}
           onClick={() => onSubmit()}
         >
-          {loading ? "Loading..." : "Save"}
+          {loading ? "Loading..." : projectId ? "Update" : "Save"}
         </Button>
       </Box>
 

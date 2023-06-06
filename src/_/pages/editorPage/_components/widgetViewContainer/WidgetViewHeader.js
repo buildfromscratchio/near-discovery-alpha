@@ -1,27 +1,19 @@
 import {
   CircularProgress,
   IconButton,
-  // ListItemIcon,
-  // ListItemText,
-  // Menu,
-  // MenuItem,
   Tooltip,
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useContext } from "react";
 import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
-// import OpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
-// import PublicRoundedIcon from "@mui/icons-material/PublicRounded";
-// import SaveRoundedIcon from "@mui/icons-material/SaveRounded";
-// import ForkRightRoundedIcon from "@mui/icons-material/ForkRightRounded";
-// import ShareRoundedIcon from "@mui/icons-material/ShareRounded";
-// import PublicRoundedIcon from "@mui/icons-material/PublicRounded";
 import Brightness4RoundedIcon from "@mui/icons-material/Brightness4Rounded";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
+import GitHubIcon from "@mui/icons-material/GitHub";
 
 import { ThemeContext } from "../../../../context/ThemeContext";
 import { EditorContext } from "../../../../context/EditorContext";
+import httpClient from "../../../../libs/httpClient";
 
 export default function WidgetViewHeader({
   loading,
@@ -41,6 +33,24 @@ export default function WidgetViewHeader({
   const { theme } = useContext(ThemeContext);
 
   console.warn = () => {};
+
+  // const [loading, setLoading] = useState(false);
+  const handlePostInGithub = () => {
+    // setLoading(true);
+
+    httpClient()
+      .get("/github")
+      .then((res) => {
+        // setProjects(res.data);
+        // setLoading(false);
+
+        console.log("handlePostInGithub : ", res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        // setLoading(false);
+      });
+  };
 
   return (
     <Box
@@ -109,6 +119,12 @@ export default function WidgetViewHeader({
       </Box>
 
       <Box sx={{ display: "flex", alignItems: "center" }}>
+        {/* <Tooltip title="Upload to Github" placement="bottom">
+          <IconButton onClick={() => handlePostInGithub()}>
+            <GitHubIcon sx={{ fontSize: "1.25rem", fill: theme.textColor2 }} />
+          </IconButton>
+        </Tooltip> */}
+
         {loading && <CircularProgress thickness={6} size={18} />}
 
         <Tooltip title="Preview Widget" placement="bottom">
@@ -126,19 +142,6 @@ export default function WidgetViewHeader({
             />
           </IconButton>
         </Tooltip>
-
-        {/* 
-          <Tooltip title="Share Widget" placement="bottom">
-            <IconButton
-              sx={{ color: "#198754" || theme.textColor2 }}
-              onClick={onSaveButtonClick}
-            >
-              <ShareRoundedIcon
-                sx={{ fill: "#198754" || theme.textColor2, fontSize: "1rem" }}
-              />
-            </IconButton>
-          </Tooltip> 
-        */}
 
         <div
           style={{

@@ -25,7 +25,7 @@ export default function Activitybar(props) {
   const { accountId } = useAccount();
   const { theme, enableDarkMode, setEnableDarkMode } = useContext(ThemeContext);
   const { setSelectedActivity, Widgets } = useContext(EditorContext);
-  const { uesr, logout } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
 
   console.error = () => {};
 
@@ -251,8 +251,9 @@ export default function Activitybar(props) {
         /> */}
 
         <ActivityButton
+          // props.signedIn ? (
           icon={
-            props.signedIn ? (
+            accountId ? (
               <div
                 style={{
                   height: 35,
@@ -264,18 +265,24 @@ export default function Activitybar(props) {
                   alignItems: "center",
                 }}
               >
-                <Widget
-                  src={props.widgets.profileImage}
-                  props={{
-                    accountId: accountId,
-                    className: "d-inline-block",
-                  }}
-                />
+                {
+                  <Widget
+                    src={props.widgets.profileImage}
+                    props={{
+                      accountId: accountId,
+                      className: "d-inline-block",
+                    }}
+                  />
+                }
               </div>
             ) : (
               <img
-                height={20}
-                src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                height={user?.avatar ? 35 : 20}
+                style={{ borderRadius: 20 }}
+                src={
+                  user?.avatar ||
+                  "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                }
                 alt="profile-art"
               />
             )
@@ -289,9 +296,7 @@ export default function Activitybar(props) {
           }}
         />
 
-        {/* <>
-            <Divider sx={{ my: 1 }} /> */}
-        {uesr && (
+        {user && (
           <ActivityButton
             icon={
               <LogoutRoundedIcon
@@ -306,7 +311,6 @@ export default function Activitybar(props) {
             }}
           />
         )}
-        {/* </> */}
       </div>
     </div>
   );

@@ -232,6 +232,17 @@ export default function App() {
               <Footer />
             </Route>
 
+            <Route path={"/learn/update/:projectId"}>
+              <AccessController requiredRole="admin">
+                <div>
+                  <LearnContextProvider>
+                    <CreateLearnPage {...passProps} />
+                  </LearnContextProvider>
+                  <Footer />
+                </div>
+              </AccessController>
+            </Route>
+
             <Route path={"/learn/create"}>
               <AccessController requiredRole="admin">
                 <div>
