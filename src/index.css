@@ -51,6 +51,15 @@ a:hover {
   -webkit-box-orient: vertical;
 }
 
+.max3Lines {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* number of lines to show */
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
 * {
   box-sizing: border-box;
 }

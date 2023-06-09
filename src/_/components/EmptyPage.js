@@ -1,114 +1,11 @@
 import React from "react";
-import { Allotment } from "allotment";
-import { Box, Typography } from "@mui/material";
-import Activitybar from "../../components/Activitybar";
-import LearnSidebar from "../../components/sidebar/LearnSidebar";
-import { EditorContext } from "../../context/EditorContext";
-import { useEffect, useContext } from "react";
-import { LearnContext } from "../../context/LearnContext";
-import { ThemeContext } from "../../context/ThemeContext";
-// import { Widget } from "near-social-vm";
-import VerticalCodePreview from "../../components/VerticalCodePreview";
-import MarkdownViewer from "../../components/MarkdownViewer";
+import { useContext } from "react";
+import { ThemeContext } from "../context/ThemeContext";
+import { Box } from "@mui/material";
 
-export default function LearnPage(props) {
-  const { selectedActivity, setSelectedActivity } = useContext(EditorContext);
-  const { selectedItem, selectedSection } = useContext(LearnContext);
-
-  useEffect(() => {
-    if (!selectedActivity) setSelectedActivity("learn");
-  }, [selectedSection]);
-
-  return (
-    <Box
-      sx={{
-        height: "100%",
-        width: "100%",
-        display: "flex",
-      }}
-    >
-      <Activitybar {...props} />
-
-      <Box sx={{ flex: 1 }}>
-        <Allotment
-          maxSize="100%"
-          sx={{ height: "100vh" }}
-          defaultSizes={[100, 200, 200]}
-        >
-          <Allotment.Pane minSize={200} visible={selectedActivity === "learn"}>
-            <LearnSidebar />
-          </Allotment.Pane>
-
-          <Allotment.Pane
-            minSize={200}
-            visible={selectedItem?.sectionId?.length > 0 ? true : false}
-          >
-            <Projectbar />
-          </Allotment.Pane>
-
-          {selectedItem?.sectionId ? (
-            <VerticalCodePreview initialCode={selectedSection?.code} />
-          ) : (
-            <Allotment.Pane minSize={200}>
-              <EmptyPage />
-            </Allotment.Pane>
-          )}
-        </Allotment>
-      </Box>
-    </Box>
-  );
-}
-
-const Projectbar = () => {
+export default function EmptyPage() {
   const { theme } = useContext(ThemeContext);
-  const {
-    //  selectedProject, selectedItem, setSelectedItem,
-    selectedSection,
-  } = useContext(LearnContext);
 
-  return (
-    <Box sx={{ height: "100%", overflowY: "auto", backgroundColor: theme.ui }}>
-      <Box
-        sx={{
-          height: 50,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          paddingInline: 1,
-          borderBottom: `1px solid ${theme.borderColor}`,
-          backgroundColor: theme.backgroundColor,
-        }}
-      >
-        <Typography
-          variant="h6"
-          sx={{ fontWeight: 500, color: theme.textColor }}
-        >
-          {selectedSection?.name}
-        </Typography>
-      </Box>
-      <Box>
-        <Box sx={{ p: 1 }}>
-          {/* <div
-            className="dangerousStyle"
-            style={{ color: theme.textColor }}
-            dangerouslySetInnerHTML={{ __html: selectedSection?.description }}
-          /> */}
-
-          <MarkdownViewer src={selectedSection?.description} />
-          {/*
-            <Widget
-              src="saidulbadhon.near/widget/LearnPage.Markdown"
-              props={{ text: selectedSection?.description, theme: theme }}
-            />
-          */}
-        </Box>
-      </Box>
-    </Box>
-  );
-};
-
-const EmptyPage = () => {
-  const { theme } = useContext(ThemeContext);
   return (
     <Box
       sx={{
@@ -166,6 +63,4 @@ const EmptyPage = () => {
       </Box>
     </Box>
   );
-};
-
-export { EmptyPage };
+}

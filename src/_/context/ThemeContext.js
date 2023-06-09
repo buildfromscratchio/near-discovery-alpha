@@ -160,7 +160,7 @@ export const theme = createTheme({
       fontWeight: 500,
     },
     p2: {
-      fontSize: 13,
+      fontSize: 12,
       lineHeight: "16px",
       fontWeight: 500,
     },

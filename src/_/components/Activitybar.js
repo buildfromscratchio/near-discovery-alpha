@@ -170,7 +170,7 @@ export default function Activitybar(props) {
           to="/learn"
           onClick={() => {
             history.push("/learn");
-            setSelectedActivity((e) => (e === "learn" ? "" : "learn"));
+            setSelectedActivity("");
           }}
         />
 

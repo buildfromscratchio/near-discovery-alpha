@@ -9,7 +9,6 @@ import { EditorContext } from "../../context/EditorContext";
 import EnvironmentlSidebar from "./EnvironmentlSidebar";
 import SearchSidebar from "./SearchSidebar";
 import NotificationsSidebar from "./NotificationsSidebar";
-import LearnSidebar from "./LearnSidebar";
 
 import CollaborationSidebar from "../../pages/collaborations/collaborationPage/_components/CollaborationSidebar";
 import CollaborationsSidebar from "../../pages/collaborations/collaborationsPage/CollaborationsSidebar";
@@ -50,6 +49,7 @@ export default function Sidebar({
       }}
     >
       <Fade timeout={500} in={selectedActivity?.length > 0 ? true : false}>
+        {/* (selectedActivity === "learn" && <LearnSidebar />) || */}
         <div>
           {(selectedActivity === "widgets" && (
             <WidgetsSidebar
@@ -67,7 +67,6 @@ export default function Sidebar({
             (selectedActivity === "search" && <SearchSidebar />) ||
             (selectedActivity === "settings" && <SettingsSidebar />) ||
             (selectedActivity === "changeNetwork" && <EnvironmentlSidebar />) ||
-            (selectedActivity === "learn" && <LearnSidebar />) ||
             (selectedActivity === "notifications" && (
               <NotificationsSidebar />
             )) ||

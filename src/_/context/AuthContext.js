@@ -23,7 +23,6 @@ export const AuthContextProvider = (props) => {
   useEffect(() => {
     if (!isAuthenticated) checkAuth();
   }, []);
-  console.log(user)
 
   const checkAuth = async () => {
     if (isAuthenticated) return;
@@ -44,7 +43,6 @@ export const AuthContextProvider = (props) => {
         .get(`/users/${userId}`)
         .then((res) => {
           const { data } = res;
-          console.log(data);
 
           setLoadingCheck(false);
           saveUserData(data);
@@ -70,7 +68,6 @@ export const AuthContextProvider = (props) => {
   const saveUserData = async (user) => {
     setLoading(true);
     try {
-      console.log("saveUserData: ", user);
       setUser(user);
       setIsAuthenticated(true);
 

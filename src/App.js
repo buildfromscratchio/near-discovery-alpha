@@ -37,18 +37,18 @@ import EmbedPage from "./_/pages/EmbedPage";
 import DiscoverPage from "./_/pages/DiscoverPage";
 import ProfilePage from "./_/pages/ProfilePage";
 import BuildspacePage from "./_/pages/BuildspacePage";
-import LearnPage from "./_/pages/learnPage/LearnPage";
-import ChatPage from "./_/pages/chatPage/ChatPage";
 import AuthPage from "./_/pages/AuthPage";
+
+import LearnPage from "./_/pages/learn/learnPage/LearnPage";
+import CreateProjectPage from "./_/pages/learn/createProjectPage/CreateProjectPage";
+import ProjectPage from "./_/pages/learn/projectPage/ProjectPage";
 
 import { EditorContext } from "./_/context/EditorContext";
 import { ThemeContext } from "./_/context/ThemeContext";
-import LearnContextProvider from "./_/context/LearnContext";
 
 import LoginDialog from "./_/dialogs/LoginDialog";
 import PagesContainer from "./_/components/PagesContainer";
 import Footer from "./_/components/Footer";
-import CreateLearnPage from "./_/pages/createLearnPage/CreateLearnPage";
 import AuthContextProvider from "./_/context/AuthContext";
 
 // import CollaborationsPage from "./_/pages/collaborations/collaborationsPage/CollaborationsPage";
@@ -191,6 +191,10 @@ export default function App() {
             <Route path={"/components/:widgetSrc*"}>
               <EmbedPage {...passProps} />
             </Route>
+            <Route path={"/apps/:widgetSrc*"}>
+              <EmbedPage {...passProps} />
+            </Route>
+
             <Route path="/s3/:name">
               <BuildspacePage
                 {...passProps}
@@ -232,37 +236,29 @@ export default function App() {
               <Footer />
             </Route>
 
-            <Route path={"/learn/update/:projectId"}>
-              <AccessController requiredRole="admin">
-                <div>
-                  <LearnContextProvider>
-                    <CreateLearnPage {...passProps} />
-                  </LearnContextProvider>
-                  <Footer />
-                </div>
-              </AccessController>
-            </Route>
-
             <Route path={"/learn/create"}>
               <AccessController requiredRole="admin">
-                <div>
-                  <LearnContextProvider>
-                    <CreateLearnPage {...passProps} />
-                  </LearnContextProvider>
-                  <Footer />
-                </div>
+                <CreateProjectPage {...passProps} />
               </AccessController>
-            </Route>
-
-            <Route path={"/learn"}>
-              <LearnContextProvider>
-                <LearnPage {...passProps} />
-              </LearnContextProvider>
               <Footer />
             </Route>
 
-            <Route path={"/chat"}>
-              <ChatPage {...passProps} />
+            <Route path={"/learn/:projectSlug/edit"}>
+              <AccessController requiredRole="admin">
+                <CreateProjectPage {...passProps} />
+              </AccessController>
+              <Footer />
+            </Route>
+
+            <Route path={"/learn/:projectSlug"}>
+              <AccessController requiredRole="admin">
+                <ProjectPage {...passProps} />
+              </AccessController>
+              <Footer />
+            </Route>
+
+            <Route path={"/learn"}>
+              <LearnPage {...passProps} />
               <Footer />
             </Route>
 

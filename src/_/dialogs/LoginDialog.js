@@ -26,7 +26,7 @@ export default function LoginDialog({ requestSignIn }) {
     const data = match?.filter((url) => {
       return pathname.includes(url);
     });
-    console.log({ data, pathname });
+
     setAllowWithoutLogin(
       data?.length > 0 ? true : false || (pathname === "/" && true)
     );
@@ -139,6 +139,7 @@ const GithubButton = () => {
     redirect_uri: process.env.GITHUB_REDIRECT_URL,
     scope: "user:email,repo",
   };
+
   return (
     <a
       style={{ textDecoration: "none" }}

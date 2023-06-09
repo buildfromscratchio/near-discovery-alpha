@@ -4,7 +4,7 @@ import Markdown from "markdown-to-jsx";
 import React, { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
 
-export default function MarkdownViewer({ src }) {
+export default function MarkdownViewer({ className, src }) {
   const { theme } = useContext(ThemeContext);
 
   // const HeadingsTag = ({ children, ...props }) => (
@@ -85,6 +85,8 @@ export default function MarkdownViewer({ src }) {
 
   return src ? (
     <Markdown
+      className={className}
+      style={{ textAlign: "left" }}
       options={{
         wrapper: "article",
         forceWrapper: false,

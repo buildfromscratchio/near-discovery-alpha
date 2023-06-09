@@ -3,7 +3,7 @@ import PagesContainer from "../../../components/PagesContainer";
 import { Box, CircularProgress } from "@mui/material";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { Allotment } from "allotment";
-import LearnPageHeader from "../../learnPage/_components/LearnPageHeader";
+import LearnPageHeader from "../../learn/learnPage/_components/LearnPageHeader";
 import prettier from "prettier";
 import parserBabel from "prettier/parser-babel";
 import { Widget, CommitButton, useNear, useAccount } from "near-social-vm";

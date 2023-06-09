@@ -1,5 +1,5 @@
 import React from "react";
-import LearnPageHeader from "../pages/learnPage/_components/LearnPageHeader";
+import LearnPageHeader from "../pages/learn/learnPage/_components/LearnPageHeader";
 import { Allotment } from "allotment";
 import { Box } from "@mui/system";
 
