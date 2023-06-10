@@ -21,7 +21,7 @@ export default function HomeLearnSection() {
     setLoading(true);
 
     httpClient()
-      .get("/learn")
+      .get("/public/learn")
       .then((res) => {
         setProjects(res.data);
         setLoading(false);

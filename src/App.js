@@ -251,9 +251,7 @@ export default function App() {
             </Route>
 
             <Route path={"/learn/:projectSlug"}>
-              <AccessController requiredRole="admin">
-                <ProjectPage {...passProps} />
-              </AccessController>
+              <ProjectPage {...passProps} />
               <Footer />
             </Route>
 
