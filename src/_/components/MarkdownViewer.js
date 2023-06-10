@@ -1,47 +1,19 @@
-import { Paper, Typography } from "@mui/material";
+import { IconButton, Paper, Typography } from "@mui/material";
 
 import Markdown from "markdown-to-jsx";
 import React, { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
+import ContentCopyRoundedIcon from "@mui/icons-material/ContentCopyRounded";
+import { useSnackbar } from "notistack";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import {
+  vscDarkPlus,
+  vs,
+} from "react-syntax-highlighter/dist/esm/styles/prism";
 
 export default function MarkdownViewer({ className, src }) {
+  const { enqueueSnackbar } = useSnackbar();
   const { theme } = useContext(ThemeContext);
-
-  // const HeadingsTag = ({ children, ...props }) => (
-  //   <Typography variant={props.id} {...props}>
-  //     {children}
-  //   </Typography>
-  // );
-  // const TableTag = ({ children, ...props }) => (
-  //   <Table
-  //     component={Paper}
-  //     sx={{
-  //       backgroundColor: theme.backgroundColor,
-
-  //       // boxShadow: `0px 0px 2px rgba(0,0,0,.25)`,
-  //       boxShadow: `none`,
-  //       outline: `1px ${theme.borderColor} solid`,
-  //       outlineOffset: -1,
-  //       borderRadius: 1,
-  //       overflow: "hidden",
-  //     }}
-  //     {...props}
-  //   >
-  //     {children}
-  //   </Table>
-  // );
-  // const TableHeadTag = ({ children, ...props }) => (
-  //   <TableHead {...props}>{children}</TableHead>
-  // );
-  // const TableBodyTag = ({ children, ...props }) => (
-  //   <TableBody {...props}>{children}</TableBody>
-  // );
-  // const TableRowTag = ({ children, ...props }) => (
-  //   <TableRow {...props}>{children}</TableRow>
-  // );
-  // const TableCellTag = ({ children, ...props }) => (
-  //   <TableCell {...props}>{children}</TableCell>
-  // );
 
   const HeadingsTag = ({ children, ...props }) => (
     <Typography
@@ -82,6 +54,54 @@ export default function MarkdownViewer({ className, src }) {
   const TableCellTag = ({ children, ...props }) => (
     <td {...props}>{children}</td>
   );
+  const PreTag = ({ children, ...props }) => {
+    console.log(children?.props?.children);
+
+    const onCopyButtonClick = async () => {
+      try {
+        // await navigator.clipboard.writeText(`<Widget src="${textToCopy}" />`);
+        await navigator.clipboard.writeText(children?.props?.children);
+
+        enqueueSnackbar("Code copied to clipboard!", { variant: "success" });
+      } catch (error) {
+        enqueueSnackbar("Failed to copy text: ", { variant: "error" });
+      }
+    };
+
+    // <pre
+    //   {...props}
+    //   style={{
+    //     backgroundColor: theme.backgroundColor,
+    //     padding: 16,
+    //     borderRadius: 4,
+    //     position: "relative",
+    //   }}
+    // >
+    return (
+      <div
+        style={{
+          borderRadius: 4,
+          position: "relative",
+          backgroundColor: "red",
+        }}
+      >
+        <IconButton
+          sx={{ position: "absolute", top: 8, right: 8 }}
+          onClick={() => onCopyButtonClick()}
+        >
+          <ContentCopyRoundedIcon />
+        </IconButton>
+
+        <SyntaxHighlighter
+          {...props}
+          language="jsx"
+          style={theme.name === "dark" ? vscDarkPlus : vs}
+        >
+          {children?.props?.children}
+        </SyntaxHighlighter>
+      </div>
+    );
+  };
 
   return src ? (
     <Markdown
@@ -104,6 +124,7 @@ export default function MarkdownViewer({ className, src }) {
           tr: { component: TableRowTag },
           th: { component: TableCellTag },
           td: { component: TableCellTag },
+          pre: { component: PreTag },
         },
       }}
     >

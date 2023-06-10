@@ -24,6 +24,7 @@ export default function ProjectPage(props) {
   const [loading, setLoading] = useState(false);
   const [project, setProject] = useState();
   const [selectedSection, setSelectedSection] = useState();
+  const [code, setCode] = useState("");
 
   useEffect(() => {
     getData();
@@ -78,7 +79,11 @@ export default function ProjectPage(props) {
           </Allotment.Pane>
 
           {selectedSection?.code ? (
-            <VerticalCodePreview initialCode={selectedSection?.code} />
+            <VerticalCodePreview
+              initialCode={selectedSection?.code}
+              code={code}
+              setCode={setCode}
+            />
           ) : (
             <Allotment.Pane minSize={200}>
               <EmptyPage />

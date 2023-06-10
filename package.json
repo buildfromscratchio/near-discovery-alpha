@@ -48,6 +48,7 @@
     "react-particle-backgrounds": "^1.0.4",
     "react-player": "^2.12.0",
     "react-router-dom": "^5.2.0",
+    "react-syntax-highlighter": "^15.5.0",
     "socket.io-client": "^4.6.1",
     "styled-components": "^5.3.6",
     "use-debounce": "^9.0.4"

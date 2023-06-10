@@ -2,11 +2,13 @@ import React, { useEffect, useState, createContext } from "react";
 import { useAccount } from "near-social-vm";
 import { useSnackbar } from "notistack";
 import httpClient from "../libs/httpClient";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
+import LoadingPage from "../components/LoadingPage";
 
 export const AuthContext = createContext();
 
 export const AuthContextProvider = (props) => {
+  const { pathname } = useLocation();
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
   const nearUser = useAccount();
@@ -39,7 +41,7 @@ export const AuthContextProvider = (props) => {
     } else {
       console.log("User exists? ", userId);
 
-      httpClient()
+      await httpClient()
         .get(`/users/${userId}`)
         .then((res) => {
           const { data } = res;
@@ -172,7 +174,11 @@ export const AuthContextProvider = (props) => {
         saveUserData,
       }}
     >
-      {props.children}
+      {(loading || loadingCheck) && pathname !== "/" ? (
+        <LoadingPage />
+      ) : (
+        props.children
+      )}
     </AuthContext.Provider>
   );
 };

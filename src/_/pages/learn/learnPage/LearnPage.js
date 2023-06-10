@@ -35,7 +35,6 @@ export default function LearnPage(props) {
       .then((res) => {
         setProjects(res.data);
         setLoading(false);
-
         console.log("LearnContextProvider : ", res.data);
       })
       .catch((err) => {
@@ -97,12 +96,12 @@ export default function LearnPage(props) {
             sx={{
               display: "grid",
               gridTemplateColumns:
-                projects?.length > 0
+                loading || projects?.length > 0
                   ? bp
                     ? "1fr"
                     : "repeat(auto-fill, minmax(250px, 1fr))"
                   : "1fr",
-              gridTemplateRows: projects?.length > 0 ? "1fr 1fr 1fr" : "1fr",
+              // gridTemplateRows: projects?.length <= 0 ? "1fr" : "1fr 1fr 1fr",
               gap: 2,
               paddingTop: 2,
               width: "100%",

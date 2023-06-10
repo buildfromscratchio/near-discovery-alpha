@@ -76,9 +76,6 @@ export default function CreateProjectPage(props) {
     coverArt?.length > 0
       ? handleUploadPhoto(status)
       : handleCreateOrUpdate("", status);
-
-    // console.log("handleUploadPhoto");
-    // handleUploadPhoto();
   };
 
   const handleUploadPhoto = async (status) => {
@@ -257,7 +254,7 @@ const SetupProjectSection = ({
   const { theme } = useContext(ThemeContext);
 
   function handleDelete(url) {
-    deletePhoto(coverArt)
+    deletePhoto(selectedProject?.coverArt)
       .then((data) => {
         setLoading(true);
 
