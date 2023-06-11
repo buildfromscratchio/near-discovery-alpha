@@ -62,11 +62,11 @@
     "serve": "webpack serve",
     "webpack": "webpack",
     "dev": "npm run serve -- --env mode=development",
-    "prod": "npm run webpack -- --env mode=production && npm run aws-deploy && npm run cloudfront",
-    "prod:analyze": "npm run prod -- --env presets=analyze",
-    "aws-deploy": "aws s3 sync ./dist s3://nearpad.dev",
-    "cloudfront": "aws cloudfront create-invalidation --distribution-id E3C3CSJGB00L70 --paths '/*'",
-    "build": "npm run prod",
+    "deploy": "npm run webpack -- --env mode=production && npm run aws-deploy && npm run cloudfront",
+    "deploy:analyze": "npm run deploy -- --env presets=analyze",
+    "aws-deploy": "aws s3 sync ./dist s3://nearpad.dev --profile components.gg",
+    "cloudfront": "aws cloudfront create-invalidation --profile components.gg --distribution-id E3C3CSJGB00L70 --paths '/*'",
+    "build": "npm run build",
     "start": "npm run dev"
   },
   "eslintConfig": {
