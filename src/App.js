@@ -22,7 +22,13 @@ import { setupMeteorWallet } from "@near-wallet-selector/meteor-wallet";
 import { setupNeth } from "@near-wallet-selector/neth";
 import { setupModal } from "@near-wallet-selector/modal-ui";
 // import EmbedPage from "./pages/EmbedPage";
-import { useAccount, useInitNear, useNear, utils } from "near-social-vm";
+import {
+  useAccount,
+  useInitNear,
+  useNear,
+  utils,
+  EthersProviderContext,
+} from "near-social-vm";
 import Big from "big.js";
 import { useFlags } from "./utils/flags";
 
@@ -58,9 +64,11 @@ import CollaborationPage from "./_/pages/collaborations/collaborationPage/Collab
 
 export const refreshAllowanceObj = {};
 ReactGA.initialize("G-YJ2FL738R6");
+import { useEthersProviderContext } from "./data/web3";
 
 export default function App() {
   const { NetworkId, Widgets } = useContext(EditorContext);
+  const ethersProviderContext = useEthersProviderContext();
 
   const [connected, setConnected] = useState(false);
   const [signedIn, setSignedIn] = useState(false);
@@ -185,120 +193,122 @@ export default function App() {
         <script src="https://unpkg.com/@phosphor-icons/web@2.0.3"></script>
       </Helmet> */}
 
-      <BrowserRouter basename={process.env.PUBLIC_URL}>
-        <AuthContextProvider>
-          <Switch>
-            <Route path={"/components/:widgetSrc*"}>
-              <EmbedPage {...passProps} />
-            </Route>
-            <Route path={"/apps/:widgetSrc*"}>
-              <EmbedPage {...passProps} />
-            </Route>
+      <EthersProviderContext.Provider value={ethersProviderContext}>
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
+          <AuthContextProvider>
+            <Switch>
+              <Route path={"/components/:widgetSrc*"}>
+                <EmbedPage {...passProps} />
+              </Route>
+              <Route path={"/apps/:widgetSrc*"}>
+                <EmbedPage {...passProps} />
+              </Route>
 
-            <Route path="/s3/browser">
-              <BuildspacePage
-                {...passProps}
-                widgetSrc="saidulbadhon.near/widget/s3.buildspace.browser"
-              />
-            </Route>
-            <Route path="/s3/:name">
-              <BuildspacePage
-                {...passProps}
-                widgetSrc="saidulbadhon.near/widget/s3.buildspace.user"
-              />
-            </Route>
-            <Route path="/s3">
-              <BuildspacePage
-                {...passProps}
-                widgetSrc="saidulbadhon.near/widget/s3.buildspace.home"
-              />
-            </Route>
+              <Route path="/s3/browser">
+                <BuildspacePage
+                  {...passProps}
+                  widgetSrc="saidulbadhon.near/widget/s3.buildspace.browser"
+                />
+              </Route>
+              <Route path="/s3/:name">
+                <BuildspacePage
+                  {...passProps}
+                  widgetSrc="saidulbadhon.near/widget/s3.buildspace.user"
+                />
+              </Route>
+              <Route path="/s3">
+                <BuildspacePage
+                  {...passProps}
+                  widgetSrc="saidulbadhon.near/widget/s3.buildspace.home"
+                />
+              </Route>
 
-            <Route path={"/auth"}>
-              <AuthPage {...passProps} />{" "}
-            </Route>
+              <Route path={"/auth"}>
+                <AuthPage {...passProps} />{" "}
+              </Route>
 
-            <Route path={"/profile"}>
-              <ProfilePage {...passProps} />
-              <Footer />
-            </Route>
+              <Route path={"/profile"}>
+                <ProfilePage {...passProps} />
+                <Footer />
+              </Route>
 
-            <Route path={"/settings"}>
-              <EmptyPage {...passProps} />
-              <Footer />
-            </Route>
+              <Route path={"/settings"}>
+                <EmptyPage {...passProps} />
+                <Footer />
+              </Route>
 
-            <Route path={"/notifications"}>
-              <EmptyPage {...passProps} />
-              <Footer />
-            </Route>
+              <Route path={"/notifications"}>
+                <EmptyPage {...passProps} />
+                <Footer />
+              </Route>
 
-            <Route path={"/collaborations/:currentChannel"}>
-              <CollaborationPage {...passProps} />
-              <Footer />
-            </Route>
-            <Route path={"/collaborations"}>
-              <EmptyPage {...passProps} />
-              <Footer />
-            </Route>
+              <Route path={"/collaborations/:currentChannel"}>
+                <CollaborationPage {...passProps} />
+                <Footer />
+              </Route>
+              <Route path={"/collaborations"}>
+                <EmptyPage {...passProps} />
+                <Footer />
+              </Route>
 
-            <Route path={"/learn/create"}>
-              <AccessController requiredRole="admin">
-                <CreateProjectPage {...passProps} />
-              </AccessController>
-              <Footer />
-            </Route>
+              <Route path={"/learn/create"}>
+                <AccessController requiredRole="admin">
+                  <CreateProjectPage {...passProps} />
+                </AccessController>
+                <Footer />
+              </Route>
 
-            <Route path={"/learn/:projectSlug/edit"}>
-              <AccessController requiredRole="admin">
-                <CreateProjectPage {...passProps} />
-              </AccessController>
-              <Footer />
-            </Route>
+              <Route path={"/learn/:projectSlug/edit"}>
+                <AccessController requiredRole="admin">
+                  <CreateProjectPage {...passProps} />
+                </AccessController>
+                <Footer />
+              </Route>
 
-            <Route path={"/learn/:projectSlug"}>
-              <ProjectPage {...passProps} />
-              <Footer />
-            </Route>
+              <Route path={"/learn/:projectSlug"}>
+                <ProjectPage {...passProps} />
+                <Footer />
+              </Route>
 
-            <Route path={"/learn"}>
-              <LearnPage {...passProps} />
-              <Footer />
-            </Route>
+              <Route path={"/learn"}>
+                <LearnPage {...passProps} />
+                <Footer />
+              </Route>
 
-            <Route path={"/changeNetwork"}>
-              <EmptyPage {...passProps} />
-              <Footer />
-            </Route>
+              <Route path={"/changeNetwork"}>
+                <EmptyPage {...passProps} />
+                <Footer />
+              </Route>
 
-            <Route path={"/search"}>
-              <SearchPage {...passProps} />
-              <Footer />
-            </Route>
+              <Route path={"/search"}>
+                <SearchPage {...passProps} />
+                <Footer />
+              </Route>
 
-            <Route path={"/editor/:widgetSrc*"}>
-              <MyEditorPage {...passProps} />
-              <Footer />
-            </Route>
+              <Route path={"/editor/:widgetSrc*"}>
+                <MyEditorPage {...passProps} />
+                <Footer />
+              </Route>
 
-            <Route path={"/editorBeta/:widgetSrc*"}>
-              <MyBetaEditorPage {...passProps} />
-              <Footer />
-            </Route>
+              <Route path={"/editorBeta/:widgetSrc*"}>
+                <MyBetaEditorPage {...passProps} />
+                <Footer />
+              </Route>
 
-            <Route path="/discover">
-              <DiscoverPage {...passProps} />
-              <Footer />
-            </Route>
+              <Route path="/discover">
+                <DiscoverPage {...passProps} />
+                <Footer />
+              </Route>
 
-            <Route path="/:widgetSrc*">
-              <HomePage {...passProps} />
-            </Route>
-          </Switch>
+              <Route path="/:widgetSrc*">
+                <HomePage {...passProps} />
+              </Route>
+            </Switch>
 
-          <LoginDialog requestSignIn={requestSignIn} />
-        </AuthContextProvider>
-      </BrowserRouter>
+            <LoginDialog requestSignIn={requestSignIn} />
+          </AuthContextProvider>
+        </BrowserRouter>
+      </EthersProviderContext.Provider>
     </Box>
   );
 }

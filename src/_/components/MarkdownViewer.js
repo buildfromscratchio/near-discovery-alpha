@@ -89,7 +89,7 @@ export default function MarkdownViewer({ className, src }) {
           sx={{ position: "absolute", top: 8, right: 8 }}
           onClick={() => onCopyButtonClick()}
         >
-          <ContentCopyRoundedIcon />
+          <ContentCopyRoundedIcon sx={{ fill: theme.textColor2 }} />
         </IconButton>
 
         <SyntaxHighlighter

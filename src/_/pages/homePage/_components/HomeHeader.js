@@ -78,8 +78,31 @@ export default function HomeHeader(props) {
             </Link>
           */}
 
+          <Link to="/editor" style={{ textDecoration: "none" }}>
+            <Button
+              sx={{
+                textTransform: "none",
+                color: theme.textColor,
+                "&:hover": {
+                  color: theme.buttonColor,
+                },
+              }}
+            >
+              Editor
+            </Button>
+          </Link>
           <Link to="/learn" style={{ textDecoration: "none" }}>
-            <Button sx={{ textTransform: "none" }}>Learn</Button>
+            <Button
+              sx={{
+                textTransform: "none",
+                color: theme.textColor,
+                "&:hover": {
+                  color: theme.buttonColor,
+                },
+              }}
+            >
+              Learn
+            </Button>
           </Link>
 
           {isAuthenticated ? (

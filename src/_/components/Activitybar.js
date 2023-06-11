@@ -5,6 +5,7 @@ import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import WidgetsRoundedIcon from "@mui/icons-material/WidgetsRounded";
 import CellTowerRoundedIcon from "@mui/icons-material/CellTowerRounded";
 import Groups3RoundedIcon from "@mui/icons-material/Groups3Rounded";
+import HelpOutlineRoundedIcon from "@mui/icons-material/HelpOutlineRounded";
 
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
@@ -14,7 +15,7 @@ import { ThemeContext } from "../context/ThemeContext";
 import { EditorContext } from "../context/EditorContext";
 
 import DiamondRoundedIcon from "@mui/icons-material/DiamondRounded";
-import { ButtonBase, Tooltip } from "@mui/material";
+import { Box, ButtonBase, Tooltip } from "@mui/material";
 
 import { Widget, useAccount } from "near-social-vm";
 import { AuthContext } from "../context/AuthContext";
@@ -240,15 +241,26 @@ export default function Activitybar(props) {
           />
         )}
 
-        {/* <ActivityButton
-          icon={
+        <a href="https://docs.near.org/bos" target="_blank">
+          <Box
+            style={{
+              minWidth: 50,
+              minHeight: 50,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <HelpOutlineRoundedIcon
               sx={{ fill: theme.textColor4, fontSize: "1.5rem" }}
             />
-          }
-          label="Documentation"
-          onClick={() => {}}
-        /> */}
+          </Box>
+          {/* <ActivityButton
+            icon={
+            }
+            label="Documentation"
+          /> */}
+        </a>
 
         <ActivityButton
           // props.signedIn ? (

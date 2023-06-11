@@ -1,6 +1,10 @@
 import {
   CircularProgress,
   IconButton,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -10,6 +14,8 @@ import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
 import Brightness4RoundedIcon from "@mui/icons-material/Brightness4Rounded";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import GitHubIcon from "@mui/icons-material/GitHub";
+import PublicRoundedIcon from "@mui/icons-material/PublicRounded";
+import OpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
 
 import { ThemeContext } from "../../../../context/ThemeContext";
 import { EditorContext } from "../../../../context/EditorContext";
@@ -151,7 +157,7 @@ export default function WidgetViewHeader({
             backgroundColor: theme.borderColor,
           }}
         />
-        <Tooltip title="Fork Widget" placement="bottom">
+        {/*  <Tooltip title="Fork Widget" placement="bottom">
           <IconButton
             sx={{ color: theme.textColor2 }}
             onClick={onForkButtonClick}
@@ -165,11 +171,11 @@ export default function WidgetViewHeader({
             >
               <path d="M80 128a48 48 0 100-96 48 48 0 100 96zm80-48c0 38.7-27.5 71-64 78.4V192c0 26.5 21.5 48 48 48h160c26.5 0 48-21.5 48-48v-33.6c-36.5-7.4-64-39.7-64-78.4 0-44.2 35.8-80 80-80s80 35.8 80 80c0 38.7-27.5 71-64 78.4V192c0 44.2-35.8 80-80 80h-64v81.6c36.5 7.4 64 39.7 64 78.4 0 44.2-35.8 80-80 80s-80-35.8-80-80c0-38.7 27.5-71 64-78.4V272h-64c-44.2 0-80-35.8-80-80v-33.6C27.5 151 0 118.7 0 80 0 35.8 35.8 0 80 0s80 35.8 80 80zm64 304a48 48 0 100 96 48 48 0 100-96zM416 80a48 48 0 10-96 0 48 48 0 1096 0z"></path>
             </svg>
-            {/* 
+           
               <ForkRightRoundedIcon sx={{ fill: theme.textColor2 }} /> 
-            */}
+            
           </IconButton>
-        </Tooltip>
+        </Tooltip>*/}
 
         {/* <Tooltip title="Publish Widget" placement="bottom">
           <IconButton sx={{ color: theme.textColor2 }}>
@@ -185,7 +191,7 @@ export default function WidgetViewHeader({
             />
           </IconButton>
         </Tooltip> */}
-        {/* <OpenInNewTabMenu /> */}
+        <OpenInNewTabMenu />
         {/* <ActivityButton
           icon={<VerticalSplitRoundedIcon sx={{ fill: theme.textColor4 }} />}
           label="showWebsite"
@@ -206,86 +212,103 @@ export default function WidgetViewHeader({
   );
 }
 
-// const OpenInNewTabMenu = () => {
-//   const { theme } = useContext(ThemeContext);
+const OpenInNewTabMenu = () => {
+  const { theme } = useContext(ThemeContext);
 
-//   const [anchorEl, setAnchorEl] = React.useState(null);
-//   const open = Boolean(anchorEl);
-//   const handleClick = (event) => {
-//     setAnchorEl(event.currentTarget);
-//   };
-//   const handleClose = () => {
-//     setAnchorEl(null);
-//   };
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
-//   return (
-//     <>
-//       <Tooltip title="Open in a new tab" placement="bottom">
-//         <IconButton
-//           aria-label="more"
-//           id="long-button"
-//           aria-controls={open ? "long-menu" : undefined}
-//           aria-expanded={open ? "true" : undefined}
-//           aria-haspopup="true"
-//           onClick={handleClick}
-//         >
-//           <PublicRoundedIcon
-//             sx={{ fill: theme.textColor2, fontSize: "1rem" }}
-//           />
-//         </IconButton>
-//       </Tooltip>
+  return (
+    <>
+      <Tooltip title="Open in a new tab" placement="bottom">
+        <IconButton
+          aria-label="more"
+          id="long-button"
+          aria-controls={open ? "long-menu" : undefined}
+          aria-expanded={open ? "true" : undefined}
+          aria-haspopup="true"
+          onClick={handleClick}
+        >
+          <PublicRoundedIcon
+            sx={{ fill: theme.textColor2, fontSize: "1rem" }}
+          />
+        </IconButton>
+      </Tooltip>
 
-//       <Menu
-//         id="long-menu"
-//         MenuListProps={{
-//           "aria-labelledby": "long-button",
-//         }}
-//         anchorEl={anchorEl}
-//         open={open}
-//         onClose={handleClose}
-//         PaperProps={{
-//           style: {
-//             // maxHeight: 3 * 4.5,
-//             width: "20ch",
+      <Menu
+        id="long-menu"
+        MenuListProps={{
+          "aria-labelledby": "long-button",
+        }}
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        PaperProps={{
+          style: {
+            // maxHeight: 3 * 4.5,
+            width: "20ch",
 
-//             backgroundColor: theme.ui,
-//           },
-//         }}
-//       >
-//         <MenuItem>
-//           <ListItemText sx={{ color: theme.textColor }}>Bos.gg</ListItemText>
+            backgroundColor: theme.ui,
+          },
+        }}
+      >
+        <a
+          href="https://nearpad.dev/saidulbadhon.near/widget/test"
+          target="_blank"
+        >
+          <MenuItem>
+            <ListItemText sx={{ color: theme.buttonColor, fontWeight: 700 }}>
+              nearpad.dev
+            </ListItemText>
 
-//           <ListItemIcon style={{ minWidth: 16 }}>
-//             <OpenInNewRoundedIcon
-//               sx={{ fill: theme.textColor2, fontSize: "1rem" }}
-//             />
-//           </ListItemIcon>
-//         </MenuItem>
+            <ListItemIcon style={{ minWidth: 16 }}>
+              <OpenInNewRoundedIcon
+                sx={{ fill: theme.buttonColor, fontSize: "1rem" }}
+              />
+            </ListItemIcon>
+          </MenuItem>
+        </a>
 
-//         <MenuItem>
-//           <ListItemText sx={{ color: theme.textColor }}>
-//             Near.Social
-//           </ListItemText>
+        <MenuItem>
+          <ListItemText sx={{ color: theme.textColor }}>near.org</ListItemText>
 
-//           <ListItemIcon style={{ minWidth: 16 }}>
-//             <OpenInNewRoundedIcon
-//               sx={{ fill: theme.textColor2, fontSize: "1rem" }}
-//             />
-//           </ListItemIcon>
-//         </MenuItem>
+          <ListItemIcon style={{ minWidth: 16 }}>
+            <OpenInNewRoundedIcon
+              sx={{ fill: theme.textColor2, fontSize: "1rem" }}
+            />
+          </ListItemIcon>
+        </MenuItem>
 
-//         <MenuItem>
-//           <ListItemText sx={{ color: theme.textColor }}>
-//             Alpha.Near
-//           </ListItemText>
+        <MenuItem>
+          <ListItemText sx={{ color: theme.textColor }}>
+            near.social
+          </ListItemText>
 
-//           <ListItemIcon style={{ minWidth: 16 }}>
-//             <OpenInNewRoundedIcon
-//               sx={{ fill: theme.textColor2, fontSize: "1rem" }}
-//             />
-//           </ListItemIcon>
-//         </MenuItem>
-//       </Menu>
-//     </>
-//   );
-// };
+          <ListItemIcon style={{ minWidth: 16 }}>
+            <OpenInNewRoundedIcon
+              sx={{ fill: theme.textColor2, fontSize: "1rem" }}
+            />
+          </ListItemIcon>
+        </MenuItem>
+
+        <a href="https://bos.gg/#/widget/test" target="_blank">
+          <MenuItem>
+            <ListItemText sx={{ color: theme.textColor }}>boss.gg</ListItemText>
+
+            <ListItemIcon style={{ minWidth: 16 }}>
+              <OpenInNewRoundedIcon
+                sx={{ fill: theme.textColor2, fontSize: "1rem" }}
+              />
+            </ListItemIcon>
+          </MenuItem>
+        </a>
+      </Menu>
+    </>
+  );
+};
