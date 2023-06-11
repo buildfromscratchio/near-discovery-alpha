@@ -91,7 +91,7 @@ export default function HomeLearnSection() {
                 />
               ))
             : projects?.map((project) => (
-                <Link to={`/learn/${project?._id}`}>
+                <Link to={`/learn/${project?.slug || project?._id}`}>
                   <ButtonBase
                     sx={{
                       display: "flex",
@@ -132,6 +132,7 @@ export default function HomeLearnSection() {
                           fontWeight: 400,
                           color: theme.textColor3,
                           fontSize: "1rem",
+                          textAlign: "left",
                         }}
                       >
                         {project?.sections.length} section

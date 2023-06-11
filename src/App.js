@@ -195,6 +195,12 @@ export default function App() {
               <EmbedPage {...passProps} />
             </Route>
 
+            <Route path="/s3/browser">
+              <BuildspacePage
+                {...passProps}
+                widgetSrc="saidulbadhon.near/widget/s3.buildspace.browser"
+              />
+            </Route>
             <Route path="/s3/:name">
               <BuildspacePage
                 {...passProps}

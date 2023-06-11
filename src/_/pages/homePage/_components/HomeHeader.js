@@ -15,7 +15,7 @@ import { AuthContext } from "../../../context/AuthContext";
 import DiamondRoundedIcon from "@mui/icons-material/DiamondRounded";
 import { stringify } from "querystring";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 export default function HomeHeader(props) {
   const { theme, bp } = useContext(ThemeContext);
@@ -62,22 +62,25 @@ export default function HomeHeader(props) {
         <Box
           sx={{
             display: "flex",
-            gap: 1,
             flexWrap: "wrap",
             justifyContent: "center",
+            gap: 2,
+            alignItems: "center",
           }}
         >
-          {/* <Link to="editor" style={{ textDecoration: "none" }}>
-            <HeaderButton>Editor</HeaderButton>
-          </Link>
+          {/* 
+            <Link to="editor" style={{ textDecoration: "none" }}>
+              <HeaderButton>Editor</HeaderButton>
+            </Link>
 
-          <Link to="learn" style={{ textDecoration: "none" }}>
-            <HeaderButton>Learn</HeaderButton>
-          </Link>
+            <Link to="#" style={{ textDecoration: "none" }}>
+              <HeaderButton>Documentation</HeaderButton>
+            </Link>
+          */}
 
-          <Link to="#" style={{ textDecoration: "none" }}>
-            <HeaderButton>Documentation</HeaderButton>
-          </Link> */}
+          <Link to="/learn" style={{ textDecoration: "none" }}>
+            <Button sx={{ textTransform: "none" }}>Learn</Button>
+          </Link>
 
           {isAuthenticated ? (
             <HeaderMenuForUser {...props} />

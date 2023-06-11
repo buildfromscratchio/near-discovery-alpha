@@ -228,7 +228,7 @@ export default function ProjectItem({ project, selectedItem, getData }) {
                   }}
                 >
                   <Link to={`/learn/${project?._id}/edit`}>
-                    <IconButton>
+                    <IconButton sx={{ color: theme.buttonColor }}>
                       <EditRoundedIcon
                         fontSize="small"
                         sx={{ fill: theme.buttonColor }}
@@ -236,7 +236,10 @@ export default function ProjectItem({ project, selectedItem, getData }) {
                     </IconButton>
                   </Link>
 
-                  <IconButton onClick={() => setShowConfirmDialog(true)}>
+                  <IconButton
+                    sx={{ color: theme.buttonColor2 }}
+                    onClick={() => setShowConfirmDialog(true)}
+                  >
                     <DeleteRoundedIcon
                       fontSize="small"
                       sx={{ fill: theme.buttonColor2 }}
