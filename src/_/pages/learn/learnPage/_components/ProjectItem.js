@@ -18,6 +18,7 @@ import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import MarkdownViewer from "../../../../components/MarkdownViewer";
 import ConfirmDialog from "../../../../dialogs/ConfirmDialog";
+import camelToNormal from "../../../../libs/camelToNormal";
 
 export default function ProjectItem({ project, selectedItem, getData }) {
   const { theme } = useContext(ThemeContext);
@@ -192,7 +193,9 @@ export default function ProjectItem({ project, selectedItem, getData }) {
                   fontSize: "1rem",
                 }}
               >
-                Free
+                {project.status === "publish"
+                  ? "Free"
+                  : camelToNormal(project.status)}
               </Typography>
             </Box>
           </ButtonBase>

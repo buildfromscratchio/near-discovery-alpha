@@ -80,6 +80,8 @@ export default function OpenWidgets({
 
   const handleNodeSelect = (event, nodeId) => setOpenWidgetsSelected(nodeId);
 
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+
   // const handleButtonClick = () => {
   //   setOpenWidgetsSelected("2");
   // };
@@ -104,6 +106,9 @@ export default function OpenWidgets({
           curPath={curPath}
           filesDetails={filesDetails}
           removeFromFiles={removeFromFiles}
+          //
+          showConfirmDialog={showConfirmDialog}
+          setShowConfirmDialog={setShowConfirmDialog}
         />
 
         {/* {projectFiles.map((item, index) => (
@@ -139,11 +144,12 @@ const CustomTreeView = ({
   filesDetails,
   setShowRenameModal,
   removeFromFiles,
+
+  showConfirmDialog,
+  setShowConfirmDialog,
 }) => {
   const { theme } = useContext(ThemeContext);
   const { files } = useContext(EditorContext);
-
-  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
 
   return (
     <div>
@@ -178,7 +184,7 @@ const CustomTreeView = ({
           // console.log("handleRemoveFile ==========> : ", item);
 
           if (item.type === "folder") {
-            setShowConfirmDialog(true);
+            !showConfirmDialog && setShowConfirmDialog(true);
             // let widgets = [];
             // getWidgets(item, widgets);
 

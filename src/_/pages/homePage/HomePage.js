@@ -55,18 +55,18 @@ export default function HomePage(props) {
         sxSx={{ gridTemplateColumns: bp ? "1fr" : "1fr 1fr" }}
       />*/}
 
-      <HomeLearnSection />
-
-      <Box className="containerCSS" sx={{ py: 10, backgroundColor: theme.ui }}>
-        <Box className="contentCSS">
-          <Widget src="near/widget/PeoplePage" />
-        </Box>
-      </Box>
+      {/* <HomeLearnSection /> */}
 
       <Box
         className="containerCSS"
         sx={{ py: 10, backgroundColor: theme.backgroundColor }}
       >
+        <Box className="contentCSS">
+          <Widget src="near/widget/PeoplePage" />
+        </Box>
+      </Box>
+
+      <Box className="containerCSS" sx={{ py: 10, backgroundColor: theme.ui }}>
         <Box className="contentCSS">
           <Widget src="near/widget/ComponentsPage" />
         </Box>

@@ -24,12 +24,11 @@ export default function LearnPage(props) {
   }, []);
 
   useEffect(() => {
+    setLoading(true);
     getData();
   }, []);
 
   const getData = () => {
-    setLoading(true);
-
     httpClient()
       .get("/learn")
       .then((res) => {

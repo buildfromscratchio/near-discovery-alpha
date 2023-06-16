@@ -293,6 +293,54 @@ const CustomLabel = ({
   //   `W: ${item?.name.slice(item?.name?.lastIndexOf(".") + 1)}`
   // ) :
 
+  const handleClick = () => {
+    const widgets = findWidgets(item);
+
+    widgets?.map((widget) => {
+      loadFile(widget);
+    });
+
+    // if (item.nodeId) {
+    //   setOpenWidgetsExpanded((e) => [...e, item.nodeId]);
+    // } else if (parentNodeId) {
+    //   setOpenWidgetsExpanded((e) => [...e, parentNodeId]);
+    // }
+    // openWidgetsSelected={openWidgetsSelected}
+
+    // openWidgetsFilesList
+
+    // const
+    // const find = openWidgetsFilesList.find
+
+    let newArray = [];
+    let itemToSelect;
+
+    let result = findItemsByName(
+      widgets[widgets.length - 1],
+      openWidgetsFilesList
+    );
+
+    result?.map((r) => {
+      itemToSelect = r.item.name;
+
+      // newArray.push(r.item?.name);
+      r?.path?.map((p) => {
+        newArray.push(p.nodeId);
+      });
+    });
+
+    // console.log("openWidgetsFilesList : ", newArray);
+
+    setOpenWidgetsExpanded((prevItems) => [
+      ...new Set([...prevItems, ...newArray]),
+    ]);
+
+    // setOpenWidgetsSelected(widgets[widgets.length - 1]);
+    setOpenWidgetsSelected(itemToSelect);
+    // console.log("itemToSelect : ", itemToSelect);
+    // console.log("openWidgetsSelected: ", openWidgetsSelected);
+  };
+
   return (
     <Box
       sx={{
@@ -301,6 +349,7 @@ const CustomLabel = ({
         alignItems: "center",
         justifyContent: "space-between",
       }}
+      // onClick={() => isWidget && handleClick()}
     >
       <Box
         sx={{
@@ -331,56 +380,11 @@ const CustomLabel = ({
         </Typography>
       </Box>
 
+      {/* {!isWidget && ( */}
       <IconButton
         size="small"
         sx={{ p: 0, m: 0 }}
-        onClick={() => {
-          const widgets = findWidgets(item);
-
-          widgets?.map((widget) => {
-            loadFile(widget);
-          });
-
-          // if (item.nodeId) {
-          //   setOpenWidgetsExpanded((e) => [...e, item.nodeId]);
-          // } else if (parentNodeId) {
-          //   setOpenWidgetsExpanded((e) => [...e, parentNodeId]);
-          // }
-          // openWidgetsSelected={openWidgetsSelected}
-
-          // openWidgetsFilesList
-
-          // const
-          // const find = openWidgetsFilesList.find
-
-          let newArray = [];
-          let itemToSelect;
-
-          let result = findItemsByName(
-            widgets[widgets.length - 1],
-            openWidgetsFilesList
-          );
-
-          result?.map((r) => {
-            itemToSelect = r.item.name;
-
-            // newArray.push(r.item?.name);
-            r?.path?.map((p) => {
-              newArray.push(p.nodeId);
-            });
-          });
-
-          // console.log("openWidgetsFilesList : ", newArray);
-
-          setOpenWidgetsExpanded((prevItems) => [
-            ...new Set([...prevItems, ...newArray]),
-          ]);
-
-          // setOpenWidgetsSelected(widgets[widgets.length - 1]);
-          setOpenWidgetsSelected(itemToSelect);
-          // console.log("itemToSelect : ", itemToSelect);
-          // console.log("openWidgetsSelected: ", openWidgetsSelected);
-        }}
+        onClick={() => handleClick()}
       >
         <AddCircleRoundedIcon
           fontSize="small"
@@ -393,6 +397,7 @@ const CustomLabel = ({
           }}
         />
       </IconButton>
+      {/* )} */}
     </Box>
   );
 };
