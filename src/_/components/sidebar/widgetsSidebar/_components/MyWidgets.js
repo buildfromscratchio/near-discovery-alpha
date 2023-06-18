@@ -335,6 +335,11 @@ const CustomLabel = ({
       ...new Set([...prevItems, ...newArray]),
     ]);
 
+    console.log(
+      "Calling  setOpenWidgetsExpanded from myWidgets with new array of ",
+      newArray
+    );
+
     // setOpenWidgetsSelected(widgets[widgets.length - 1]);
     setOpenWidgetsSelected(itemToSelect);
     // console.log("itemToSelect : ", itemToSelect);

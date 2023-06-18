@@ -364,7 +364,11 @@ const SetupProjectSection = ({
               }}
               onClick={() => onSubmit("publish")}
             >
-              {loading ? "Loading..." : projectSlug ? "Update" : "Publish"}
+              {loading
+                ? "Loading..."
+                : selectedProject?.status === "publish"
+                ? "Update"
+                : "Publish"}
             </Button>
           </Box>
         </Box>

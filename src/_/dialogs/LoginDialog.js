@@ -36,7 +36,10 @@ export default function LoginDialog({ requestSignIn }) {
     !isAuthenticated && (
       <Dialog
         open={
-          !isAuthenticated && !loadingCheck && showDialog && !allowWithoutLogin
+          !isAuthenticated === null &&
+          !loadingCheck &&
+          showDialog &&
+          !allowWithoutLogin
         }
         fullWidth={true}
         maxWidth="xs"

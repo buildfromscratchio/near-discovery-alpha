@@ -42,7 +42,7 @@ const testimonies = [
     quote: `Developing on the blockchain just got easier with #NearPad from @nearprotocol. As a developer, I love the ability to create and publish smart contracts and UI components seamlessly. With NEARPad, I'm able to monetize my creations easily, too. Give it a try! #blockchain #dApp`,
   },
 ];
-export default function HomeTestimonialSection() {
+export default function HomeTestimonialSection({ sx }) {
   const { theme, bp } = useContext(ThemeContext);
 
   return (
@@ -56,6 +56,7 @@ export default function HomeTestimonialSection() {
         py: bp ? 5 : 10,
         gap: 5,
         width: "100%",
+        ...sx,
       }}
     >
       <Typography sx={{ color: theme.textColor }} align="center" variant="h2">

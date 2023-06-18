@@ -1,9 +1,4 @@
-import {
-  Box,
-  IconButton,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import NoteAddRoundedIcon from "@mui/icons-material/NoteAddRounded";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 
@@ -59,6 +54,10 @@ export default function WidgetsSidebar({
       setProjectFiles(memoizedCreateFileTree(files));
     }
   }, [files, memoizedCreateFileTree]);
+
+  useEffect(() => {
+    setOpenWidgetsExpanded([3, 2, 1]);
+  }, []);
 
   return (
     <div

@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import httpClient from "../../../libs/httpClient";
 import InsertLinkIcon from "@mui/icons-material/InsertLink";
 import { Link } from "react-router-dom";
+import ProjectItem from "../../learn/learnPage/_components/ProjectItem";
 
 export default function HomeLearnSection() {
   const { theme } = useContext(ThemeContext);
@@ -21,7 +22,7 @@ export default function HomeLearnSection() {
     setLoading(true);
 
     httpClient()
-      .get("/public/learn")
+      .get("/learn")
       .then((res) => {
         setProjects(res.data);
         setLoading(false);
@@ -86,67 +87,69 @@ export default function HomeLearnSection() {
                 <Skeleton
                   variant="rectangular"
                   width="100%"
-                  height={75}
-                  sx={{ borderRadius: 3, mb: "1px" }}
+                  height={350}
+                  sx={{ mb: "1px", borderRadius: 1 }}
                 />
               ))
             : projects?.map((project) => (
-                <Link to={`/learn/${project?.slug || project?._id}`}>
-                  <ButtonBase
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      gap: 16,
-                      width: "100%",
-                      borderRadius: 3,
-                      zIndex: 1070,
-                      background: "#fff",
-                      border: "1px solid #eceef0",
-                      boxShadow:
-                        "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)",
-                      overflow: "hidden",
-                      padding: 2,
-
-                      transition: "all 0.2s ease-in-out",
-
-                      "&:hover *": {
-                        fill: theme.buttonColor,
-                      },
-                    }}
-                  >
-                    <Box sx={{ display: "flex", flexDirection: "column" }}>
-                      <Typography
-                        variant="p"
-                        sx={{
-                          fontWeight: 600,
-                          color: theme.textColor,
-                          textAlign: "left",
-                        }}
-                      >
-                        {project?.name}
-                      </Typography>
-                      <Typography
-                        variant="p1"
-                        sx={{
-                          fontWeight: 400,
-                          color: theme.textColor3,
-                          fontSize: "1rem",
-                          textAlign: "left",
-                        }}
-                      >
-                        {project?.sections.length} section
-                      </Typography>
-                    </Box>
-
-                    <InsertLinkIcon
-                      sx={{ transition: "all 0.2s ease-in-out" }}
-                    />
-                  </ButtonBase>
-                </Link>
+                <ProjectItem project={project} getData={getData} />
               ))}
         </Box>
       </Box>
     </Box>
   );
 }
+
+// <Link to={`/learn/${project?.slug || project?._id}`}>
+//   <ButtonBase
+//     sx={{
+//       display: "flex",
+//       justifyContent: "space-between",
+//       alignItems: "center",
+//       gap: 16,
+//       width: "100%",
+//       borderRadius: 3,
+//       zIndex: 1070,
+//       background: "#fff",
+//       border: "1px solid #eceef0",
+//       boxShadow:
+//         "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)",
+//       overflow: "hidden",
+//       padding: 2,
+
+//       transition: "all 0.2s ease-in-out",
+
+//       "&:hover *": {
+//         fill: theme.buttonColor,
+//       },
+//     }}
+//   >
+//     <Box sx={{ display: "flex", flexDirection: "column" }}>
+//       <Typography
+//         variant="p"
+//         sx={{
+//           fontWeight: 600,
+//           color: theme.textColor,
+//           textAlign: "left",
+//         }}
+//       >
+//         {project?.name}
+//       </Typography>
+//       <Typography
+//         variant="p1"
+//         sx={{
+//           fontWeight: 400,
+//           color: theme.textColor3,
+//           fontSize: "1rem",
+//           textAlign: "left",
+//         }}
+//       >
+//         {project?.sections.length} section
+//       </Typography>
+//     </Box>
+
+//     <InsertLinkIcon
+//       sx={{ transition: "all 0.2s ease-in-out" }}
+//     />
+//   </ButtonBase>
+// </Link>

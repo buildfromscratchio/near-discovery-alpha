@@ -104,6 +104,7 @@ export const AuthContextProvider = (props) => {
           console.log("ERROR from loginWithNear : ", err);
           setLoadingCheck(false);
           enqueueSnackbar("Fail to login with near.", { variant: "error" });
+          setLoading(false);
         });
     } else {
       // console.log("Near Key is not available");
@@ -111,6 +112,7 @@ export const AuthContextProvider = (props) => {
       setShowDialog(true);
       setLoadingCheck(false);
       setIsAuthenticated(false);
+      setLoading(false);
     }
   };
   //
@@ -175,7 +177,7 @@ export const AuthContextProvider = (props) => {
       }}
     >
       {(loading || loadingCheck) && pathname !== "/" ? (
-        <LoadingPage />
+        <LoadingPage fullSize />
       ) : (
         props.children
       )}

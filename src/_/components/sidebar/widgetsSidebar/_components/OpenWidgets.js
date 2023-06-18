@@ -38,6 +38,7 @@ export default function OpenWidgets({
   setOpenWidgetsSelected,
 }) {
   const handleToggle = (event, nodeIds) => {
+    console.log("handleToggle setOpenWidgetsExpanded : ", nodeIds);
     setOpenWidgetsExpanded(nodeIds);
   };
 
@@ -78,7 +79,11 @@ export default function OpenWidgets({
 
   //
 
-  const handleNodeSelect = (event, nodeId) => setOpenWidgetsSelected(nodeId);
+  const handleNodeSelect = (event, nodeId) => {
+    console.log("handleNodeSelect : ", nodeId);
+    // setOpenWidgetsSelected(nodeId);
+    setOpenWidgetsSelected([3]);
+  };
 
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
 
@@ -132,6 +137,23 @@ export default function OpenWidgets({
           </TreeItem>
         ))} */}
       </TreeView>
+
+      <ConfirmDialog
+        open={showConfirmDialog}
+        setOpen={setShowConfirmDialog}
+        onClick={() => {
+          let widgets = [];
+          getWidgets(showConfirmDialog, widgets);
+
+          widgets?.map((widget) => {
+            console.log("handleRemoveFile.widgets.widget: ", widget);
+            removeFromFiles(widget);
+          });
+          // console.log("handleRemoveFile.widgets: ", widgets);
+        }}
+        label={`Remove Folder`}
+        description={`Are you sure you want to remove this folder?`}
+      />
     </Box>
   );
 }
@@ -184,7 +206,7 @@ const CustomTreeView = ({
           // console.log("handleRemoveFile ==========> : ", item);
 
           if (item.type === "folder") {
-            !showConfirmDialog && setShowConfirmDialog(true);
+            !showConfirmDialog && setShowConfirmDialog(item);
             // let widgets = [];
             // getWidgets(item, widgets);
 
@@ -263,23 +285,6 @@ const CustomTreeView = ({
                 />
               )}
             </TreeItem>
-
-            <ConfirmDialog
-              open={showConfirmDialog}
-              setOpen={setShowConfirmDialog}
-              onClick={() => {
-                let widgets = [];
-                getWidgets(item, widgets);
-
-                widgets?.map((widget) => {
-                  console.log("handleRemoveFile.widgets.widget: ", widget);
-                  removeFromFiles(widget);
-                });
-                // console.log("handleRemoveFile.widgets: ", widgets);
-              }}
-              label={`Remove Folder`}
-              description={`Are you sure you want to remove this folder?`}
-            />
           </>
         );
       })}

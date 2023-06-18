@@ -473,6 +473,12 @@ export default function EditorPage(props) {
         const currentCode = draftCode || mainCode;
 
         if (currentCode) {
+          console.log(
+            "Opening file from loadFile currentCode",
+
+            Filetype.Widget,
+            widgetSrc
+          );
           openFile(toPath(Filetype.Widget, widgetSrc), currentCode);
         }
       };

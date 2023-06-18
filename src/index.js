@@ -6,7 +6,10 @@ import { ThemeProvider } from "@mui/material";
 import ThemeContextProvider, { theme } from "./_/context/ThemeContext";
 import EditorContextProvider from "./_/context/EditorContext";
 import { SnackbarProvider } from "notistack";
-import AuthContextProvider from "./_/context/AuthContext";
+
+console.log = () => {};
+console.warn = () => {};
+console.error = () => {};
 
 const container = document.getElementById("root");
 const root = createRoot(container);

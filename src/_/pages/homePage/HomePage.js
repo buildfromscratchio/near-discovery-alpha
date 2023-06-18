@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useEffect } from "react";
 
 import HomeTopSection from "./_components/HomeTopSection";
 import HomeFooter from "./_components/HomeFooter";
@@ -11,10 +12,29 @@ import HomeTestimonialSection from "./_components/HomeTestimonialSection";
 import { Widget } from "near-social-vm";
 import { Box } from "@mui/material";
 import HomeLearnSection from "./_components/HomeLearnSection";
+import { EditorContext } from "../../context/EditorContext";
 
 export default function HomePage(props) {
   const { widgetSrc } = useParams();
   const { theme } = useContext(ThemeContext);
+  const { SetNetworkId } = useContext(EditorContext);
+
+  useEffect(() => {
+    setEnv();
+  }, []);
+  const setEnv = () => {
+    const environment = localStorage.getItem("environment");
+
+    if (environment !== "mainnet") {
+      SetNetworkId("mainnet");
+      localStorage.setItem("environment", "mainnet");
+      location.reload();
+
+      console.log("environment === > ", environment);
+    }
+
+    // localStorage.setItem("environment", "mainnet");
+  };
 
   return widgetSrc ? (
     <ViewPage {...props} />
@@ -55,23 +75,24 @@ export default function HomePage(props) {
         sxSx={{ gridTemplateColumns: bp ? "1fr" : "1fr 1fr" }}
       />*/}
 
-      {/* <HomeLearnSection /> */}
+      <HomeLearnSection />
+
+      <Box className="containerCSS" sx={{ py: 10, backgroundColor: theme.ui }}>
+        <Box className="contentCSS">
+          <Widget src="near/widget/PeoplePage" />
+        </Box>
+      </Box>
 
       <Box
         className="containerCSS"
         sx={{ py: 10, backgroundColor: theme.backgroundColor }}
       >
         <Box className="contentCSS">
-          <Widget src="near/widget/PeoplePage" />
-        </Box>
-      </Box>
-
-      <Box className="containerCSS" sx={{ py: 10, backgroundColor: theme.ui }}>
-        <Box className="contentCSS">
           <Widget src="near/widget/ComponentsPage" />
         </Box>
       </Box>
-      <HomeTestimonialSection />
+
+      <HomeTestimonialSection sx={{ backgroundColor: theme.ui }} />
 
       <HomeFooter />
     </>

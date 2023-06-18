@@ -85,10 +85,6 @@ export default function App() {
 
   const location = window.location;
 
-  // console.log = () => {};
-  // console.warn = () => {};
-  // console.error = () => {};
-
   useEffect(() => {
     NetworkId &&
       initNear &&

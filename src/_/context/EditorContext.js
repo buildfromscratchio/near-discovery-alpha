@@ -142,6 +142,7 @@ export const EditorContextProvider = (props) => {
         setSelectedActivity,
         //
         NetworkId,
+        SetNetworkId,
         setNetworkId,
         Widgets: NetworkId === "testnet" ? TestnetWidgets : MainnetWidgets,
         // Widgets: TestnetWidgets,
