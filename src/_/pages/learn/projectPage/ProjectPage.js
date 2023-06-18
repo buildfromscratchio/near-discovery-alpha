@@ -134,10 +134,16 @@ const Projectbar = ({ project, selectedSection }) => {
           {selectedSection ? (
             <MarkdownViewer src={selectedSection?.description} />
           ) : (
-            <>
+            <div style={{ color: theme.textColor }}>
               {project?.coverArt && (
                 <img
-                  style={{ width: "100%", maxWidth: 1000, borderRadius: 4 }}
+                  style={{
+                    width: "100%",
+                    maxWidth: 1000,
+                    borderRadius: 4,
+                    maxHeight: 400,
+                    objectFit: "cover",
+                  }}
                   src={project?.coverArt}
                   alt={project?.name}
                 />
@@ -145,7 +151,7 @@ const Projectbar = ({ project, selectedSection }) => {
               {project?.description && (
                 <MarkdownViewer src={project?.description} />
               )}
-            </>
+            </div>
           )}
           {/* <Widget
               src="saidulbadhon.near/widget/LearnPage.Markdown"
