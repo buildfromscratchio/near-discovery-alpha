@@ -57,7 +57,7 @@ export default function HomeLearnSection() {
               margin: 0,
             }}
           >
-            Learn with nearPad
+            Learn while you build on nearpad
           </Typography>
           <Typography
             variant="h1"
@@ -69,7 +69,8 @@ export default function HomeLearnSection() {
               margin: 0,
             }}
           >
-            Near Web3 and Blockchain with the NEAR community.
+            Step-by-step tutorials that teach you how to build and deploy
+            decentralized frontend.
           </Typography>
         </Box>
 
@@ -99,57 +100,3 @@ export default function HomeLearnSection() {
     </Box>
   );
 }
-
-// <Link to={`/learn/${project?.slug || project?._id}`}>
-//   <ButtonBase
-//     sx={{
-//       display: "flex",
-//       justifyContent: "space-between",
-//       alignItems: "center",
-//       gap: 16,
-//       width: "100%",
-//       borderRadius: 3,
-//       zIndex: 1070,
-//       background: "#fff",
-//       border: "1px solid #eceef0",
-//       boxShadow:
-//         "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)",
-//       overflow: "hidden",
-//       padding: 2,
-
-//       transition: "all 0.2s ease-in-out",
-
-//       "&:hover *": {
-//         fill: theme.buttonColor,
-//       },
-//     }}
-//   >
-//     <Box sx={{ display: "flex", flexDirection: "column" }}>
-//       <Typography
-//         variant="p"
-//         sx={{
-//           fontWeight: 600,
-//           color: theme.textColor,
-//           textAlign: "left",
-//         }}
-//       >
-//         {project?.name}
-//       </Typography>
-//       <Typography
-//         variant="p1"
-//         sx={{
-//           fontWeight: 400,
-//           color: theme.textColor3,
-//           fontSize: "1rem",
-//           textAlign: "left",
-//         }}
-//       >
-//         {project?.sections.length} section
-//       </Typography>
-//     </Box>
-
-//     <InsertLinkIcon
-//       sx={{ transition: "all 0.2s ease-in-out" }}
-//     />
-//   </ButtonBase>
-// </Link>
