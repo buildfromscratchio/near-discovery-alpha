@@ -32,16 +32,16 @@ export default function ProjectPage(props) {
 
   const getData = () => {
     setLoading(true);
-    console.log("result: ");
+    // console.log("result: ");
     httpClient()
       .get(`/learn/${projectSlug}`)
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setProject(res.data);
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         setLoading(false);
       });
   };

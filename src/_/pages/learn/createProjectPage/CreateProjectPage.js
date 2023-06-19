@@ -68,7 +68,7 @@ export default function CreateProjectPage(props) {
         setSelectedProject(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 
@@ -83,7 +83,7 @@ export default function CreateProjectPage(props) {
     await uploadPhoto(coverArt[0], `learn/${slugify(name)}/coverArt`)
       .then((data) => {
         setLoading(false);
-        console.log(data);
+        // console.log(data);
         handleCreateOrUpdate(data, status);
       })
       .catch((err) => {
@@ -104,11 +104,11 @@ export default function CreateProjectPage(props) {
     if (coverArt?.length > 0) {
       data = addToObject(data, "coverArt", coverArtURL);
     } else if (selectedProject?.coverArt) {
-      console.log("Please select", selectedProject.coverArt);
+      // console.log("Please select", selectedProject.coverArt);
       data = addToObject(data, "coverArt", selectedProject.coverArt);
     }
 
-    console.log("handleCreateOrUpdate Data : ", status);
+    // console.log("handleCreateOrUpdate Data : ", status);
 
     setLoading(true);
 
@@ -117,11 +117,11 @@ export default function CreateProjectPage(props) {
         .put(`/learn/${projectSlug}`, data)
         .then((res) => {
           setLoading(false);
-          console.log(res.data);
+          // console.log(res.data);
           history.push("/learn");
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
           setLoading(false);
         });
     } else {
@@ -129,11 +129,11 @@ export default function CreateProjectPage(props) {
         .post("/learn", data)
         .then((res) => {
           setLoading(false);
-          console.log(res.data);
+          // console.log(res.data);
           history.push("/learn");
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
           setLoading(false);
         });
     }
@@ -200,7 +200,7 @@ const AddSectionView = ({ selectedSection, sections, setSections }) => {
     setSections((prevItems) =>
       prevItems.map((item) => {
         if (item.localId === id) {
-          console.log(item, updatedItem, selectedSection.name, id);
+          // console.log(item, updatedItem, selectedSection.name, id);
           return { ...item, ...updatedItem };
         }
 
@@ -261,7 +261,7 @@ const SetupProjectSection = ({
         httpClient()
           .put(`/learn/${projectSlug}`, { coverArt: "" })
           .then((res) => {
-            console.log(res);
+            // console.log(res);
             setStore(res.data);
             setLoading(false);
             enqueueSnackbar(`Image deleted successfully`, {
@@ -269,13 +269,13 @@ const SetupProjectSection = ({
             });
           })
           .catch((err) => {
-            console.log(err);
+            // console.log(err);
             setLoading(false);
             // enqueueSnackbar(err?.response?.data?.message, { variant: "error" });
           });
       })
       .catch((err) => {
-        console.log(err, err.stack);
+        // console.log(err, err.stack);
       });
   }
 
@@ -381,7 +381,7 @@ const SetupProjectSection = ({
           maxSize={50}
           value={coverArt}
           setValue={(e) => {
-            console.log(e);
+            // console.log(e);
             setCoverArt(e);
           }}
           oldFiles={selectedProject?.coverArt && [selectedProject?.coverArt]}
@@ -536,7 +536,7 @@ const DetailSection = ({
     setSections((prevItems) =>
       prevItems.map((item) => {
         if (item.localId === id) {
-          console.log(item, updatedItem, selectedSection.name, id);
+          // console.log(item, updatedItem, selectedSection.name, id);
           return { ...item, ...updatedItem };
         }
 

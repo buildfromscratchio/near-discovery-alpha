@@ -13,7 +13,7 @@ export default function EmbedPage(props) {
   const { widgetSrc } = useParams();
   // const { accountId } = useAccount();
 
-  console.log(widgetSrc);
+  // console.log(widgetSrc);
 
   return (
     <div>

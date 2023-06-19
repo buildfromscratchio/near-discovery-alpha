@@ -34,10 +34,10 @@ export default function LearnPage(props) {
       .then((res) => {
         setProjects(res.data);
         setLoading(false);
-        console.log("LearnContextProvider : ", res.data);
+        // console.log("LearnContextProvider : ", res.data);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         setLoading(false);
       });
   };

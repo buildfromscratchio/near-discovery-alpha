@@ -41,7 +41,7 @@ export default function EditorPageBeta(props) {
         setFiles(files || []);
         // setLastPath(lastPath);
         setLastOpenedFile(lastPath);
-        console.log("files : ", files, "  lastPath : ", lastPath);
+        // console.log("files : ", files, "  lastPath : ", lastPath);
       });
   }, [cache]);
 

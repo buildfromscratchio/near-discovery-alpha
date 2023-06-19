@@ -7,9 +7,9 @@ import ThemeContextProvider, { theme } from "./_/context/ThemeContext";
 import EditorContextProvider from "./_/context/EditorContext";
 import { SnackbarProvider } from "notistack";
 
-console.log = () => {};
-console.warn = () => {};
-console.error = () => {};
+// console.log = () => {};
+// console.warn = () => {};
+// console.error = () => {};
 
 const container = document.getElementById("root");
 const root = createRoot(container);

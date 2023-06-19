@@ -30,7 +30,7 @@ export default function AuthPage() {
       httpClient()
         .post("/auth/github", { code: newUrl[1] })
         .then((res) => {
-          console.log("Login Success, your code is: ", res.data);
+          // console.log("Login Success, your code is: ", res.data);
 
           saveUserData(res.data);
 
@@ -41,7 +41,7 @@ export default function AuthPage() {
           push("/editor");
         })
         .catch((err) => {
-          console.log(newUrl[1], "Login Error, your code is: ", err);
+          // console.log(newUrl[1], "Login Error, your code is: ", err);
           enqueueSnackbar(
             removeUndefinedFromString(err?.response?.data?.message),
             { variant: "error" }

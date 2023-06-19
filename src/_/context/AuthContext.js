@@ -39,7 +39,7 @@ export const AuthContextProvider = (props) => {
       setIsAuthenticated(false);
       return;
     } else {
-      console.log("User exists? ", userId);
+      // console.log("User exists? ", userId);
 
       await httpClient()
         .get(`/users/${userId}`)

@@ -66,7 +66,7 @@ const CollaborationPage = (props) => {
 
         onChange(formattedCode);
       } catch (e) {
-        console.log(e);
+        // console.log(e);
       }
     },
     [code]

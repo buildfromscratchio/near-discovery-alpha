@@ -30,7 +30,7 @@ export default function HomePage(props) {
       localStorage.setItem("environment", "mainnet");
       location.reload();
 
-      console.log("environment === > ", environment);
+      // console.log("environment === > ", environment);
     }
 
     // localStorage.setItem("environment", "mainnet");

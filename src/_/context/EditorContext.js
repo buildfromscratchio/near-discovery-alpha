@@ -29,7 +29,7 @@ export const EditorContextProvider = (props) => {
 
   const setNetworkId = (value) => {
     SetNetworkId(value);
-    console.log("NetworkId === > ", value);
+    // console.log("NetworkId === > ", value);
 
     localStorage.setItem("environment", value);
 

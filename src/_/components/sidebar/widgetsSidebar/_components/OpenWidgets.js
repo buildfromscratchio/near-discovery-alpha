@@ -38,7 +38,7 @@ export default function OpenWidgets({
   setOpenWidgetsSelected,
 }) {
   const handleToggle = (event, nodeIds) => {
-    console.log("handleToggle setOpenWidgetsExpanded : ", nodeIds);
+    // console.log("handleToggle setOpenWidgetsExpanded : ", nodeIds);
     setOpenWidgetsExpanded(nodeIds);
   };
 
@@ -80,7 +80,7 @@ export default function OpenWidgets({
   //
 
   const handleNodeSelect = (event, nodeId) => {
-    console.log("handleNodeSelect : ", nodeId);
+    // console.log("handleNodeSelect : ", nodeId);
     // setOpenWidgetsSelected(nodeId);
     setOpenWidgetsSelected([3]);
   };
@@ -146,7 +146,7 @@ export default function OpenWidgets({
           getWidgets(showConfirmDialog, widgets);
 
           widgets?.map((widget) => {
-            console.log("handleRemoveFile.widgets.widget: ", widget);
+            // console.log("handleRemoveFile.widgets.widget: ", widget);
             removeFromFiles(widget);
           });
           // console.log("handleRemoveFile.widgets: ", widgets);
@@ -216,7 +216,7 @@ const CustomTreeView = ({
             // });
             // // console.log("handleRemoveFile.widgets: ", widgets);
           } else {
-            console.log("handleRemoveFile.fileFromItem: ", fileFromItem);
+            // console.log("handleRemoveFile.fileFromItem: ", fileFromItem);
             removeFromFiles(fileFromItem);
             // console.log("handleRemoveFile > fileFromItem", fileFromItem);
           }

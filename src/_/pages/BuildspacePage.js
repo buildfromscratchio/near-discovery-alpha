@@ -10,7 +10,7 @@ export default function BuildspacePage(props) {
   const { accountId } = useAccount();
   const { name } = useParams();
 
-  console.log({ name });
+  // console.log({ name });
 
   return (
     <div>

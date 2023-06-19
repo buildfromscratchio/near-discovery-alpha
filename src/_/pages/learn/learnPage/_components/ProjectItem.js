@@ -33,13 +33,13 @@ export default function ProjectItem({ project, selectedItem, getData }) {
     httpClient()
       .delete(`/learn/${project._id}`)
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         // getData();
         enqueueSnackbar("Project deleted successfully", { variant: "success" });
         getData();
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         enqueueSnackbar("Faild to delete project", { variant: "error" });
       });
   };

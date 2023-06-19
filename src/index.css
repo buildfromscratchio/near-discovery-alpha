@@ -226,3 +226,33 @@ a:hover {
     background-color: red;
   }
 }
+
+.rbt-input-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px !important;
+}
+.rbt-token.rbt-token-removeable {
+  /* background-color: red !important; */
+
+  display: flex !important;
+
+  justify-content: center;
+  align-items: center;
+
+  backdrop-filter: contrast(90%);
+  padding: 4px 8px !important;
+  border-radius: 4px !important;
+  overflow: hidden;
+
+  gap: 16px;
+}
+
+.rbt-token.rbt-token-removeable .btn-close.rbt-close.rbt-token-remove-button {
+  width: 4px;
+  height: 4px;
+}
+
+.rbt-token.rbt-token-removeable * .rbt-close-content {
+  display: none !important;
+}

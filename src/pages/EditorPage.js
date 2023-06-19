@@ -583,7 +583,7 @@ export default function EditorPage(props) {
         });
         updateCode(path, formattedCode);
       } catch (e) {
-        console.log(e);
+        // console.log(e);
       }
     },
     [updateCode]
@@ -595,7 +595,7 @@ export default function EditorPage(props) {
         const formattedProps = JSON.stringify(JSON.parse(props), null, 2);
         setWidgetProps(formattedProps);
       } catch (e) {
-        console.log(e);
+        // console.log(e);
       }
     },
     [setWidgetProps]

@@ -342,7 +342,7 @@ export default function EditorPage(props) {
 
   const removeFromFiles = useCallback(
     (path) => {
-      console.log("Removing ", path);
+      // console.log("Removing ", path);
       path = JSON.stringify(path);
       setFiles((files) =>
         files.filter((file) => JSON.stringify(file) !== path)
@@ -473,12 +473,12 @@ export default function EditorPage(props) {
         const currentCode = draftCode || mainCode;
 
         if (currentCode) {
-          console.log(
-            "Opening file from loadFile currentCode",
+          // console.log(
+          //   "Opening file from loadFile currentCode",
 
-            Filetype.Widget,
-            widgetSrc
-          );
+          //   Filetype.Widget,
+          //   widgetSrc
+          // );
           openFile(toPath(Filetype.Widget, widgetSrc), currentCode);
         }
       };
@@ -565,7 +565,6 @@ export default function EditorPage(props) {
         createFile(Filetype.Widget);
       } else {
         loadFile(widgetSrc);
-        console.log("XXXXXXXXXXXXXXXXXXXX LOADING FILE : ", widgetSrc);
       }
       // analytics("edit", {
       //   props: {
@@ -595,7 +594,7 @@ export default function EditorPage(props) {
         });
         updateCode(path, formattedCode);
       } catch (e) {
-        console.log(e);
+        // console.log(e);
       }
     },
     [updateCode]
@@ -607,7 +606,7 @@ export default function EditorPage(props) {
         const formattedProps = JSON.stringify(JSON.parse(props), null, 2);
         setWidgetProps(formattedProps);
       } catch (e) {
-        console.log(e);
+        // console.log(e);
       }
     },
     [setWidgetProps]

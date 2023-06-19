@@ -187,7 +187,7 @@ const FileItem = ({ file, curIndex, filesLength, onClick }) => {
   const [image, setImage] = useState("");
 
   useEffect(() => {
-    console.log("file : ", file);
+    // console.log("file : ", file);
     // if (typeof file === "Blob") {
     if (file.size > 100) {
       handleImageUpload(file);

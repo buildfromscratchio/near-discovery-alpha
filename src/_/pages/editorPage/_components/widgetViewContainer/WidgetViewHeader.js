@@ -50,10 +50,10 @@ export default function WidgetViewHeader({
         // setProjects(res.data);
         // setLoading(false);
 
-        console.log("handlePostInGithub : ", res.data);
+        // console.log("handlePostInGithub : ", res.data);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         // setLoading(false);
       });
   };
