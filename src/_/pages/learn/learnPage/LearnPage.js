@@ -66,7 +66,7 @@ export default function LearnPage(props) {
                 Learn
               </Typography>
               <Typography variant="p1" sx={{ color: theme.textColor2 }}>
-                Curated list of resources to learn programming.
+                Curated list of learning resources.
               </Typography>
             </Box>
 
@@ -129,7 +129,7 @@ export default function LearnPage(props) {
                 }}
               >
                 <Typography sx={{ color: theme.textColor3 }}>
-                  Projects has not been added.
+                  No learning resources available.
                 </Typography>
               </Box>
             )}
