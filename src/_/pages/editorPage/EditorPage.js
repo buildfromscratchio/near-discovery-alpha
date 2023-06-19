@@ -409,6 +409,8 @@ export default function EditorPage(props) {
             setLoading(false);
           });
       }
+
+      if (path) history.push(`/editor/widget/${path.name}`);
     },
     [updateCode, addToFiles]
   );
@@ -571,7 +573,7 @@ export default function EditorPage(props) {
       //     widget: widgetSrc,
       //   },
       // });
-      history.replace(`/editor/`);
+      // history.replace(`/editor/`);
     } else if (path === undefined) {
       if (!loading) {
         if (files.length === 0) {

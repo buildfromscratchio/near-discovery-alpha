@@ -192,6 +192,8 @@ const CustomTreeView = ({
 
         const handleOpenFile = () => {
           if (!isWidget) return;
+
+          console.log(fileFromItem);
           openFile(fileFromItem);
         };
 

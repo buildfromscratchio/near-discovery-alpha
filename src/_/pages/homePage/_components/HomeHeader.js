@@ -15,9 +15,11 @@ import { AuthContext } from "../../../context/AuthContext";
 import DiamondRoundedIcon from "@mui/icons-material/DiamondRounded";
 import { stringify } from "querystring";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 
 export default function HomeHeader(props) {
+  const { pathname } = useLocation();
+
   const { theme, bp } = useContext(ThemeContext);
   const { isAuthenticated } = useContext(AuthContext);
 
@@ -34,6 +36,7 @@ export default function HomeHeader(props) {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        ...props.sx,
       }}
     >
       <Box
@@ -48,6 +51,8 @@ export default function HomeHeader(props) {
         }}
       >
         <Box
+          component={Link}
+          to="/"
           sx={{
             display: "flex",
             alignItems: "center",
@@ -78,6 +83,23 @@ export default function HomeHeader(props) {
             </Link>
           */}
 
+          <Link to="/playground" style={{ textDecoration: "none" }}>
+            <Button
+              sx={{
+                textTransform: "none",
+                color:
+                  pathname === "/playground"
+                    ? theme.buttonColor
+                    : theme.textColor,
+                "&:hover": {
+                  color: theme.buttonColor,
+                },
+              }}
+            >
+              Playground
+            </Button>
+          </Link>
+          {/* 
           <Link to="/editor" style={{ textDecoration: "none" }}>
             <Button
               sx={{
@@ -90,7 +112,7 @@ export default function HomeHeader(props) {
             >
               Editor
             </Button>
-          </Link>
+          </Link> */}
           <Link to="/learn" style={{ textDecoration: "none" }}>
             <Button
               sx={{

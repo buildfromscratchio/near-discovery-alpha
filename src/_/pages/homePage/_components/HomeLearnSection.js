@@ -1,11 +1,9 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "../../../context/ThemeContext";
-import { Box, ButtonBase, Skeleton, Typography } from "@mui/material";
+import { Box, Skeleton, Typography } from "@mui/material";
 import { useState } from "react";
 import { useEffect } from "react";
 import httpClient from "../../../libs/httpClient";
-import InsertLinkIcon from "@mui/icons-material/InsertLink";
-import { Link } from "react-router-dom";
 import ProjectItem from "../../learn/learnPage/_components/ProjectItem";
 
 export default function HomeLearnSection() {
@@ -22,8 +20,9 @@ export default function HomeLearnSection() {
     setLoading(true);
 
     httpClient()
-      .get("/learn")
+      .get("/public/learn")
       .then((res) => {
+        console.log(res.data);
         setProjects(res.data);
         setLoading(false);
       })

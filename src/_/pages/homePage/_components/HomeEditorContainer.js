@@ -3,10 +3,12 @@ import { ThemeContext } from "../../../context/ThemeContext";
 import { Box, Typography } from "@mui/material";
 import VerticalCodePreview from "../../../components/VerticalCodePreview";
 import { EditorContext } from "../../../context/EditorContext";
+import { useState } from "react";
 
 export default function HomeEditorContainer() {
   const { theme, bp } = useContext(ThemeContext);
   const { NetworkId } = useContext(EditorContext);
+  const [code, setCode] = useState("");
 
   return (
     <Box
@@ -66,6 +68,8 @@ export default function HomeEditorContainer() {
           <VerticalCodePreview
             //initialCode="return(<div style={{backgroundColor: props.theme.ui }}><h1 style={{color: props.theme.textColor}}>Hello World</h1></div>)"
             // horizontal={bp ? false : true}
+            code={code}
+            setCode={setCode}
             horizontal={bp ? false : true}
             initialCode={`
             // User account in near testnet

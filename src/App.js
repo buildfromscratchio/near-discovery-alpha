@@ -48,6 +48,7 @@ import AuthPage from "./_/pages/AuthPage";
 import LearnPage from "./_/pages/learn/learnPage/LearnPage";
 import CreateProjectPage from "./_/pages/learn/createProjectPage/CreateProjectPage";
 import ProjectPage from "./_/pages/learn/projectPage/ProjectPage";
+import PlaygroundPage from "./_/pages/PlaygroundPage";
 
 import { EditorContext } from "./_/context/EditorContext";
 import { ThemeContext } from "./_/context/ThemeContext";
@@ -193,6 +194,10 @@ export default function App() {
         <BrowserRouter basename={process.env.PUBLIC_URL}>
           <AuthContextProvider>
             <Switch>
+              <Route path={"/playground"}>
+                <PlaygroundPage {...passProps} />
+              </Route>
+
               <Route path={"/components/:widgetSrc*"}>
                 <EmbedPage {...passProps} />
               </Route>
