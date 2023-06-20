@@ -18,7 +18,8 @@ export default function Footer() {
   const { pathname } = useLocation();
 
   const { theme } = useContext(ThemeContext);
-  const { curFileGasFee } = useContext(EditorContext);
+  const { curFileGasFee, showConsole, setShowConsole } =
+    useContext(EditorContext);
 
   return (
     <Box
@@ -35,8 +36,31 @@ export default function Footer() {
         zIndex: 999,
       }}
     >
-      {/* <Box sx={{ }}></Box> */}
-      <EnvironmentMenu />
+      <Box sx={{ display: "flex", gap: 1 }}>
+        <EnvironmentMenu />
+
+        <ButtonBase
+          id="fade-button"
+          aria-controls={open ? "fade-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
+          sx={{
+            display: "flex",
+            gap: 0.5,
+            alignItems: "center",
+            height: "100%",
+            px: 1,
+          }}
+          onClick={() => setShowConsole((e) => !e)}
+        >
+          <Typography
+            variant="p1"
+            sx={{ color: "#FFF", textTransform: "none", fontWeight: 500 }}
+          >
+            {showConsole ? "Console" : "Console"}
+          </Typography>
+        </ButtonBase>
+      </Box>
 
       {pathname === "/editor" && curFileGasFee.near && (
         <Typography variant="p1">

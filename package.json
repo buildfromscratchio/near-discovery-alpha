@@ -33,6 +33,7 @@
     "bootstrap-icons": "^1.9.0",
     "collections": "^5.1.12",
     "compressorjs": "^1.2.1",
+    "console-feed": "^3.5.0",
     "error-polyfill": "^0.1.2",
     "html-loader": "^4.2.0",
     "local-storage": "^2.0.0",

@@ -7,7 +7,12 @@ export default function NotificationsSidebar() {
   const { theme } = useContext(ThemeContext);
 
   return (
-    <Box>
+    <Box
+      sx={{
+        height: "100%",
+        overflow: "hidden",
+      }}
+    >
       <Box
         style={{
           height: 50,
@@ -26,7 +31,7 @@ export default function NotificationsSidebar() {
         </Typography>
       </Box>
 
-      <Box sx={{ p: 1 }}>
+      <Box sx={{ p: 1, height: "100%", overflowY: "auto" }}>
         {/* <Widget src="mob.near/widget/NotificationFeed" /> */}
         <Widget
           src="saidulbadhon.near/widget/NotificationsSidebar"

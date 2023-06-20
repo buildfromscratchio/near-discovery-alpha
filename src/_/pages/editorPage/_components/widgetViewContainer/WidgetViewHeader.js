@@ -20,6 +20,7 @@ import OpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
 import { ThemeContext } from "../../../../context/ThemeContext";
 import { EditorContext } from "../../../../context/EditorContext";
 import httpClient from "../../../../libs/httpClient";
+import { useLocation } from "react-router-dom";
 
 export default function WidgetViewHeader({
   loading,
@@ -38,25 +39,30 @@ export default function WidgetViewHeader({
 
   const { theme } = useContext(ThemeContext);
 
-  console.warn = () => {};
+  // console.log(
+  //   "pathname : ",
+  //   pathname.substring(pathname.indexOf("/editor/") + 8)
+  // );
 
-  // const [loading, setLoading] = useState(false);
-  const handlePostInGithub = () => {
-    // setLoading(true);
+  // console.warn = () => {};
 
-    httpClient()
-      .get("/github")
-      .then((res) => {
-        // setProjects(res.data);
-        // setLoading(false);
+  // // const [loading, setLoading] = useState(false);
+  // const handlePostInGithub = () => {
+  //   // setLoading(true);
 
-        // console.log("handlePostInGithub : ", res.data);
-      })
-      .catch((err) => {
-        // console.log(err);
-        // setLoading(false);
-      });
-  };
+  //   httpClient()
+  //     .get("/github")
+  //     .then((res) => {
+  //       // setProjects(res.data);
+  //       // setLoading(false);
+
+  //       // console.log("handlePostInGithub : ", res.data);
+  //     })
+  //     .catch((err) => {
+  //       // console.log(err);
+  //       // setLoading(false);
+  //     });
+  // };
 
   return (
     <Box
@@ -213,6 +219,8 @@ export default function WidgetViewHeader({
 }
 
 const OpenInNewTabMenu = () => {
+  const { pathname } = useLocation();
+
   const { theme } = useContext(ThemeContext);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -259,7 +267,9 @@ const OpenInNewTabMenu = () => {
         }}
       >
         <a
-          href="https://nearpad.dev/saidulbadhon.near/widget/test"
+          href={`https://nearpad.dev/${pathname.substring(
+            pathname.indexOf("/editor/") + 8
+          )}`}
           target="_blank"
         >
           <MenuItem>
@@ -275,29 +285,50 @@ const OpenInNewTabMenu = () => {
           </MenuItem>
         </a>
 
-        <MenuItem>
-          <ListItemText sx={{ color: theme.textColor }}>near.org</ListItemText>
+        <a
+          href={`https://near.org/${pathname.substring(
+            pathname.indexOf("/editor/") + 8
+          )}`}
+          target="_blank"
+        >
+          <MenuItem>
+            <ListItemText sx={{ color: theme.textColor }}>
+              near.org
+            </ListItemText>
 
-          <ListItemIcon style={{ minWidth: 16 }}>
-            <OpenInNewRoundedIcon
-              sx={{ fill: theme.textColor2, fontSize: "1rem" }}
-            />
-          </ListItemIcon>
-        </MenuItem>
+            <ListItemIcon style={{ minWidth: 16 }}>
+              <OpenInNewRoundedIcon
+                sx={{ fill: theme.textColor2, fontSize: "1rem" }}
+              />
+            </ListItemIcon>
+          </MenuItem>
+        </a>
 
-        <MenuItem>
-          <ListItemText sx={{ color: theme.textColor }}>
-            near.social
-          </ListItemText>
+        <a
+          href={`https://near.social/#/${pathname.substring(
+            pathname.indexOf("/editor/") + 8
+          )}`}
+          target="_blank"
+        >
+          <MenuItem>
+            <ListItemText sx={{ color: theme.textColor }}>
+              near.social
+            </ListItemText>
 
-          <ListItemIcon style={{ minWidth: 16 }}>
-            <OpenInNewRoundedIcon
-              sx={{ fill: theme.textColor2, fontSize: "1rem" }}
-            />
-          </ListItemIcon>
-        </MenuItem>
+            <ListItemIcon style={{ minWidth: 16 }}>
+              <OpenInNewRoundedIcon
+                sx={{ fill: theme.textColor2, fontSize: "1rem" }}
+              />
+            </ListItemIcon>
+          </MenuItem>
+        </a>
 
-        <a href="https://bos.gg/#/widget/test" target="_blank">
+        <a
+          href={`https://bos.gg/#/${pathname.substring(
+            pathname.indexOf("/editor/") + 8
+          )}`}
+          target="_blank"
+        >
           <MenuItem>
             <ListItemText sx={{ color: theme.textColor }}>boss.gg</ListItemText>
 

@@ -5,6 +5,7 @@ export const EditorContext = createContext();
 export const EditorContextProvider = (props) => {
   const [showWebsiteView, setShowWebsiteView] = useState(true);
   const [showLiveCodePreview, setShowLiveCodePreview] = useState(true);
+  const [showConsole, setShowConsole] = useState(true);
 
   const [selectedActivity, setSelectedActivity] = useState("");
 
@@ -130,6 +131,8 @@ export const EditorContextProvider = (props) => {
         //
         showLiveCodePreview,
         setShowLiveCodePreview,
+        showConsole,
+        setShowConsole,
         //
         files,
         setFiles,

@@ -392,6 +392,7 @@ export default function EditorPage(props) {
         updateCode(path, code);
         // Automatically render the code on first click
         setRenderCode(code);
+        setLoading(false);
       } else {
         setLoading(true);
         cache
@@ -410,7 +411,7 @@ export default function EditorPage(props) {
           });
       }
 
-      if (path) history.push(`/editor/widget/${path.name}`);
+      // if (path) history.push(`/editor/${accountId}/widget/${path.name}`);
     },
     [updateCode, addToFiles]
   );
@@ -919,6 +920,7 @@ export default function EditorPage(props) {
           maxSize="100%"
           vertical={bp}
           // vertical={true}
+          defaultSizes={[75, 200, 150]}
         >
           {!bp && (
             <Allotment.Pane
@@ -1085,51 +1087,44 @@ export default function EditorPage(props) {
             </div>
           </Allotment.Pane>
 
-          <Allotment.Pane
-            key="websiteView"
-            snap
-            visible={showWebsiteView}
-            minSize={300}
-            preferredSize="40%"
-          >
-            <WidgetViewContainer
-              parsedWidgetProps={parsedWidgetProps}
-              renderCode={renderCode}
-              loading={loading}
-              //
-              handlePreviewButton={handlePreviewButton}
-              handleSaveDraftButton={handleSaveDraftButton}
-              handleForkButton={handleForkButton}
-              publishWidgetButton={
-                props.signedIn ? (
-                  filesDetails.get(widgetName)?.isDraft ? (
-                    publishDraftAsMainButton
-                  ) : (
-                    <PublishButton />
-                  )
+          <WidgetViewContainer
+            showWebsiteView={showWebsiteView}
+            parsedWidgetProps={parsedWidgetProps}
+            renderCode={renderCode}
+            loading={loading}
+            //
+            handlePreviewButton={handlePreviewButton}
+            handleSaveDraftButton={handleSaveDraftButton}
+            handleForkButton={handleForkButton}
+            publishWidgetButton={
+              props.signedIn ? (
+                filesDetails.get(widgetName)?.isDraft ? (
+                  publishDraftAsMainButton
                 ) : (
-                  <button
-                    className="btn btn-primary"
-                    style={{
-                      backgroundColor: theme.buttonColor,
-                      paddingInline: 16,
-                      borderRadius: 4,
-                      fontWeight: 500,
-                    }}
-                    onClick={() => {
-                      props.requestSignIn();
-                      ReactGA.event({
-                        category: "SignIn",
-                        action: "signin",
-                      });
-                    }}
-                  >
-                    Connect
-                  </button>
+                  <PublishButton />
                 )
-              }
-            />
-          </Allotment.Pane>
+              ) : (
+                <button
+                  className="btn btn-primary"
+                  style={{
+                    backgroundColor: theme.buttonColor,
+                    paddingInline: 16,
+                    borderRadius: 4,
+                    fontWeight: 500,
+                  }}
+                  onClick={() => {
+                    props.requestSignIn();
+                    ReactGA.event({
+                      category: "SignIn",
+                      action: "signin",
+                    });
+                  }}
+                >
+                  Connect
+                </button>
+              )
+            }
+          />
         </Allotment>
       </Box>
     </>
