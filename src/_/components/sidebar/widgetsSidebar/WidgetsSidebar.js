@@ -55,9 +55,9 @@ export default function WidgetsSidebar({
     }
   }, [files, memoizedCreateFileTree]);
 
-  useEffect(() => {
-    setOpenWidgetsExpanded([3, 2, 1]);
-  }, []);
+  // useEffect(() => {
+  //   setOpenWidgetsExpanded([3, 2, 1]);
+  // }, []);
 
   return (
     <div

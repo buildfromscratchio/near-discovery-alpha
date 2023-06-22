@@ -5,11 +5,14 @@ export const EditorContext = createContext();
 export const EditorContextProvider = (props) => {
   const [showWebsiteView, setShowWebsiteView] = useState(true);
   const [showLiveCodePreview, setShowLiveCodePreview] = useState(true);
+  const [showConsole, setShowConsole] = useState(false);
+  const [logs, setLogs] = useState([]);
 
   const [selectedActivity, setSelectedActivity] = useState("");
 
   const [files, setFiles] = useState([]);
   const [filesDetails, setFilesDetails] = useState(new Map());
+  const [lastPath, setLastPath] = useState(undefined);
 
   const [curFileGasFee, setCurFileGasFee] = useState(0);
   const calculateGasFee = (code) => {
@@ -130,11 +133,18 @@ export const EditorContextProvider = (props) => {
         //
         showLiveCodePreview,
         setShowLiveCodePreview,
+        showConsole,
+        setShowConsole,
+        logs,
+        setLogs,
         //
         files,
         setFiles,
         filesDetails,
         setFilesDetails,
+        lastPath,
+        setLastPath,
+
         curFileGasFee,
         calculateGasFee,
         //

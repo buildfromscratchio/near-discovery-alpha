@@ -10,7 +10,7 @@ const pattern = /.*\..*\/.*\/.*/;
 
 export default function SearchPage(props) {
   const { theme } = useContext(ThemeContext);
-  const { openComponentDetail, setSelectedActivity } =
+  const { NetworkId, openComponentDetail, setSelectedActivity } =
     useContext(EditorContext);
   // const { widgetSrc } = useParams();
 
@@ -43,7 +43,9 @@ export default function SearchPage(props) {
         >
           {pattern.test(openComponentDetail) ? (
             <Widget
-              src="saidulbadhon.near/widget/SearchPage.ComponentDetails-fork"
+              src={`saidulbadhon.${
+                NetworkId === "testnet" ? "testnet" : "near"
+              }/widget/SearchPage.ComponentDetails-fork`}
               props={{ src: openComponentDetail }}
             />
           ) : (

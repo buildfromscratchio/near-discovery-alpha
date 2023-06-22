@@ -13,14 +13,13 @@ import React, { useContext } from "react";
 import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
 import Brightness4RoundedIcon from "@mui/icons-material/Brightness4Rounded";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
-import GitHubIcon from "@mui/icons-material/GitHub";
 import PublicRoundedIcon from "@mui/icons-material/PublicRounded";
 import OpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
 
+import { useAccount } from "near-social-vm";
+
 import { ThemeContext } from "../../../../context/ThemeContext";
 import { EditorContext } from "../../../../context/EditorContext";
-import httpClient from "../../../../libs/httpClient";
-
 export default function WidgetViewHeader({
   loading,
 
@@ -38,25 +37,30 @@ export default function WidgetViewHeader({
 
   const { theme } = useContext(ThemeContext);
 
-  console.warn = () => {};
+  // console.log(
+  //   "pathname : ",
+  //   pathname.substring(pathname.indexOf("/editor/") + 8)
+  // );
 
-  // const [loading, setLoading] = useState(false);
-  const handlePostInGithub = () => {
-    // setLoading(true);
+  // console.warn = () => {};
 
-    httpClient()
-      .get("/github")
-      .then((res) => {
-        // setProjects(res.data);
-        // setLoading(false);
+  // // const [loading, setLoading] = useState(false);
+  // const handlePostInGithub = () => {
+  //   // setLoading(true);
 
-        // console.log("handlePostInGithub : ", res.data);
-      })
-      .catch((err) => {
-        // console.log(err);
-        // setLoading(false);
-      });
-  };
+  //   httpClient()
+  //     .get("/github")
+  //     .then((res) => {
+  //       // setProjects(res.data);
+  //       // setLoading(false);
+
+  //       // console.log("handlePostInGithub : ", res.data);
+  //     })
+  //     .catch((err) => {
+  //       // console.log(err);
+  //       // setLoading(false);
+  //     });
+  // };
 
   return (
     <Box
@@ -213,7 +217,13 @@ export default function WidgetViewHeader({
 }
 
 const OpenInNewTabMenu = () => {
+  // const { pathname } = useLocation();
+  const { accountId } = useAccount();
+
   const { theme } = useContext(ThemeContext);
+  const { lastPath, setLastPath } = useContext(EditorContext);
+
+  const widgetSrc = `${accountId}/widget/${lastPath?.name}`;
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -258,10 +268,7 @@ const OpenInNewTabMenu = () => {
           },
         }}
       >
-        <a
-          href="https://nearpad.dev/saidulbadhon.near/widget/test"
-          target="_blank"
-        >
+        <a href={`https://nearpad.dev/${widgetSrc}`} target="_blank">
           <MenuItem>
             <ListItemText sx={{ color: theme.buttonColor, fontWeight: 700 }}>
               nearpad.dev
@@ -275,29 +282,35 @@ const OpenInNewTabMenu = () => {
           </MenuItem>
         </a>
 
-        <MenuItem>
-          <ListItemText sx={{ color: theme.textColor }}>near.org</ListItemText>
+        <a href={`https://near.org/${widgetSrc}`} target="_blank">
+          <MenuItem>
+            <ListItemText sx={{ color: theme.textColor }}>
+              near.org
+            </ListItemText>
 
-          <ListItemIcon style={{ minWidth: 16 }}>
-            <OpenInNewRoundedIcon
-              sx={{ fill: theme.textColor2, fontSize: "1rem" }}
-            />
-          </ListItemIcon>
-        </MenuItem>
+            <ListItemIcon style={{ minWidth: 16 }}>
+              <OpenInNewRoundedIcon
+                sx={{ fill: theme.textColor2, fontSize: "1rem" }}
+              />
+            </ListItemIcon>
+          </MenuItem>
+        </a>
 
-        <MenuItem>
-          <ListItemText sx={{ color: theme.textColor }}>
-            near.social
-          </ListItemText>
+        <a href={`https://near.social/#/${widgetSrc}`} target="_blank">
+          <MenuItem>
+            <ListItemText sx={{ color: theme.textColor }}>
+              near.social
+            </ListItemText>
 
-          <ListItemIcon style={{ minWidth: 16 }}>
-            <OpenInNewRoundedIcon
-              sx={{ fill: theme.textColor2, fontSize: "1rem" }}
-            />
-          </ListItemIcon>
-        </MenuItem>
+            <ListItemIcon style={{ minWidth: 16 }}>
+              <OpenInNewRoundedIcon
+                sx={{ fill: theme.textColor2, fontSize: "1rem" }}
+              />
+            </ListItemIcon>
+          </MenuItem>
+        </a>
 
-        <a href="https://bos.gg/#/widget/test" target="_blank">
+        <a href={`https://bos.gg/#/${widgetSrc}`} target="_blank">
           <MenuItem>
             <ListItemText sx={{ color: theme.textColor }}>boss.gg</ListItemText>
 

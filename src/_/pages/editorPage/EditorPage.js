@@ -83,6 +83,9 @@ export default function EditorPage(props) {
     setFiles,
     filesDetails,
     setFilesDetails,
+    lastPath,
+    setLastPath,
+
     calculateGasFee,
 
     showLiveCodePreview,
@@ -104,9 +107,10 @@ export default function EditorPage(props) {
 
   const [loading, setLoading] = useState(false);
   const [code, setCode] = useState(undefined);
+  console.log("code : ", code?.length);
   const [path, setPath] = useState(undefined);
   // const [files, setFiles] = useState(undefined);
-  const [lastPath, setLastPath] = useState(undefined);
+  // const [lastPath, setLastPath] = useState(undefined);
   const [showRenameModal, setShowRenameModal] = useState(false);
   const [showSaveDraftModal, setShowSaveDraftModal] = useState(false);
 
@@ -167,7 +171,7 @@ export default function EditorPage(props) {
           time: Date.now(),
         }
       );
-      // console.log(code);
+      console.log("updateCode : ", code?.length);
       setCode(code);
     },
     [cache, setCode]
@@ -392,6 +396,7 @@ export default function EditorPage(props) {
         updateCode(path, code);
         // Automatically render the code on first click
         setRenderCode(code);
+        setLoading(false);
       } else {
         setLoading(true);
         cache
@@ -410,7 +415,7 @@ export default function EditorPage(props) {
           });
       }
 
-      if (path) history.push(`/editor/widget/${path.name}`);
+      // if (path) history.push(`/editor/${accountId}/widget/${path.name}`);
     },
     [updateCode, addToFiles]
   );
@@ -573,6 +578,13 @@ export default function EditorPage(props) {
       //     widget: widgetSrc,
       //   },
       // });
+
+      setTimeout(function () {
+        console.log("Executed after 1 second");
+        // history.push(`/editor/`);
+        history.replace(`/editor/`);
+      }, 1000);
+
       // history.replace(`/editor/`);
     } else if (path === undefined) {
       if (!loading) {
@@ -919,6 +931,7 @@ export default function EditorPage(props) {
           maxSize="100%"
           vertical={bp}
           // vertical={true}
+          defaultSizes={[75, 200, 150]}
         >
           {!bp && (
             <Allotment.Pane
@@ -1085,51 +1098,44 @@ export default function EditorPage(props) {
             </div>
           </Allotment.Pane>
 
-          <Allotment.Pane
-            key="websiteView"
-            snap
-            visible={showWebsiteView}
-            minSize={300}
-            preferredSize="40%"
-          >
-            <WidgetViewContainer
-              parsedWidgetProps={parsedWidgetProps}
-              renderCode={renderCode}
-              loading={loading}
-              //
-              handlePreviewButton={handlePreviewButton}
-              handleSaveDraftButton={handleSaveDraftButton}
-              handleForkButton={handleForkButton}
-              publishWidgetButton={
-                props.signedIn ? (
-                  filesDetails.get(widgetName)?.isDraft ? (
-                    publishDraftAsMainButton
-                  ) : (
-                    <PublishButton />
-                  )
+          <WidgetViewContainer
+            showWebsiteView={showWebsiteView}
+            parsedWidgetProps={parsedWidgetProps}
+            renderCode={renderCode}
+            loading={loading}
+            //
+            handlePreviewButton={handlePreviewButton}
+            handleSaveDraftButton={handleSaveDraftButton}
+            handleForkButton={handleForkButton}
+            publishWidgetButton={
+              props.signedIn ? (
+                filesDetails.get(widgetName)?.isDraft ? (
+                  publishDraftAsMainButton
                 ) : (
-                  <button
-                    className="btn btn-primary"
-                    style={{
-                      backgroundColor: theme.buttonColor,
-                      paddingInline: 16,
-                      borderRadius: 4,
-                      fontWeight: 500,
-                    }}
-                    onClick={() => {
-                      props.requestSignIn();
-                      ReactGA.event({
-                        category: "SignIn",
-                        action: "signin",
-                      });
-                    }}
-                  >
-                    Connect
-                  </button>
+                  <PublishButton />
                 )
-              }
-            />
-          </Allotment.Pane>
+              ) : (
+                <button
+                  className="btn btn-primary"
+                  style={{
+                    backgroundColor: theme.buttonColor,
+                    paddingInline: 16,
+                    borderRadius: 4,
+                    fontWeight: 500,
+                  }}
+                  onClick={() => {
+                    props.requestSignIn();
+                    ReactGA.event({
+                      category: "SignIn",
+                      action: "signin",
+                    });
+                  }}
+                >
+                  Connect
+                </button>
+              )
+            }
+          />
         </Allotment>
       </Box>
     </>
