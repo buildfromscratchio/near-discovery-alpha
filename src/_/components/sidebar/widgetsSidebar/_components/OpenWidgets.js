@@ -11,7 +11,7 @@ import ConfirmDialog from "../../../../dialogs/ConfirmDialog";
 // import ConfirmDialog from "../../../../dialogs/ConfirmDialog";
 
 const findParentsNodeByName = (nodes, widgetName, parentIds = []) => {
-  console.log(" XXXXXXXXXXXXXXXX findParentsNodeByName : ", nodes, widgetName);
+  console.log("Calling findParentsNodeByName()");
 
   for (const node of nodes) {
     if (node.name === widgetName && node.type === "widget") {
@@ -126,29 +126,47 @@ export default function OpenWidgets({
 
   //
 
-  useEffect(() => {
-    if (projectFiles.length > 0 && lastPath?.name) {
-      console.log(
-        "Calling setOpenWidgetsSelected for the first time ",
-        lastPath?.name,
-        " - openWidgetsExpanded : ",
-        openWidgetsExpanded,
+  const [hasCalledOnce, setHasCalledOnce] = useState(false);
 
-        " - projectFiles  : ",
-        projectFiles,
-        " findParentsNodeByName : ",
-        findParentsNodeByName(projectFiles, lastPath?.name)
-      );
+  useEffect(() => {
+    if (!hasCalledOnce && projectFiles?.length > 0 && lastPath?.name) {
+      // console.log(
+      //   "Calling setOpenWidgetsSelected for the first time ",
+      //   lastPath?.name,
+      //   " - openWidgetsExpanded : ",
+      //   openWidgetsExpanded,
+
+      //   " - projectFiles  : ",
+      //   projectFiles,
+      //   " findParentsNodeByName : ",
+      //   findParentsNodeByName(projectFiles, lastPath?.name)
+      // );
 
       const nodeIds = findParentsNodeByName(projectFiles, lastPath?.name);
 
       if (nodeIds) {
-        setOpenWidgetsExpanded((e) => [
-          e,
-          ...findParentsNodeByName(projectFiles, lastPath?.name),
-        ]);
+        const newNodeids = nodeIds.filter((x) => x !== undefined);
+        setOpenWidgetsExpanded((e) => [...e, ...newNodeids]);
       }
+
+      console.log(
+        "OpenWidget > UseEffect > lastPath : ",
+        lastPath?.name,
+        " : nodeIds :  ",
+        nodeIds
+      );
+
+      // setTimeout(function () {
+      //   console.log("Executed after 1 second");
+      //   // history.push(`/editor/`);
+      //   // history.replace(`/editor/`);
+      // }, 2000);
       setOpenWidgetsSelected(lastPath?.name);
+
+      // setTimeout(function () {
+      //   console.log("Executed after 1 second");
+      // setOpenWidgetsSelected(lastPath?.name);
+      // }, 1000);
     }
   }, [lastPath, projectFiles]);
 
@@ -168,31 +186,37 @@ export default function OpenWidgets({
   // };
 
   return (
-    <Box>
-      <TreeView
-        aria-label="multi-select"
-        defaultCollapseIcon={<ExpandMoreIcon />}
-        defaultExpandIcon={<ChevronRightIcon />}
-        expanded={openWidgetsExpanded}
-        onNodeToggle={handleToggle}
-        //
-        selected={openWidgetsSelected}
-        onNodeSelect={handleNodeSelect}
-      >
-        <CustomTreeView
-          file={{ children: projectFiles }}
-          setShowRenameModal={setShowRenameModal}
-          createFile={createFile}
-          openFile={openFile}
-          curPath={curPath}
-          filesDetails={filesDetails}
-          removeFromFiles={removeFromFiles}
+    openWidgetsSelected && (
+      <Box>
+        {/* {lastPath?.name} - {openWidgetsSelected}
+        <button onClick={() => setOpenWidgetsSelected("Untitled-1")}>
+          Cghnagads{" "}
+        </button> */}
+        <TreeView
+          aria-label="multi-select"
+          defaultCollapseIcon={<ExpandMoreIcon />}
+          defaultExpandIcon={<ChevronRightIcon />}
+          expanded={openWidgetsExpanded}
+          onNodeToggle={handleToggle}
           //
-          showConfirmDialog={showConfirmDialog}
-          setShowConfirmDialog={setShowConfirmDialog}
-        />
+          selected={openWidgetsSelected}
+          // selected="build.followersList"
+          onNodeSelect={handleNodeSelect}
+        >
+          <CustomTreeView
+            file={{ children: projectFiles }}
+            setShowRenameModal={setShowRenameModal}
+            createFile={createFile}
+            openFile={openFile}
+            curPath={curPath}
+            filesDetails={filesDetails}
+            removeFromFiles={removeFromFiles}
+            //
+            showConfirmDialog={showConfirmDialog}
+            setShowConfirmDialog={setShowConfirmDialog}
+          />
 
-        {/* {projectFiles.map((item, index) => (
+          {/* {projectFiles.map((item, index) => (
           <TreeItem
             key={index}
             nodeId={item.id}
@@ -212,25 +236,25 @@ export default function OpenWidgets({
             )}
           </TreeItem>
         ))} */}
-      </TreeView>
+        </TreeView>
+        <ConfirmDialog
+          open={showConfirmDialog}
+          setOpen={setShowConfirmDialog}
+          onClick={() => {
+            let widgets = [];
+            getWidgets(showConfirmDialog, widgets);
 
-      <ConfirmDialog
-        open={showConfirmDialog}
-        setOpen={setShowConfirmDialog}
-        onClick={() => {
-          let widgets = [];
-          getWidgets(showConfirmDialog, widgets);
-
-          widgets?.map((widget) => {
-            // console.log("handleRemoveFile.widgets.widget: ", widget);
-            removeFromFiles(widget);
-          });
-          // console.log("handleRemoveFile.widgets: ", widgets);
-        }}
-        label={`Remove Folder`}
-        description={`Are you sure you want to remove this folder?`}
-      />
-    </Box>
+            widgets?.map((widget) => {
+              // console.log("handleRemoveFile.widgets.widget: ", widget);
+              removeFromFiles(widget);
+            });
+            // console.log("handleRemoveFile.widgets: ", widgets);
+          }}
+          label={`Remove Folder`}
+          description={`Are you sure you want to remove this folder?`}
+        />
+      </Box>
+    )
   );
 }
 

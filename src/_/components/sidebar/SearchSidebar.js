@@ -21,15 +21,15 @@ export default function SearchSidebar() {
     setSelectedActivity,
   } = useContext(EditorContext);
 
-  const onCopyButtonClick = async (textToCopy) => {
-    try {
-      await navigator.clipboard.writeText(`<Widget src="${textToCopy}" />`);
+  // const onCopyButtonClick = async (textToCopy) => {
+  //   try {
+  //     await navigator.clipboard.writeText(`<Widget src="${textToCopy}" />`);
 
-      enqueueSnackbar("Widget copied to clipboard!", { variant: "success" });
-    } catch (error) {
-      enqueueSnackbar("Failed to copy text: ", { variant: "error" });
-    }
-  };
+  //     enqueueSnackbar("Widget copied to clipboard!", { variant: "success" });
+  //   } catch (error) {
+  //     enqueueSnackbar("Failed to copy text: ", { variant: "error" });
+  //   }
+  // };
 
   return (
     <Box
@@ -71,7 +71,7 @@ export default function SearchSidebar() {
               history.push("/search");
             }
           },
-          onCopyButtonClick,
+          onCopyButtonClick: () => {},
         }}
       />
     </Box>

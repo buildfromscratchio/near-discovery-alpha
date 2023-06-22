@@ -107,6 +107,7 @@ export default function EditorPage(props) {
 
   const [loading, setLoading] = useState(false);
   const [code, setCode] = useState(undefined);
+  console.log("code : ", code?.length);
   const [path, setPath] = useState(undefined);
   // const [files, setFiles] = useState(undefined);
   // const [lastPath, setLastPath] = useState(undefined);
@@ -170,7 +171,7 @@ export default function EditorPage(props) {
           time: Date.now(),
         }
       );
-      // console.log(code);
+      console.log("updateCode : ", code?.length);
       setCode(code);
     },
     [cache, setCode]
@@ -577,7 +578,14 @@ export default function EditorPage(props) {
       //     widget: widgetSrc,
       //   },
       // });
-      history.replace(`/editor/`);
+
+      setTimeout(function () {
+        console.log("Executed after 1 second");
+        // history.push(`/editor/`);
+        history.replace(`/editor/`);
+      }, 1000);
+
+      // history.replace(`/editor/`);
     } else if (path === undefined) {
       if (!loading) {
         if (files.length === 0) {

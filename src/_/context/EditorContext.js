@@ -5,7 +5,7 @@ export const EditorContext = createContext();
 export const EditorContextProvider = (props) => {
   const [showWebsiteView, setShowWebsiteView] = useState(true);
   const [showLiveCodePreview, setShowLiveCodePreview] = useState(true);
-  const [showConsole, setShowConsole] = useState(true);
+  const [showConsole, setShowConsole] = useState(false);
   const [logs, setLogs] = useState([]);
 
   const [selectedActivity, setSelectedActivity] = useState("");
