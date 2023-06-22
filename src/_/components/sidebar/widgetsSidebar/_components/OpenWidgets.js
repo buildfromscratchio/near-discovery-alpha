@@ -1,13 +1,56 @@
 import { TreeItem, TreeView } from "@mui/lab";
 import { Box } from "@mui/material";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import LabelWithFileIcon from "../../../LabelWithFileIcon";
 import { EditorContext } from "../../../../context/EditorContext";
 import { ThemeContext } from "../../../../context/ThemeContext";
 import ConfirmDialog from "../../../../dialogs/ConfirmDialog";
+// import findParentsNodeByName from "../../../../libs/FindParentsNodeByName";
 // import ConfirmDialog from "../../../../dialogs/ConfirmDialog";
+
+const findParentsNodeByName = (nodes, widgetName, parentIds = []) => {
+  console.log(" XXXXXXXXXXXXXXXX findParentsNodeByName : ", nodes, widgetName);
+
+  for (const node of nodes) {
+    if (node.name === widgetName && node.type === "widget") {
+      return [...parentIds, node.nodeId];
+    }
+
+    if (node.children && node.children.length > 0) {
+      const result = findParentsNodeByName(node.children, widgetName, [
+        ...parentIds,
+        node.nodeId,
+      ]);
+      if (result) {
+        return result;
+      }
+    }
+  }
+
+  return null;
+
+  // if (node.name === widgetName && node.type === "widget") {
+  //   return [...parentIds, node.nodeId];
+  // }
+
+  // if (node.children && node.children.length > 0) {
+  //   for (const child of node.children) {
+  //     const result = findParentsNodeByName(child, widgetName, [
+  //       ...parentIds,
+  //       node.nodeId,
+  //     ]);
+
+  //     console.log("result : ", result);
+  //     if (result) {
+  //       return result;
+  //     }
+  //   }
+  // }
+
+  // return null;
+};
 
 function getWidgets(node, widgetsArray) {
   if (node.type === "widget") {
@@ -37,11 +80,15 @@ export default function OpenWidgets({
   openWidgetsSelected,
   setOpenWidgetsSelected,
 }) {
+  const { lastPath } = useContext(EditorContext);
+
   const handleToggle = (event, nodeIds) => {
-    // console.log("handleToggle setOpenWidgetsExpanded : ", nodeIds);
+    console.log("handleToggle setOpenWidgetsExpanded : ", nodeIds);
+
     setOpenWidgetsExpanded(nodeIds);
   };
 
+  console.log("openWidgetsSelected : ", openWidgetsSelected);
   // function getNodeIds(objArray) {
   //   const nodeIds = [];
   //   if (Array.isArray(objArray)) {
@@ -79,10 +126,39 @@ export default function OpenWidgets({
 
   //
 
+  useEffect(() => {
+    if (projectFiles.length > 0 && lastPath?.name) {
+      console.log(
+        "Calling setOpenWidgetsSelected for the first time ",
+        lastPath?.name,
+        " - openWidgetsExpanded : ",
+        openWidgetsExpanded,
+
+        " - projectFiles  : ",
+        projectFiles,
+        " findParentsNodeByName : ",
+        findParentsNodeByName(projectFiles, lastPath?.name)
+      );
+
+      const nodeIds = findParentsNodeByName(projectFiles, lastPath?.name);
+
+      if (nodeIds) {
+        setOpenWidgetsExpanded((e) => [
+          e,
+          ...findParentsNodeByName(projectFiles, lastPath?.name),
+        ]);
+      }
+      setOpenWidgetsSelected(lastPath?.name);
+    }
+  }, [lastPath, projectFiles]);
+
   const handleNodeSelect = (event, nodeId) => {
     // console.log("handleNodeSelect : ", nodeId);
-    // setOpenWidgetsSelected(nodeId);
-    setOpenWidgetsSelected([3]);
+    //
+    console.log("calling handleNodeSelect : and nodeId is : ", nodeId);
+    setOpenWidgetsSelected(nodeId);
+    //
+    // setOpenWidgetsSelected([3]);
   };
 
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);

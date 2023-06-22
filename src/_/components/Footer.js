@@ -39,7 +39,7 @@ export default function Footer() {
       <Box sx={{ display: "flex", gap: 1 }}>
         <EnvironmentMenu />
 
-        <ButtonBase
+        {/* <ButtonBase
           id="fade-button"
           aria-controls={open ? "fade-menu" : undefined}
           aria-haspopup="true"
@@ -59,7 +59,7 @@ export default function Footer() {
           >
             {showConsole ? "Console" : "Console"}
           </Typography>
-        </ButtonBase>
+        </ButtonBase> */}
       </Box>
 
       {pathname === "/editor" && curFileGasFee.near && (

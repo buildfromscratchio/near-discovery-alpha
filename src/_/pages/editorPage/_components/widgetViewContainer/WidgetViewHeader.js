@@ -13,15 +13,13 @@ import React, { useContext } from "react";
 import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
 import Brightness4RoundedIcon from "@mui/icons-material/Brightness4Rounded";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
-import GitHubIcon from "@mui/icons-material/GitHub";
 import PublicRoundedIcon from "@mui/icons-material/PublicRounded";
 import OpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
 
+import { useAccount } from "near-social-vm";
+
 import { ThemeContext } from "../../../../context/ThemeContext";
 import { EditorContext } from "../../../../context/EditorContext";
-import httpClient from "../../../../libs/httpClient";
-import { useLocation } from "react-router-dom";
-
 export default function WidgetViewHeader({
   loading,
 
@@ -219,9 +217,13 @@ export default function WidgetViewHeader({
 }
 
 const OpenInNewTabMenu = () => {
-  const { pathname } = useLocation();
+  // const { pathname } = useLocation();
+  const { accountId } = useAccount();
 
   const { theme } = useContext(ThemeContext);
+  const { lastPath, setLastPath } = useContext(EditorContext);
+
+  const widgetSrc = `${accountId}/widget/${lastPath?.name}`;
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -266,12 +268,7 @@ const OpenInNewTabMenu = () => {
           },
         }}
       >
-        <a
-          href={`https://nearpad.dev/${pathname.substring(
-            pathname.indexOf("/editor/") + 8
-          )}`}
-          target="_blank"
-        >
+        <a href={`https://nearpad.dev/${widgetSrc}`} target="_blank">
           <MenuItem>
             <ListItemText sx={{ color: theme.buttonColor, fontWeight: 700 }}>
               nearpad.dev
@@ -285,12 +282,7 @@ const OpenInNewTabMenu = () => {
           </MenuItem>
         </a>
 
-        <a
-          href={`https://near.org/${pathname.substring(
-            pathname.indexOf("/editor/") + 8
-          )}`}
-          target="_blank"
-        >
+        <a href={`https://near.org/${widgetSrc}`} target="_blank">
           <MenuItem>
             <ListItemText sx={{ color: theme.textColor }}>
               near.org
@@ -304,12 +296,7 @@ const OpenInNewTabMenu = () => {
           </MenuItem>
         </a>
 
-        <a
-          href={`https://near.social/#/${pathname.substring(
-            pathname.indexOf("/editor/") + 8
-          )}`}
-          target="_blank"
-        >
+        <a href={`https://near.social/#/${widgetSrc}`} target="_blank">
           <MenuItem>
             <ListItemText sx={{ color: theme.textColor }}>
               near.social
@@ -323,12 +310,7 @@ const OpenInNewTabMenu = () => {
           </MenuItem>
         </a>
 
-        <a
-          href={`https://bos.gg/#/${pathname.substring(
-            pathname.indexOf("/editor/") + 8
-          )}`}
-          target="_blank"
-        >
+        <a href={`https://bos.gg/#/${widgetSrc}`} target="_blank">
           <MenuItem>
             <ListItemText sx={{ color: theme.textColor }}>boss.gg</ListItemText>
 

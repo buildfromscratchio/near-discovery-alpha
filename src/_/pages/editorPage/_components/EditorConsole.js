@@ -1,19 +1,19 @@
-import { Box, IconButton, Tooltip, Typography } from "@mui/material";
+import { Box, Divider, IconButton, Tooltip, Typography } from "@mui/material";
 import React from "react";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import ExpandMoreRoundedIcon from "@mui/icons-material/ExpandMoreRounded";
+
 import { useContext } from "react";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { EditorContext } from "../../../context/EditorContext";
 import { useState } from "react";
 import { useEffect } from "react";
-import ClearAllIcon from "@mui/icons-material/ClearAll";
+import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import { Console, Hook, Unhook } from "console-feed";
 
 export default function EditorConsole() {
-  const { theme, light, dark } = useContext(ThemeContext);
-  const { showConsole, setShowConsole } = useContext(EditorContext);
-
-  const [logs, setLogs] = useState([]);
+  const { theme } = useContext(ThemeContext);
+  const { showConsole, setShowConsole, logs, setLogs } =
+    useContext(EditorContext);
 
   // run once!
   useEffect(() => {
@@ -54,18 +54,24 @@ export default function EditorConsole() {
           variant="h6"
           sx={{ color: theme.textColor2, width: "100%" }}
         >
-          Console
+          {`Console ${logs?.length > 0 ? `(${logs?.length})` : ""}`}
         </Typography>
 
         <Tooltip title="Clear Logs">
           <IconButton onClick={() => clearConsole()}>
-            <ClearAllIcon />
+            <DeleteRoundedIcon />
           </IconButton>
         </Tooltip>
 
+        <Divider
+          orientation="vertical"
+          flexItem
+          sx={{ mx: 1, backgroundColor: theme.borderColor }}
+        />
+
         <Tooltip title="Close Console">
           <IconButton onClick={() => setShowConsole(false)}>
-            <CloseRoundedIcon />
+            <ExpandMoreRoundedIcon />
           </IconButton>
         </Tooltip>
       </Box>

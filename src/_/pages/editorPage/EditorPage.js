@@ -83,6 +83,9 @@ export default function EditorPage(props) {
     setFiles,
     filesDetails,
     setFilesDetails,
+    lastPath,
+    setLastPath,
+
     calculateGasFee,
 
     showLiveCodePreview,
@@ -106,7 +109,7 @@ export default function EditorPage(props) {
   const [code, setCode] = useState(undefined);
   const [path, setPath] = useState(undefined);
   // const [files, setFiles] = useState(undefined);
-  const [lastPath, setLastPath] = useState(undefined);
+  // const [lastPath, setLastPath] = useState(undefined);
   const [showRenameModal, setShowRenameModal] = useState(false);
   const [showSaveDraftModal, setShowSaveDraftModal] = useState(false);
 
@@ -574,7 +577,7 @@ export default function EditorPage(props) {
       //     widget: widgetSrc,
       //   },
       // });
-      // history.replace(`/editor/`);
+      history.replace(`/editor/`);
     } else if (path === undefined) {
       if (!loading) {
         if (files.length === 0) {
