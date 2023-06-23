@@ -14,6 +14,10 @@ export const EditorContextProvider = (props) => {
   const [filesDetails, setFilesDetails] = useState(new Map());
   const [lastPath, setLastPath] = useState(undefined);
 
+  useEffect(() => {
+    setLogs([]);
+  }, [lastPath]);
+
   const [curFileGasFee, setCurFileGasFee] = useState(0);
   const calculateGasFee = (code) => {
     const size = new Blob([code]).size;

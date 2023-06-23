@@ -204,7 +204,7 @@ export default function Activitybar(props) {
               }}
             >
               <HelpOutlineRoundedIcon
-                sx={{ fill: theme.textColor4, fontSize: "1.5rem" }}
+                sx={{ fill: theme.textColor3, fontSize: "1.5rem" }}
               />
             </Box>
           </a>

@@ -5,15 +5,13 @@ import ExpandMoreRoundedIcon from "@mui/icons-material/ExpandMoreRounded";
 import { useContext } from "react";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { EditorContext } from "../../../context/EditorContext";
-import { useState } from "react";
 import { useEffect } from "react";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import { Console, Hook, Unhook } from "console-feed";
 
 export default function EditorConsole() {
   const { theme } = useContext(ThemeContext);
-  const { showConsole, setShowConsole, logs, setLogs } =
-    useContext(EditorContext);
+  const { setShowConsole, logs, setLogs } = useContext(EditorContext);
 
   // run once!
   useEffect(() => {
@@ -59,7 +57,7 @@ export default function EditorConsole() {
 
         <Tooltip title="Clear Logs">
           <IconButton onClick={() => clearConsole()}>
-            <DeleteRoundedIcon />
+            <DeleteRoundedIcon sx={{ fill: theme.textColor }} />
           </IconButton>
         </Tooltip>
 
@@ -71,12 +69,12 @@ export default function EditorConsole() {
 
         <Tooltip title="Close Console">
           <IconButton onClick={() => setShowConsole(false)}>
-            <ExpandMoreRoundedIcon />
+            <ExpandMoreRoundedIcon sx={{ fill: theme.textColor }} />
           </IconButton>
         </Tooltip>
       </Box>
 
-      <Box sx={{ height: "100%", overflowY: "auto", paddingBottom: "25px" }}>
+      <Box sx={{ height: "100%", overflowY: "auto", paddingBottom: "50px" }}>
         <Console logs={logs} variant={theme?.name} />
       </Box>
     </Box>

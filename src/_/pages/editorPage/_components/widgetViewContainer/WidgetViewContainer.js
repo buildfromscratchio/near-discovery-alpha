@@ -141,7 +141,10 @@ export default function WidgetViewContainer({
             justifyContent: "space-between",
             alignItems: "center",
             width: "100%",
+
+            cursor: "pointer",
           }}
+          onClick={() => setShowConsole(true)}
         >
           <Typography
             variant="h6"
@@ -157,8 +160,8 @@ export default function WidgetViewContainer({
       </Tooltip> */}
 
           <Tooltip title="Open Console">
-            <IconButton onClick={() => setShowConsole(true)}>
-              <KeyboardArrowUpRoundedIcon />
+            <IconButton>
+              <KeyboardArrowUpRoundedIcon sx={{ fill: theme.textColor }} />
             </IconButton>
           </Tooltip>
         </Box>
