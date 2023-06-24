@@ -69,7 +69,7 @@ const ChangeEnvButton = () => {
         variant="p1"
         sx={{ fontWeight: 500, color: theme.textColor2, pt: 1.75, pb: 1 }}
       >
-        Networks:
+        Networks
       </Typography>
 
       <Box

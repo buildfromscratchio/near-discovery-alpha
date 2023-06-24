@@ -30,7 +30,15 @@ export default function RenameDialog({
       onClose={() => onHide()}
       fullWidth={true}
       maxWidth="xs"
-      PaperProps={{ style: { backgroundColor: theme.ui, borderRadius: 4 } }}
+      style={{
+        zIndex: 99999999999,
+      }}
+      PaperProps={{
+        style: {
+          backgroundColor: theme.ui,
+          borderRadius: 4,
+        },
+      }}
     >
       <DialogTitle sx={{ padding: "16px 16px 24px 16px" }}>
         <Typography

@@ -104,11 +104,11 @@ export default function CustomDropzone(props) {
         >
           {label}:
         </Typography>
-        {required && (
+        {/* {required && (
           <Typography variant="p1" fontWeight={600} sx={{ color: "#bc002d" }}>
             *
           </Typography>
-        )}
+        )} */}
       </Box>
 
       <Box>

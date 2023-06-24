@@ -312,7 +312,7 @@ const OpenInNewTabMenu = () => {
 
         <a href={`https://bos.gg/#/${widgetSrc}`} target="_blank">
           <MenuItem>
-            <ListItemText sx={{ color: theme.textColor }}>boss.gg</ListItemText>
+            <ListItemText sx={{ color: theme.textColor }}>bos.gg</ListItemText>
 
             <ListItemIcon style={{ minWidth: 16 }}>
               <OpenInNewRoundedIcon

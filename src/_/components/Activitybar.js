@@ -5,7 +5,9 @@ import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import WidgetsRoundedIcon from "@mui/icons-material/WidgetsRounded";
 import CellTowerRoundedIcon from "@mui/icons-material/CellTowerRounded";
 import Groups3RoundedIcon from "@mui/icons-material/Groups3Rounded";
-import HelpOutlineRoundedIcon from "@mui/icons-material/HelpOutlineRounded";
+
+import HelpRoundedIcon from "@mui/icons-material/HelpRounded";
+import FeedbackRoundedIcon from "@mui/icons-material/FeedbackRounded";
 
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
@@ -25,7 +27,7 @@ export default function Activitybar(props) {
   const history = useHistory();
   const { accountId } = useAccount();
   const { theme, enableDarkMode, setEnableDarkMode } = useContext(ThemeContext);
-  const { setSelectedActivity, Widgets } = useContext(EditorContext);
+  const { setSelectedActivity, Widgets, NetworkId } = useContext(EditorContext);
   const { user, logout } = useContext(AuthContext);
 
   console.error = () => {};
@@ -46,17 +48,17 @@ export default function Activitybar(props) {
     >
       <div>
         <ActivityButton
-          disabled
+          // disabled
           icon={
             <DiamondRoundedIcon
               sx={{ fill: theme.textColor4, fontSize: "1.8rem" }}
             />
           }
-          label="discover"
-          to="/discover"
+          label=""
+          to="/editor"
           onClick={() => {
-            history.push("/discover");
-            setSelectedActivity("");
+            history.push("/editor");
+            setSelectedActivity((e) => (e === "widgets" ? "" : "widgets"));
           }}
         />
 
@@ -75,7 +77,7 @@ export default function Activitybar(props) {
               ></path>
             </svg>
           }
-          label="create widgets"
+          label="create Component"
           to="/editor"
           onClick={() => {
             history.push("/editor");
@@ -175,6 +177,7 @@ export default function Activitybar(props) {
       <div>
         {accountId && (
           <ActivityButton
+            disabled={NetworkId === "testnet" ? true : false}
             icon={
               <Widget
                 src={Widgets.activitybarNotificationButton}
@@ -203,8 +206,37 @@ export default function Activitybar(props) {
                 alignItems: "center",
               }}
             >
-              <HelpOutlineRoundedIcon
-                sx={{ fill: theme.textColor3, fontSize: "1.5rem" }}
+              <HelpRoundedIcon
+                sx={{
+                  fill: theme.textColor4,
+                  fontSize: "1.5rem",
+                  opacity: 0.5,
+                }}
+              />
+            </Box>
+          </a>
+        </Tooltip>
+
+        <Tooltip title="Feedback" placement="right">
+          <a
+            href="https://components.canny.io/feature-requests"
+            target="_blank"
+          >
+            <Box
+              style={{
+                minWidth: 50,
+                minHeight: 50,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <FeedbackRoundedIcon
+                sx={{
+                  fill: theme.textColor4,
+                  fontSize: "1.5rem",
+                  opacity: 0.5,
+                }}
               />
             </Box>
           </a>

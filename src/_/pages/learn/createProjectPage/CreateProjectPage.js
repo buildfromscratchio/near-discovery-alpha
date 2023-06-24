@@ -586,7 +586,7 @@ const DetailSection = ({
           variant="p1"
           sx={{ color: theme.textColor2, fontWeight: 500, pb: 1 }}
         >
-          Description:
+          Description
         </Typography>
         <div style={{ height: 8 }} />
 

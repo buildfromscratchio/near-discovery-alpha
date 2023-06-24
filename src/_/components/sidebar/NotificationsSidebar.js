@@ -2,9 +2,11 @@ import { Box, Typography } from "@mui/material";
 import React, { useContext } from "react";
 import { ThemeContext } from "../../context/ThemeContext";
 import { Widget } from "near-social-vm";
+import { EditorContext } from "../../context/EditorContext";
 
 export default function NotificationsSidebar() {
   const { theme } = useContext(ThemeContext);
+  const { NetworkId } = useContext(EditorContext);
 
   return (
     <Box
@@ -34,7 +36,9 @@ export default function NotificationsSidebar() {
       <Box sx={{ p: 1, height: "100%", overflowY: "auto" }}>
         {/* <Widget src="mob.near/widget/NotificationFeed" /> */}
         <Widget
-          src="saidulbadhon.near/widget/NotificationsSidebar"
+          src={`saidulbadhon.${
+            NetworkId === "testnet" ? "testnet" : "near"
+          }/widget/NotificationsSidebar`}
           props={{ theme }}
         />
       </Box>
