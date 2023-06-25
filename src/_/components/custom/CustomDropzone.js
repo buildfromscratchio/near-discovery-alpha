@@ -102,7 +102,7 @@ export default function CustomDropzone(props) {
           fontWeight={600}
           sx={{ color: theme.textColor2 }}
         >
-          {label}:
+          {label}
         </Typography>
         {/* {required && (
           <Typography variant="p1" fontWeight={600} sx={{ color: "#bc002d" }}>

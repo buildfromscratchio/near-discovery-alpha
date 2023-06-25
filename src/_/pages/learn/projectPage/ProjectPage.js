@@ -131,6 +131,10 @@ const Projectbar = ({ project, selectedSection }) => {
             dangerouslySetInnerHTML={{ __html: selectedSection?.description }}
           /> */}
 
+          {console.log(
+            "selectedSection?.description : ",
+            selectedSection?.description
+          )}
           {selectedSection ? (
             <MarkdownViewer src={selectedSection?.description} />
           ) : (

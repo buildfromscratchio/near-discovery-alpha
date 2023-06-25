@@ -1,4 +1,12 @@
-import { MenuItem, Select, Switch, Typography } from "@mui/material";
+import {
+  IconButton,
+  MenuItem,
+  Select,
+  Switch,
+  Typography,
+} from "@mui/material";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
 
 import { Box } from "@mui/system";
 import React, { useContext } from "react";
@@ -214,13 +222,20 @@ const EnableDarkModeButton = () => {
         variant="p1"
         sx={{ fontWeight: 500, color: theme.textColor2 }}
       >
-        Dark Mode
+        Theme
       </Typography>
 
-      <Switch
+      <IconButton sx={{ mr: 4 }} onClick={() => setEnableDarkMode((e) => !e)}>
+        {enableDarkMode ? (
+          <LightModeIcon sx={{ fill: theme.textColor4, fontSize: "1.5rem" }} />
+        ) : (
+          <DarkModeIcon sx={{ fill: theme.textColor4, fontSize: "1.5rem" }} />
+        )}
+      </IconButton>
+      {/* <Switch
         checked={enableDarkMode}
         onChange={(event) => setEnableDarkMode(event.target.checked)}
-      />
+      /> */}
     </Box>
   );
 };

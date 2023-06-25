@@ -8,6 +8,7 @@ import { useState } from "react";
 import {
   Box,
   ButtonBase,
+  Chip,
   Fade,
   IconButton,
   Rating,
@@ -19,6 +20,10 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import MarkdownViewer from "../../../../components/MarkdownViewer";
 import ConfirmDialog from "../../../../dialogs/ConfirmDialog";
 import camelToNormal from "../../../../libs/camelToNormal";
+import EventIcon from "@mui/icons-material/Event";
+import Person4RoundedIcon from "@mui/icons-material/Person4Rounded";
+import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
+import formattedDate from "../../../../libs/formattedDate";
 
 export default function ProjectItem({ project, selectedItem, getData }) {
   const { theme } = useContext(ThemeContext);
@@ -114,6 +119,7 @@ export default function ProjectItem({ project, selectedItem, getData }) {
                 sx={{
                   display: "flex",
                   flexDirection: "column",
+                  // justifyContent: "space-between",
                   alignItems: "flex-start",
                   gap: 1,
                   p: 2,
@@ -154,25 +160,80 @@ export default function ProjectItem({ project, selectedItem, getData }) {
                   </Typography>
                 </Box>
 
-                <MarkdownViewer
-                  src={project?.description}
-                  className="max3Lines"
-                />
+                <Box sx={{ minHeight: 75 }}>
+                  <MarkdownViewer
+                    src={project?.description}
+                    className="max3Lines"
+                  />
+                </Box>
 
-                {/* <Typography
-                variant="p1"
-                sx={{
-                  fontWeight: 400,
-                  color: theme.textColor2,
-                  fontSize: "1rem",
-                  opacity: 0.85,
-                  overflowWrap: "break-word",
-                  width: "100%",
-                }}
-                className="max3Lines"
-              >
-                {project?.description}
-              </Typography> */}
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                    gap: 0.5,
+                  }}
+                >
+                  <Box>
+                    <Person4RoundedIcon sx={{ fill: theme.textColor3 }} />
+                    <Typography
+                      variant="p2"
+                      sx={{
+                        color: theme.textColor3,
+                        marginLeft: 0.5,
+                      }}
+                    >
+                      {project?.createdBy?.name}
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <EventIcon sx={{ fill: theme.textColor3 }} />
+                    <Typography
+                      variant="p2"
+                      sx={{
+                        color: theme.textColor3,
+                        marginLeft: 0.5,
+                      }}
+                    >
+                      {formattedDate(project?.createdAt)}
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <SchoolRoundedIcon sx={{ fill: theme.textColor3 }} />
+                    <Typography
+                      variant="p2"
+                      sx={{
+                        color: theme.textColor3,
+                        marginLeft: 0.5,
+                      }}
+                    >
+                      {camelToNormal(project?.level)}
+                    </Typography>
+                  </Box>
+                </Box>
+
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: 1,
+                    flexWrap: "wrap",
+                    marginTop: 1,
+                  }}
+                >
+                  {project?.tags?.map((tag, index) => (
+                    <Chip
+                      key={index}
+                      label={tag}
+                      size="small"
+                      sx={{
+                        color: theme.textColor3,
+                        backgroundColor: theme.textColor + 11,
+                      }}
+                    />
+                  ))}
+                </Box>
               </Box>
             </Box>
 

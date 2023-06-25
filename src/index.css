@@ -256,3 +256,9 @@ a:hover {
 .rbt-token.rbt-token-removeable * .rbt-close-content {
   display: none !important;
 }
+
+/* .markdown_pre_container > pre {
+  margin: 0px !important;
+  border-radius: 4px !important;
+  border: none !important;
+} */

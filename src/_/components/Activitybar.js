@@ -3,14 +3,12 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import WidgetsRoundedIcon from "@mui/icons-material/WidgetsRounded";
-import CellTowerRoundedIcon from "@mui/icons-material/CellTowerRounded";
 import Groups3RoundedIcon from "@mui/icons-material/Groups3Rounded";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
 
 import HelpRoundedIcon from "@mui/icons-material/HelpRounded";
 import FeedbackRoundedIcon from "@mui/icons-material/FeedbackRounded";
-
-import LightModeIcon from "@mui/icons-material/LightMode";
-import DarkModeIcon from "@mui/icons-material/DarkMode";
 
 import camelToNormal from "../libs/camelToNormal";
 import { ThemeContext } from "../context/ThemeContext";
@@ -99,7 +97,7 @@ export default function Activitybar(props) {
           }}
         />
 
-        <ActivityButton
+        {/* <ActivityButton
           icon={
             <CellTowerRoundedIcon
               sx={{ fill: theme.textColor4, fontSize: "1.5rem" }}
@@ -113,7 +111,7 @@ export default function Activitybar(props) {
               e === "changeNetwork" ? "" : "changeNetwork"
             );
           }}
-        />
+        /> */}
         <ActivityButton
           icon={
             <MenuBookOutlinedIcon

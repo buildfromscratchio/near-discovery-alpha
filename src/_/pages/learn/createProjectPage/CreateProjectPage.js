@@ -22,6 +22,8 @@ import slugify from "../../../libs/slugify";
 import addToObject from "../../../libs/addToObject";
 import deletePhoto from "../../../libs/deletePhoto";
 import uploadPhoto from "../../../libs/uploadPhoto";
+import CustomSelect from "../../../components/custom/CustomSelect";
+import camelToNormal from "../../../libs/camelToNormal";
 
 export default function CreateProjectPage(props) {
   const { projectSlug } = useParams();
@@ -35,6 +37,10 @@ export default function CreateProjectPage(props) {
   const [coverArt, setCoverArt] = useState([]);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+
+  const [level, setLevel] = useState("");
+  const [tags, setTags] = useState([]);
+
   const [sections, setSections] = useState([]);
 
   const [selectedSection, setSelectedSection] = useState();
@@ -66,6 +72,14 @@ export default function CreateProjectPage(props) {
           })
         );
         setSelectedProject(res.data);
+
+        res.data.tags((tag) => {
+          setTags((e) => [...e, { label: camelToNormal(tag), value: tag }]);
+        });
+        setLevel({
+          label: camelToNormal(res.data.level),
+          value: res.data.level,
+        });
       })
       .catch((err) => {
         // console.log(err);
@@ -99,6 +113,9 @@ export default function CreateProjectPage(props) {
       description,
       sections,
       status,
+
+      level: level?.value,
+      tags: tags?.map((t) => t.value),
     };
 
     if (coverArt?.length > 0) {
@@ -108,7 +125,7 @@ export default function CreateProjectPage(props) {
       data = addToObject(data, "coverArt", selectedProject.coverArt);
     }
 
-    // console.log("handleCreateOrUpdate Data : ", status);
+    console.log("handleCreateOrUpdate Data : ", data);
 
     setLoading(true);
 
@@ -166,6 +183,10 @@ export default function CreateProjectPage(props) {
               setName={setName}
               description={description}
               setDescription={setDescription}
+              level={level}
+              setLevel={setLevel}
+              tags={tags}
+              setTags={setTags}
               //
               sections={sections}
               setSections={setSections}
@@ -240,6 +261,10 @@ const SetupProjectSection = ({
   setName,
   description,
   setDescription,
+  level,
+  setLevel,
+  tags,
+  setTags,
   //
   sections,
   setSections,
@@ -286,6 +311,7 @@ const SetupProjectSection = ({
         // maxHeight: "100%",
         height: "max(100vh, 700px)",
         overflowY: "hidden",
+        pb: 3,
       }}
     >
       <Box
@@ -402,7 +428,7 @@ const SetupProjectSection = ({
             variant="p1"
             style={{ color: theme.textColor2, fontWeight: 500 }}
           >
-            Description:
+            Description
           </Typography>
           <div style={{ height: 8 }} />
           <MDEditor
@@ -421,7 +447,36 @@ const SetupProjectSection = ({
         /> */}
         </div>
 
-        <Box>
+        <CustomSelect
+          label="Level"
+          placeholder="Select level"
+          defaultValue={levelProvider[1]}
+          options={levelProvider}
+          //
+          value={level}
+          onChange={setLevel}
+          // error={selectedDeliveryProviderError}
+          // helperText={
+          //   selectedDeliveryProviderError && "Delivery provider is required"
+          // }
+        />
+
+        <CustomSelect
+          label="Tags"
+          placeholder="Add Tags"
+          options={[]}
+          //
+          isCreatable={true}
+          isMulti={true}
+          value={tags}
+          onChange={setTags}
+          // error={selectedDeliveryProviderError}
+          // helperText={
+          //   selectedDeliveryProviderError && "Delivery provider is required"
+          // }
+        />
+
+        <Box sx={{ marginTop: 2 }}>
           <Button
             sx={{
               textTransform: "none",
@@ -640,3 +695,9 @@ const DetailSection = ({
     </Box>
   );
 };
+
+const levelProvider = [
+  { label: "Beginner", value: "beginner" },
+  { label: "Intermediate", value: "intermediate" },
+  { label: "Advance", value: "advance" },
+];

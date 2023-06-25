@@ -1,4 +1,4 @@
-import { IconButton, Paper, Typography } from "@mui/material";
+import { Box, IconButton, Paper, Typography } from "@mui/material";
 
 import Markdown from "markdown-to-jsx";
 import React, { useContext } from "react";
@@ -15,15 +15,134 @@ export default function MarkdownViewer({ className, src }) {
   const { enqueueSnackbar } = useSnackbar();
   const { theme } = useContext(ThemeContext);
 
-  const HeadingsTag = ({ children, ...props }) => (
+  const H1Tag = ({ children, ...props }) => (
     <Typography
-      variant={props.id}
       {...props}
-      sx={{ color: theme?.textColor2, mb: 1 }}
+      variant="h1"
+      sx={{
+        color: theme?.textColor,
+
+        display: "block",
+        marginTop: "0.67em",
+        marginBBottom: "0.67em",
+        marginLeft: 0,
+        marginRight: 0,
+        fontWeight: "bold",
+      }}
     >
       {children}
     </Typography>
   );
+  const H2Tag = ({ children, ...props }) => (
+    <Typography
+      {...props}
+      variant="h2"
+      sx={{
+        color: theme?.textColor2,
+
+        display: "block",
+        marginTop: "0.83em",
+        marginBottom: "0.415em",
+        marginLeft: 0,
+        marginRight: 0,
+        fontWeight: "bold",
+      }}
+    >
+      {children}
+    </Typography>
+  );
+  const H3Tag = ({ children, ...props }) => (
+    <Typography
+      {...props}
+      variant="h3"
+      sx={{
+        color: theme?.textColor2,
+
+        display: "block",
+        marginTop: "1em",
+        marginBottom: ".25em",
+        marginLeft: 0,
+        marginRight: 0,
+        fontWeight: "bold",
+      }}
+    >
+      {children}
+    </Typography>
+  );
+  const H4Tag = ({ children, ...props }) => (
+    <Typography
+      {...props}
+      variant="h4"
+      sx={{
+        color: theme?.textColor2,
+
+        display: "block",
+        marginTop: "1.33em",
+        marginBottom: "0.3325em",
+        marginLeft: 0,
+        marginRight: 0,
+        fontWeight: "bold",
+      }}
+    >
+      {children}
+    </Typography>
+  );
+  const H5Tag = ({ children, ...props }) => (
+    <Typography
+      {...props}
+      variant="h5"
+      sx={{
+        color: theme?.textColor2,
+
+        display: "block",
+        marginTop: "1.67em",
+        marginBottom: "0.4175em",
+        marginLeft: 0,
+        marginRight: 0,
+        fontWeight: "bold",
+      }}
+    >
+      {children}
+    </Typography>
+  );
+  const H6Tag = ({ children, ...props }) => (
+    <Typography
+      {...props}
+      variant="h6"
+      sx={{
+        color: theme?.textColor2,
+
+        display: "block",
+        fontSize: ".67em",
+        marginTop: "2.33em",
+        marginBottom: "0.5825em",
+        marginLeft: 0,
+        marginRight: 0,
+        fontWeight: "bold",
+      }}
+    >
+      {children}
+    </Typography>
+  );
+  const PTag = ({ children, ...props }) => (
+    <Typography
+      {...props}
+      variant="p1"
+      sx={{ color: theme?.textColor2, mb: 1, fontWeight: 400 }}
+    >
+      {children}
+    </Typography>
+  );
+  const SpanTag = ({ children, ...props }) => (
+    <Typography
+      {...props}
+      variant="p1"
+      sx={{ color: theme?.textColor, mb: 1, fontWeight: 400 }}
+    >
+      {children}
+    </Typography>
+  );
+
   const TableTag = ({ children, ...props }) => (
     <table
       component={Paper}
@@ -68,21 +187,20 @@ export default function MarkdownViewer({ className, src }) {
       }
     };
 
-    // <pre
-    //   {...props}
-    //   style={{
-    //     backgroundColor: theme.backgroundColor,
-    //     padding: 16,
-    //     borderRadius: 4,
-    //     position: "relative",
-    //   }}
-    // >
     return (
-      <div
-        style={{
-          borderRadius: 4,
+      <Box
+        className="markdown_pre_container"
+        sx={{
+          borderRadius: 1,
           position: "relative",
-          backgroundColor: "red",
+          my: 1,
+
+          "& .BlasSal": {
+            backgroundColor: `${theme.backgroundColor} !important`,
+            margin: "0px !important",
+            borderRadius: "4px !important",
+            border: `1px ${theme.borderColor} solid !important`,
+          },
         }}
       >
         <IconButton
@@ -96,12 +214,31 @@ export default function MarkdownViewer({ className, src }) {
           {...props}
           language="jsx"
           style={theme.name === "dark" ? vscDarkPlus : vs}
+          className="BlasSal"
         >
           {children?.props?.children}
         </SyntaxHighlighter>
-      </div>
+      </Box>
     );
   };
+  const UlTag = ({ children, ...props }) => (
+    <ul
+      {...props}
+      style={{
+        backgroundColor: theme.backgroundColor,
+        paddingBlock: 8,
+        borderRadius: 4,
+        marginBlock: 4,
+      }}
+    >
+      {children}
+    </ul>
+  );
+  const LiTag = ({ children, ...props }) => (
+    <li {...props} style={{ color: theme.textColor2 }}>
+      {children}
+    </li>
+  );
 
   return src ? (
     <Markdown
@@ -111,13 +248,14 @@ export default function MarkdownViewer({ className, src }) {
         wrapper: "article",
         forceWrapper: false,
         overrides: {
-          h1: { component: HeadingsTag },
-          h2: { component: HeadingsTag },
-          h3: { component: HeadingsTag },
-          h4: { component: HeadingsTag },
-          h5: { component: HeadingsTag },
-          h6: { component: HeadingsTag },
-          p: { component: HeadingsTag },
+          h1: { component: H1Tag },
+          h2: { component: H2Tag },
+          h3: { component: H3Tag },
+          h4: { component: H4Tag },
+          h5: { component: H5Tag },
+          h6: { component: H6Tag },
+          p: { component: PTag },
+          span: { component: SpanTag },
           table: { component: TableTag },
           thead: { component: TableHeadTag },
           tbody: { component: TableBodyTag },
@@ -125,6 +263,8 @@ export default function MarkdownViewer({ className, src }) {
           th: { component: TableCellTag },
           td: { component: TableCellTag },
           pre: { component: PreTag },
+          ul: { component: UlTag },
+          li: { component: LiTag },
         },
       }}
     >

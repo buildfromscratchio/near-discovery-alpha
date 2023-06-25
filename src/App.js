@@ -253,16 +253,16 @@ export default function App() {
               </Route>
 
               <Route path={"/learn/create"}>
-                <AccessController requiredRole="admin">
-                  <CreateProjectPage {...passProps} />
-                </AccessController>
+                {/* <AccessController requiredRole="admin"> */}
+                <CreateProjectPage {...passProps} />
+                {/* </AccessController> */}
                 <Footer />
               </Route>
 
               <Route path={"/learn/:projectSlug/edit"}>
-                <AccessController requiredRole="admin">
-                  <CreateProjectPage {...passProps} />
-                </AccessController>
+                {/* <AccessController requiredRole="admin"> */}
+                <CreateProjectPage {...passProps} />
+                {/* </AccessController> */}
                 <Footer />
               </Route>
 

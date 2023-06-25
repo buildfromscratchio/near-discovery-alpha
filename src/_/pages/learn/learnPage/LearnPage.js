@@ -71,27 +71,26 @@ export default function LearnPage(props) {
                 (bos)
               </Typography>
             </Box>
-
-            {["admin", "super"].includes(user?.role) && (
-              <Link to="/learn/create">
-                <CustomButton
-                  sx={{
-                    borderRadius: 1,
-                    pr: 2,
-                    pl: 1,
-                    gap: 0.5,
-                  }}
+            {/* {["admin", "super"].includes(user?.role) && ( */}
+            <Link to="/learn/create">
+              <CustomButton
+                sx={{
+                  borderRadius: 1,
+                  pr: 2,
+                  pl: 1,
+                  gap: 0.5,
+                }}
+              >
+                <AddRoundedIcon sx={{ color: theme.buttonTextColor }} />
+                <Typography
+                  variant="p1"
+                  sx={{ textTransform: "none", color: theme.buttonTextColor }}
                 >
-                  <AddRoundedIcon sx={{ color: theme.buttonTextColor }} />
-                  <Typography
-                    variant="p1"
-                    sx={{ textTransform: "none", color: theme.buttonTextColor }}
-                  >
-                    Create Tutorial
-                  </Typography>
-                </CustomButton>
-              </Link>
-            )}
+                  Create
+                </Typography>
+              </CustomButton>
+            </Link>
+            {/* // )} */}
           </Box>
           <Box
             sx={{
@@ -105,6 +104,7 @@ export default function LearnPage(props) {
               // gridTemplateRows: projects?.length <= 0 ? "1fr" : "1fr 1fr 1fr",
               gap: 2,
               paddingTop: 2,
+              paddingBottom: 5,
               width: "100%",
             }}
           >
