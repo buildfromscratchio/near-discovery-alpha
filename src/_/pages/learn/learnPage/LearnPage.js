@@ -66,7 +66,9 @@ export default function LearnPage(props) {
                 Learn
               </Typography>
               <Typography variant="p1" sx={{ color: theme.textColor2 }}>
-                Curated list of learning resources.
+                Curated list of learning resources on decentralized frontend,
+                component-based development and blockchain operating system
+                (bos)
               </Typography>
             </Box>
 
@@ -85,7 +87,7 @@ export default function LearnPage(props) {
                     variant="p1"
                     sx={{ textTransform: "none", color: theme.buttonTextColor }}
                   >
-                    Add Project
+                    Create Tutorial
                   </Typography>
                 </CustomButton>
               </Link>
