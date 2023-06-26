@@ -57,7 +57,7 @@ export default function OpenWidgetDialog(props) {
           placeholder={`Search for a component...`}
           value={widgetSrc}
           onChange={(e) =>
-            setWidgetSrc(e.target.value.replaceAll(/[^a-zA-Z0-9_.\-\/]/g, ""))
+            setWidgetSrc(e.target.value?.replaceAll(/[^a-zA-Z0-9_.\-\/]/g, ""))
           }
         />
       </DialogContent>

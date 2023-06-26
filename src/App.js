@@ -321,7 +321,7 @@ const EmptyPage = (props) => {
   const { setSelectedActivity } = useContext(EditorContext);
 
   useEffect(() => {
-    setSelectedActivity(pathname.replace(/\//g, ""));
+    setSelectedActivity(pathname?.replace(/\//g, ""));
   }, []);
 
   return (

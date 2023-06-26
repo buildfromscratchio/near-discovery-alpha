@@ -64,7 +64,7 @@ export default function RenameDialog({
           inputProps={{ "aria-label": `Rename "${name}"` }}
           value={newName}
           onChange={(e) =>
-            setNewName(e.target.value.replaceAll(/[^a-zA-Z0-9_.\-]/g, ""))
+            setNewName(e.target.value?.replaceAll(/[^a-zA-Z0-9_.\-]/g, ""))
           }
         />
       </DialogContent>
