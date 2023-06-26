@@ -21,6 +21,7 @@ import { useAccount } from "near-social-vm";
 import { ThemeContext } from "../../../../context/ThemeContext";
 import { EditorContext } from "../../../../context/EditorContext";
 import { useState } from "react";
+import { useSnackbar } from "notistack";
 export default function WidgetViewHeader({
   loading,
 
@@ -218,6 +219,8 @@ export default function WidgetViewHeader({
 }
 
 const OpenInNewTabMenu = () => {
+  const { enqueueSnackbar } = useSnackbar();
+
   // const { pathname } = useLocation();
   const { accountId } = useAccount();
 
@@ -236,7 +239,15 @@ const OpenInNewTabMenu = () => {
 
     setIsDraft(isDraft);
 
-    setAnchorEl(event.currentTarget);
+    if (isDraft) {
+      enqueueSnackbar("You must publish your component before viewing", {
+        variant: "warning",
+      });
+
+      return;
+    } else {
+      setAnchorEl(event.currentTarget);
+    }
   };
 
   const handleClose = () => {
@@ -291,11 +302,10 @@ const OpenInNewTabMenu = () => {
                 color: theme.textColor3,
                 textAlign: "center",
                 padding: "4px 8px",
-                fontWeight: 400,
+                fontWeight: 600,
               }}
             >
-              This widget has not been published yet, Please publish the widget
-              to test it
+              You must publish your component before viewing
             </Typography>
           </Box>
         ) : (

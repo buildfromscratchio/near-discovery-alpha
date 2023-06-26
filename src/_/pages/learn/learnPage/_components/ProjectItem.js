@@ -121,11 +121,11 @@ export default function ProjectItem({ project, selectedItem, getData }) {
                   flexDirection: "column",
                   // justifyContent: "space-between",
                   alignItems: "flex-start",
-                  gap: 1,
+                  gap: 2,
                   p: 2,
                 }}
               >
-                <Rating size="small" value={4.75} readOnly />
+                {/* <Rating size="small" value={4.75} readOnly /> */}
 
                 <Box
                   sx={{
@@ -145,6 +145,7 @@ export default function ProjectItem({ project, selectedItem, getData }) {
                       overflowWrap: "break-word",
                       width: "100%",
                     }}
+                    className="max2Lines"
                   >
                     {project?.name}
                   </Typography>
@@ -157,15 +158,16 @@ export default function ProjectItem({ project, selectedItem, getData }) {
                     }}
                   >
                     {project?.sections.length} section
+                    {project?.sections.length > 0 ? "s" : ""}
                   </Typography>
                 </Box>
 
-                <Box sx={{ minHeight: 75 }}>
+                {/* <Box sx={{ minHeight: 40 }}>
                   <MarkdownViewer
                     src={project?.description}
-                    className="max3Lines"
+                    className="max2Lines"
                   />
-                </Box>
+                </Box> */}
 
                 <Box
                   sx={{
@@ -221,7 +223,6 @@ export default function ProjectItem({ project, selectedItem, getData }) {
                     flexDirection: "row",
                     gap: 1,
                     flexWrap: "wrap",
-                    marginTop: 1,
                   }}
                 >
                   {project?.tags?.map((tag, index) => (
@@ -277,7 +278,8 @@ export default function ProjectItem({ project, selectedItem, getData }) {
               alignItems: "center",
             }}
           >
-            {user?.role === "admin" && (
+            {(user?.role === "admin" ||
+              project?.createdBy?._id === user?._id) && (
               <>
                 <Box
                   sx={{
