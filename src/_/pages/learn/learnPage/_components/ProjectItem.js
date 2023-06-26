@@ -184,7 +184,9 @@ export default function ProjectItem({ project, selectedItem, getData }) {
                         marginLeft: 0.5,
                       }}
                     >
-                      {project?.createdBy?.name}
+                      {project?.createdBy?.name ||
+                        project?.createdBy?.userName ||
+                        project?.createdBy?.email}
                     </Typography>
                   </Box>
                   <Box>

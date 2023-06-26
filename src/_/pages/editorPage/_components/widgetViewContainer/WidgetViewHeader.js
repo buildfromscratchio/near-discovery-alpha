@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
 import Brightness4RoundedIcon from "@mui/icons-material/Brightness4Rounded";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
@@ -20,6 +20,7 @@ import { useAccount } from "near-social-vm";
 
 import { ThemeContext } from "../../../../context/ThemeContext";
 import { EditorContext } from "../../../../context/EditorContext";
+import { useState } from "react";
 export default function WidgetViewHeader({
   loading,
 
@@ -221,15 +222,23 @@ const OpenInNewTabMenu = () => {
   const { accountId } = useAccount();
 
   const { theme } = useContext(ThemeContext);
-  const { lastPath, setLastPath } = useContext(EditorContext);
+  const { lastPath, filesDetails, files } = useContext(EditorContext);
 
   const widgetSrc = `${accountId}/widget/${lastPath?.name}`;
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [isDraft, setIsDraft] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
+    const { codeChangesPresent, isDraft } =
+      filesDetails.get(lastPath?.name) || {};
+
+    setIsDraft(isDraft);
+
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -264,63 +273,92 @@ const OpenInNewTabMenu = () => {
             // maxHeight: 3 * 4.5,
             width: "20ch",
 
-            backgroundColor: theme.ui,
+            backgroundColor: theme.backgroundColor,
           },
         }}
       >
-        <a href={`https://nearpad.dev/${widgetSrc}`} target="_blank">
-          <MenuItem>
-            <ListItemText sx={{ color: theme.buttonColor, fontWeight: 700 }}>
-              nearpad.dev
-            </ListItemText>
+        {isDraft ? (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              variant="p1"
+              sx={{
+                color: theme.textColor3,
+                textAlign: "center",
+                padding: "4px 8px",
+                fontWeight: 400,
+              }}
+            >
+              This widget has not been published yet, Please publish the widget
+              to test it
+            </Typography>
+          </Box>
+        ) : (
+          <>
+            <a href={`https://nearpad.dev/${widgetSrc}`} target="_blank">
+              <MenuItem>
+                <ListItemText
+                  sx={{ color: theme.buttonColor, fontWeight: 700 }}
+                >
+                  nearpad.dev
+                </ListItemText>
 
-            <ListItemIcon style={{ minWidth: 16 }}>
-              <OpenInNewRoundedIcon
-                sx={{ fill: theme.buttonColor, fontSize: "1rem" }}
-              />
-            </ListItemIcon>
-          </MenuItem>
-        </a>
+                <ListItemIcon style={{ minWidth: 16 }}>
+                  <OpenInNewRoundedIcon
+                    sx={{ fill: theme.buttonColor, fontSize: "1rem" }}
+                  />
+                </ListItemIcon>
+              </MenuItem>
+            </a>
 
-        <a href={`https://near.org/${widgetSrc}`} target="_blank">
-          <MenuItem>
-            <ListItemText sx={{ color: theme.textColor }}>
-              near.org
-            </ListItemText>
+            <a href={`https://near.org/${widgetSrc}`} target="_blank">
+              <MenuItem>
+                <ListItemText sx={{ color: theme.textColor }}>
+                  near.org
+                </ListItemText>
 
-            <ListItemIcon style={{ minWidth: 16 }}>
-              <OpenInNewRoundedIcon
-                sx={{ fill: theme.textColor2, fontSize: "1rem" }}
-              />
-            </ListItemIcon>
-          </MenuItem>
-        </a>
+                <ListItemIcon style={{ minWidth: 16 }}>
+                  <OpenInNewRoundedIcon
+                    sx={{ fill: theme.textColor2, fontSize: "1rem" }}
+                  />
+                </ListItemIcon>
+              </MenuItem>
+            </a>
 
-        <a href={`https://near.social/#/${widgetSrc}`} target="_blank">
-          <MenuItem>
-            <ListItemText sx={{ color: theme.textColor }}>
-              near.social
-            </ListItemText>
+            <a href={`https://near.social/#/${widgetSrc}`} target="_blank">
+              <MenuItem>
+                <ListItemText sx={{ color: theme.textColor }}>
+                  near.social
+                </ListItemText>
 
-            <ListItemIcon style={{ minWidth: 16 }}>
-              <OpenInNewRoundedIcon
-                sx={{ fill: theme.textColor2, fontSize: "1rem" }}
-              />
-            </ListItemIcon>
-          </MenuItem>
-        </a>
+                <ListItemIcon style={{ minWidth: 16 }}>
+                  <OpenInNewRoundedIcon
+                    sx={{ fill: theme.textColor2, fontSize: "1rem" }}
+                  />
+                </ListItemIcon>
+              </MenuItem>
+            </a>
 
-        <a href={`https://bos.gg/#/${widgetSrc}`} target="_blank">
-          <MenuItem>
-            <ListItemText sx={{ color: theme.textColor }}>bos.gg</ListItemText>
+            <a href={`https://bos.gg/#/${widgetSrc}`} target="_blank">
+              <MenuItem>
+                <ListItemText sx={{ color: theme.textColor }}>
+                  bos.gg
+                </ListItemText>
 
-            <ListItemIcon style={{ minWidth: 16 }}>
-              <OpenInNewRoundedIcon
-                sx={{ fill: theme.textColor2, fontSize: "1rem" }}
-              />
-            </ListItemIcon>
-          </MenuItem>
-        </a>
+                <ListItemIcon style={{ minWidth: 16 }}>
+                  <OpenInNewRoundedIcon
+                    sx={{ fill: theme.textColor2, fontSize: "1rem" }}
+                  />
+                </ListItemIcon>
+              </MenuItem>
+            </a>
+          </>
+        )}
       </Menu>
     </>
   );
