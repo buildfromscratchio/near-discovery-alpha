@@ -240,9 +240,12 @@ const OpenInNewTabMenu = () => {
     setIsDraft(isDraft);
 
     if (isDraft) {
-      enqueueSnackbar("You must publish your component before viewing", {
-        variant: "warning",
-      });
+      enqueueSnackbar(
+        "Please publish the component before opening in a new tab.",
+        {
+          variant: "warning",
+        }
+      );
 
       return;
     } else {
@@ -305,7 +308,7 @@ const OpenInNewTabMenu = () => {
                 fontWeight: 600,
               }}
             >
-              You must publish your component before viewing
+              Please publish the component before opening in a new tag.
             </Typography>
           </Box>
         ) : (

@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
-import WidgetsRoundedIcon from "@mui/icons-material/WidgetsRounded";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import Groups3RoundedIcon from "@mui/icons-material/Groups3Rounded";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
@@ -85,7 +85,7 @@ export default function Activitybar(props) {
 
         <ActivityButton
           icon={
-            <WidgetsRoundedIcon
+            <SearchRoundedIcon
               sx={{ fill: theme.textColor4, fontSize: "1.5rem" }}
             />
           }
