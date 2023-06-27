@@ -5,6 +5,8 @@ import { Box } from "@mui/material";
 import { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
 import { EditorContext } from "../context/EditorContext";
+import { useLocation } from "react-router-dom";
+import { useState } from "react";
 
 const pattern = /.*\..*\/.*\/.*/;
 
@@ -12,11 +14,25 @@ export default function SearchPage(props) {
   const { theme } = useContext(ThemeContext);
   const { NetworkId, openComponentDetail, setSelectedActivity } =
     useContext(EditorContext);
-  // const { widgetSrc } = useParams();
+
+  const location = useLocation();
+  // const src = "";
+  const [src, setSrc] = useState("");
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const src = searchParams.get("src");
+    setSrc(src);
+
+    console.log(src);
+    // You can use the srcxxx value in your component logic
+  }, [location]);
 
   useEffect(() => {
     setSelectedActivity("search");
   }, []);
+
+  console.log("location : ", location);
 
   return (
     <PagesContainer {...props}>
@@ -41,12 +57,12 @@ export default function SearchPage(props) {
             px: 2,
           }}
         >
-          {pattern.test(openComponentDetail) ? (
+          {src || pattern.test(openComponentDetail) ? (
             <Widget
               src={`saidulbadhon.${
                 NetworkId === "testnet" ? "testnet" : "near"
               }/widget/SearchPage.ComponentDetails-fork`}
-              props={{ src: openComponentDetail }}
+              props={{ src: openComponentDetail || src }}
             />
           ) : (
             <Box

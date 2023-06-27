@@ -931,7 +931,7 @@ export default function EditorPage(props) {
           maxSize="100%"
           vertical={bp}
           // vertical={true}
-          defaultSizes={[75, 200, 150]}
+          defaultSizes={[75, 200, 100]}
         >
           {!bp && (
             <Allotment.Pane
@@ -1098,44 +1098,46 @@ export default function EditorPage(props) {
             </div>
           </Allotment.Pane>
 
-          <WidgetViewContainer
-            showWebsiteView={showWebsiteView}
-            parsedWidgetProps={parsedWidgetProps}
-            renderCode={renderCode}
-            loading={loading}
-            //
-            handlePreviewButton={handlePreviewButton}
-            handleSaveDraftButton={handleSaveDraftButton}
-            handleForkButton={handleForkButton}
-            publishWidgetButton={
-              props.signedIn ? (
-                filesDetails.get(widgetName)?.isDraft ? (
-                  publishDraftAsMainButton
+          {showWebsiteView && (
+            <WidgetViewContainer
+              showWebsiteView={showWebsiteView}
+              parsedWidgetProps={parsedWidgetProps}
+              renderCode={renderCode}
+              loading={loading}
+              //
+              handlePreviewButton={handlePreviewButton}
+              handleSaveDraftButton={handleSaveDraftButton}
+              handleForkButton={handleForkButton}
+              publishWidgetButton={
+                props.signedIn ? (
+                  filesDetails.get(widgetName)?.isDraft ? (
+                    publishDraftAsMainButton
+                  ) : (
+                    <PublishButton />
+                  )
                 ) : (
-                  <PublishButton />
+                  <button
+                    className="btn btn-primary"
+                    style={{
+                      backgroundColor: theme.buttonColor,
+                      paddingInline: 16,
+                      borderRadius: 4,
+                      fontWeight: 500,
+                    }}
+                    onClick={() => {
+                      props.requestSignIn();
+                      ReactGA.event({
+                        category: "SignIn",
+                        action: "signin",
+                      });
+                    }}
+                  >
+                    Connect
+                  </button>
                 )
-              ) : (
-                <button
-                  className="btn btn-primary"
-                  style={{
-                    backgroundColor: theme.buttonColor,
-                    paddingInline: 16,
-                    borderRadius: 4,
-                    fontWeight: 500,
-                  }}
-                  onClick={() => {
-                    props.requestSignIn();
-                    ReactGA.event({
-                      category: "SignIn",
-                      action: "signin",
-                    });
-                  }}
-                >
-                  Connect
-                </button>
-              )
-            }
-          />
+              }
+            />
+          )}
         </Allotment>
       </Box>
     </>

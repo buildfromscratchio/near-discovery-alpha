@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
-import { Box, Button, IconButton } from "@mui/material";
+import { Box, Button, IconButton, Tooltip } from "@mui/material";
 import VerticalSplitRoundedIcon from "@mui/icons-material/VerticalSplitRounded";
+import FlareRoundedIcon from "@mui/icons-material/FlareRounded";
 
 import { EditorContext } from "../../../context/EditorContext";
 import { ThemeContext } from "../../../context/ThemeContext";
@@ -94,19 +95,34 @@ export default function Tabsbar({ widgets, Tab, tab, setTab }) {
         )}
       </Box>
 
-      <IconButton
-        sx={{
-          color: showWebsiteView ? theme.textColor3 : theme.buttonColor,
-          mr: 0.5,
-        }}
-        onClick={() => setShowWebsiteView((e) => !e)}
-      >
-        <VerticalSplitRoundedIcon
+      <Box sx={{ display: "flex" }}>
+        <Tooltip title="Prettify">
+          <IconButton
+            sx={{
+              color: theme.textColor3,
+              "&:hover": {
+                color: theme.buttonColor,
+              },
+            }}
+          >
+            <FlareRoundedIcon />
+          </IconButton>
+        </Tooltip>
+
+        <IconButton
           sx={{
-            fill: showWebsiteView ? theme.textColor3 : theme.buttonColor,
+            color: showWebsiteView ? theme.textColor3 : theme.buttonColor,
+            mr: 0.5,
           }}
-        />
-      </IconButton>
+          onClick={() => setShowWebsiteView((e) => !e)}
+        >
+          <VerticalSplitRoundedIcon
+            sx={{
+              fill: showWebsiteView ? theme.textColor3 : theme.buttonColor,
+            }}
+          />
+        </IconButton>
+      </Box>
     </Box>
   );
 }

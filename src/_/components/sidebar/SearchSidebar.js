@@ -3,15 +3,12 @@ import { Widget } from "near-social-vm";
 import { Box, Typography } from "@mui/material";
 import { useHistory, useLocation } from "react-router-dom";
 
-import { useSnackbar } from "notistack";
-
 import { EditorContext } from "../../context/EditorContext";
 import { ThemeContext } from "../../context/ThemeContext";
 
 export default function SearchSidebar() {
   const { pathname } = useLocation();
   const history = useHistory();
-  const { enqueueSnackbar } = useSnackbar();
 
   const { theme, bp } = useContext(ThemeContext);
   const {
@@ -66,7 +63,15 @@ export default function SearchSidebar() {
             if (bp) {
               setSelectedActivity(false);
             }
-            setOpenComponentDetail((x) => (x === e ? "" : e));
+            // setOpenComponentDetail((x) => (x === e ? "" : e));
+            // setOpenComponentDetail((x) => (x === e ? "" : e));
+
+            if (openComponentDetail !== e) {
+              history.push(`/search?src=${e}`);
+            }
+
+            // history
+
             if (pathname !== "/search") {
               history.push("/search");
             }

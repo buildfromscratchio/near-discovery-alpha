@@ -26,23 +26,9 @@ export default function WidgetViewContainer({
 
   const [allowTheming, setAllowTheming] = useState(true);
 
-  //   <Allotment.Pane
-  //   key="websiteView"
-  //   snap
-  //   visible={showWebsiteView}
-  //   minSize={300}
-  //   preferredSize="40%"
-  // >
-  // </Allotment.Pane>
-
   return (
     <>
-      <Allotment
-        maxSize="40%"
-        sx={{ height: "100vh" }}
-        defaultSizes={[300, 100]}
-        vertical
-      >
+      <Allotment sx={{ height: "100vh" }} defaultSizes={[300, 100]} vertical>
         <Allotment.Pane
           key="websiteView"
           visible={showWebsiteView}
@@ -122,7 +108,7 @@ export default function WidgetViewContainer({
         <Allotment.Pane
           // preferredSize={showConsole ? 300 : 50}
           // minSize={50}
-          visible={showConsole}
+          visible={showWebsiteView && showConsole}
         >
           <EditorConsole />
         </Allotment.Pane>
@@ -152,12 +138,6 @@ export default function WidgetViewContainer({
           >
             {`Console ${logs?.length > 0 ? `(${logs?.length})` : ""}`}
           </Typography>
-
-          {/* <Tooltip title="Clear Logs">
-        <IconButton onClick={() => clearConsole()}>
-          <ClearAllIcon />
-        </IconButton>
-      </Tooltip> */}
 
           <Tooltip title="Open Console">
             <IconButton>
