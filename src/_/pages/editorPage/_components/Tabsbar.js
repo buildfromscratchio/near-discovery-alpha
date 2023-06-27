@@ -96,7 +96,7 @@ export default function Tabsbar({ widgets, Tab, tab, setTab }) {
       </Box>
 
       <Box sx={{ display: "flex" }}>
-        <Tooltip title="Prettify">
+        {/* <Tooltip title="Prettify">
           <IconButton
             sx={{
               color: theme.textColor3,
@@ -107,7 +107,7 @@ export default function Tabsbar({ widgets, Tab, tab, setTab }) {
           >
             <FlareRoundedIcon />
           </IconButton>
-        </Tooltip>
+        </Tooltip> */}
 
         <IconButton
           sx={{
