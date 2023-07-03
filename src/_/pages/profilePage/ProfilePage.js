@@ -1,17 +1,30 @@
-import React, { useEffect } from "react";
-import PagesContainer from "../components/PagesContainer";
+import React, { useEffect, useState } from "react";
+import PagesContainer from "../../components/PagesContainer";
 import { Widget } from "near-social-vm";
 import { Box } from "@mui/material";
 import { useContext } from "react";
-import { ThemeContext } from "../context/ThemeContext";
-import { EditorContext } from "../context/EditorContext";
-
-const pattern = /.*\..*\/.*\/.*/;
+import { ThemeContext } from "../../context/ThemeContext";
+import { EditorContext } from "../../context/EditorContext";
+import "./ProfilePage.css";
+// import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 export default function ProfilePage(props) {
+  const { accountId } = useParams();
+
   const { theme } = useContext(ThemeContext);
   const { Widgets, setSelectedActivity } = useContext(EditorContext);
-  // const { widgetSrc } = useParams();
+
+  // const location = useLocation();
+  // const [accountId, setAccountId] = useState("");
+
+  // useEffect(() => {
+  //   const searchParams = new URLSearchParams(location.search);
+  //   const accountId = searchParams.get("accountId");
+  //   setAccountId(accountId);
+
+  //   console.log(accountId);
+  // }, [location]);
 
   useEffect(() => {
     setSelectedActivity("profile");
@@ -38,7 +51,7 @@ export default function ProfilePage(props) {
             px: 2,
           }}
         >
-          <Widget src={Widgets?.profilePageMain} props={{ theme }} />
+          <Widget src={Widgets?.profilePageMain} props={{ theme, accountId }} />
         </Box>
       </Box>
     </PagesContainer>

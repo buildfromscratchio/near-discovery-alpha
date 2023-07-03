@@ -278,10 +278,10 @@ export default function Activitybar(props) {
           }
           sx={{ opacity: 1 }}
           label="profile"
-          to="/profile"
+          to="/c"
           onClick={() => {
-            history.push("/profile");
-            setSelectedActivity((e) => (e === "profile" ? "" : "profile"));
+            history.push("/c");
+            setSelectedActivity((e) => (e === "c" ? "" : "c"));
           }}
         />
 

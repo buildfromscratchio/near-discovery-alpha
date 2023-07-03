@@ -26,6 +26,11 @@ export default function WidgetViewContainer({
 
   const [allowTheming, setAllowTheming] = useState(true);
 
+  // "desktop"
+  // "tablet"
+  // "phone"
+  const [viewBox, setViewBox] = useState("");
+
   return (
     <>
       <Allotment sx={{ height: "100vh" }} defaultSizes={[300, 100]} vertical>
@@ -56,6 +61,9 @@ export default function WidgetViewContainer({
               onSaveButtonClick={handleSaveDraftButton}
               onForkButtonClick={handleForkButton}
               publishWidgetButton={publishWidgetButton}
+              //
+              viewBox={viewBox}
+              setViewBox={setViewBox}
             />
 
             {renderCode ? (
@@ -66,7 +74,19 @@ export default function WidgetViewContainer({
                   pt: 0,
                   height: "100%",
 
-                  backgroundColor: theme.ui,
+                  // backgroundColor: theme.ui,
+
+                  display: "flex",
+                  flexDirection: "column",
+                  // justifyContent: viewBox !== "" && "center",
+                  alignItems: viewBox !== "" && "center",
+
+                  backgroundColor:
+                    viewBox === ""
+                      ? theme.ui
+                      : theme.name === "dark"
+                      ? "#ccc"
+                      : "#ccc",
                 }}
               >
                 <Box
@@ -78,6 +98,7 @@ export default function WidgetViewContainer({
                     overflowX: "auto",
                     paddingBottom: "50px",
                   }}
+                  className={viewBox}
                 >
                   <Widget
                     code={renderCode}

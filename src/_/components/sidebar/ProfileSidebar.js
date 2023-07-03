@@ -9,12 +9,27 @@ import CustomButton from "../custom/CustomButton";
 import { ThemeContext } from "../../context/ThemeContext";
 import { AuthContext } from "../../context/AuthContext";
 import { useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useState } from "react";
 
 export default function ProfileSidebar({ appProps, logOut, requestSignIn }) {
+  const { accountId: aId } = useParams();
   const history = useHistory();
-  const { accountId } = useAccount();
+
+  const { accountId: myAccountId } = useAccount();
   const { logout, user } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
+
+  const [accountId, setAccountId] = useState("");
+
+  useEffect(() => {
+    if (aId) {
+      setAccountId(aId);
+    } else {
+      setAccountId(myAccountId);
+    }
+  }, [aId, myAccountId]);
 
   return (
     <div
@@ -46,7 +61,7 @@ export default function ProfileSidebar({ appProps, logOut, requestSignIn }) {
       {accountId && (
         <Widget
           src={appProps.widgets.profilePageSidebar}
-          props={{ accountId, theme: theme }}
+          props={{ accountId, myAccountId, theme: theme }}
         />
       )}
 
@@ -60,7 +75,7 @@ export default function ProfileSidebar({ appProps, logOut, requestSignIn }) {
           pt: 2,
         }}
       >
-        {accountId ? (
+        {accountId === myAccountId && (
           <CustomButton
             sx={{
               flex: 1,
@@ -85,7 +100,9 @@ export default function ProfileSidebar({ appProps, logOut, requestSignIn }) {
           >
             Disconnect
           </CustomButton>
-        ) : (
+        )}
+
+        {!accountId && (
           <Box
             sx={{
               display: "flex",
@@ -108,7 +125,10 @@ export default function ProfileSidebar({ appProps, logOut, requestSignIn }) {
               }}
             >
               {accountId ? (
-                <Widget src={appProps?.widgets?.profileImage} />
+                <Widget
+                  src={appProps?.widgets?.profileImage}
+                  props={{ accountId }}
+                />
               ) : (
                 <img width={250} src={user?.avatar} alt={user?.name} />
               )}
@@ -122,7 +142,10 @@ export default function ProfileSidebar({ appProps, logOut, requestSignIn }) {
             >
               <Typography variant="h3" style={{ color: theme.textColor }}>
                 {accountId ? (
-                  <Widget src={appProps?.widgets?.profileName} />
+                  <Widget
+                    src={appProps?.widgets?.profileName}
+                    props={{ accountId }}
+                  />
                 ) : (
                   user?.name || user?.userName
                 )}
@@ -132,22 +155,7 @@ export default function ProfileSidebar({ appProps, logOut, requestSignIn }) {
               </Typography>
             </div>
 
-            {/* <CustomButton
-              style={{
-                height: 40,
-                backgroundColor: theme.buttonColor,
-                paddingInline: 24,
-                marginTop: 16,
-                width: "100%",
-              }}
-              onClick={() => {
-                requestSignIn();
-              }}
-            >
-              Connect Near
-            </CustomButton> */}
-
-            {/* <CustomButton
+            <CustomButton
               sx={{
                 mt: 2,
                 flex: 1,
@@ -170,7 +178,7 @@ export default function ProfileSidebar({ appProps, logOut, requestSignIn }) {
               }}
             >
               Sign Out
-            </CustomButton> */}
+            </CustomButton>
           </Box>
         )}
       </Box>

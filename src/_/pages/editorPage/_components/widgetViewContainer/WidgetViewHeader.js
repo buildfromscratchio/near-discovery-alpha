@@ -15,6 +15,7 @@ import Brightness4RoundedIcon from "@mui/icons-material/Brightness4Rounded";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import PublicRoundedIcon from "@mui/icons-material/PublicRounded";
 import OpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
+import PhonelinkRoundedIcon from "@mui/icons-material/PhonelinkRounded";
 
 import { useAccount } from "near-social-vm";
 
@@ -22,6 +23,7 @@ import { ThemeContext } from "../../../../context/ThemeContext";
 import { EditorContext } from "../../../../context/EditorContext";
 import { useState } from "react";
 import { useSnackbar } from "notistack";
+
 export default function WidgetViewHeader({
   loading,
 
@@ -33,6 +35,11 @@ export default function WidgetViewHeader({
   onForkButtonClick,
 
   publishWidgetButton,
+
+  //
+
+  viewBox,
+  setViewBox,
 }) {
   const { showLiveCodePreview, setShowLiveCodePreview } =
     useContext(EditorContext);
@@ -197,6 +204,9 @@ export default function WidgetViewHeader({
             />
           </IconButton>
         </Tooltip> */}
+
+        <MultiViewMenu viewBox={viewBox} setViewBox={setViewBox} />
+
         <OpenInNewTabMenu />
         {/* <ActivityButton
           icon={<VerticalSplitRoundedIcon sx={{ fill: theme.textColor4 }} />}
@@ -217,6 +227,113 @@ export default function WidgetViewHeader({
     </Box>
   );
 }
+
+const MultiViewMenu = ({ viewBox, setViewBox }) => {
+  const { theme } = useContext(ThemeContext);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  return (
+    <>
+      <Tooltip title="Toggle Device" placement="bottom">
+        <IconButton
+          aria-label="more"
+          id="long-button"
+          aria-controls={open ? "long-menu" : undefined}
+          aria-expanded={open ? "true" : undefined}
+          aria-haspopup="true"
+          onClick={handleClick}
+        >
+          <PhonelinkRoundedIcon
+            sx={{ fill: theme.textColor2, fontSize: "1rem" }}
+          />
+        </IconButton>
+      </Tooltip>
+
+      <Menu
+        id="long-menu"
+        MenuListProps={{
+          "aria-labelledby": "long-button",
+        }}
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        PaperProps={{
+          style: {
+            // maxHeight: 3 * 4.5,
+            width: "20ch",
+
+            backgroundColor: theme.backgroundColor,
+          },
+        }}
+      >
+        <MenuItem
+          sx={{
+            backgroundColor: viewBox === "" ? theme.textColor3 + 33 : theme.ui,
+          }}
+          onClick={() => {
+            setViewBox("");
+            handleClose();
+          }}
+        >
+          <ListItemText sx={{ color: theme.textColor3, fontWeight: 700 }}>
+            Free Size
+          </ListItemText>
+        </MenuItem>
+        <MenuItem
+          sx={{
+            backgroundColor:
+              viewBox === "desktop" ? theme.textColor3 + 33 : theme.ui,
+          }}
+          onClick={() => {
+            setViewBox("desktop");
+            handleClose();
+          }}
+        >
+          <ListItemText sx={{ color: theme.textColor3, fontWeight: 700 }}>
+            Desktop
+          </ListItemText>
+        </MenuItem>
+        <MenuItem
+          sx={{
+            backgroundColor:
+              viewBox === "tablet" ? theme.textColor3 + 33 : theme.ui,
+          }}
+          onClick={() => {
+            setViewBox("tablet");
+            handleClose();
+          }}
+        >
+          <ListItemText sx={{ color: theme.textColor3, fontWeight: 700 }}>
+            Tablet
+          </ListItemText>
+        </MenuItem>
+        <MenuItem
+          sx={{
+            backgroundColor:
+              viewBox === "phone" ? theme.textColor3 + 33 : theme.ui,
+          }}
+          onClick={() => {
+            setViewBox("phone");
+            handleClose();
+          }}
+        >
+          <ListItemText sx={{ color: theme.textColor3, fontWeight: 700 }}>
+            Phone
+          </ListItemText>
+        </MenuItem>
+      </Menu>
+    </>
+  );
+};
 
 const OpenInNewTabMenu = () => {
   const { enqueueSnackbar } = useSnackbar();

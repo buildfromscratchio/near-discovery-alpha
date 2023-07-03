@@ -41,7 +41,7 @@ import SearchPage from "./_/pages/SearchPage";
 import HomePage from "./_/pages/homePage/HomePage";
 import EmbedPage from "./_/pages/EmbedPage";
 import DiscoverPage from "./_/pages/DiscoverPage";
-import ProfilePage from "./_/pages/ProfilePage";
+import ProfilePage from "./_/pages/profilePage/ProfilePage";
 import BuildspacePage from "./_/pages/BuildspacePage";
 import AuthPage from "./_/pages/AuthPage";
 
@@ -228,7 +228,11 @@ export default function App() {
                 <AuthPage {...passProps} />{" "}
               </Route>
 
-              <Route path={"/profile"}>
+              {/* <Route path={"/profile"}>
+                <ProfilePage {...passProps} />
+                <Footer />
+              </Route> */}
+              <Route path={"/c/:accountId*"}>
                 <ProfilePage {...passProps} />
                 <Footer />
               </Route>
