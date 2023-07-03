@@ -11,7 +11,7 @@ import ConfirmDialog from "../../../../dialogs/ConfirmDialog";
 // import ConfirmDialog from "../../../../dialogs/ConfirmDialog";
 
 const findParentsNodeByName = (nodes, widgetName, parentIds = []) => {
-  console.log("Calling findParentsNodeByName()");
+  // console.log("Calling findParentsNodeByName()");
 
   for (const node of nodes) {
     if (node.name === widgetName && node.type === "widget") {
@@ -88,7 +88,7 @@ export default function OpenWidgets({
     setOpenWidgetsExpanded(nodeIds);
   };
 
-  console.log("openWidgetsSelected : ", openWidgetsSelected);
+  // console.log("openWidgetsSelected : ", openWidgetsSelected);
   // function getNodeIds(objArray) {
   //   const nodeIds = [];
   //   if (Array.isArray(objArray)) {
@@ -149,12 +149,12 @@ export default function OpenWidgets({
         setOpenWidgetsExpanded((e) => [...e, ...newNodeids]);
       }
 
-      console.log(
-        "OpenWidget > UseEffect > lastPath : ",
-        lastPath?.name,
-        " : nodeIds :  ",
-        nodeIds
-      );
+      // console.log(
+      //   "OpenWidget > UseEffect > lastPath : ",
+      //   lastPath?.name,
+      //   " : nodeIds :  ",
+      //   nodeIds
+      // );
 
       // setTimeout(function () {
       //   console.log("Executed after 1 second");
@@ -173,7 +173,7 @@ export default function OpenWidgets({
   const handleNodeSelect = (event, nodeId) => {
     // console.log("handleNodeSelect : ", nodeId);
     //
-    console.log("calling handleNodeSelect : and nodeId is : ", nodeId);
+    // console.log("calling handleNodeSelect : and nodeId is : ", nodeId);
     setOpenWidgetsSelected(nodeId);
     //
     // setOpenWidgetsSelected([3]);

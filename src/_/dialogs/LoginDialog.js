@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Button,
   Dialog,
@@ -9,38 +9,18 @@ import {
 import { AuthContext } from "../context/AuthContext";
 import { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
-import { useLocation } from "react-router-dom";
 import { stringify } from "querystring";
+import { AppContext } from "../context/AppContext";
 
 export default function LoginDialog({ requestSignIn }) {
-  const { pathname } = useLocation();
-
-  const { loadingCheck, showDialog, isAuthenticated } = useContext(AuthContext);
+  const { isUnrestrictedRoute } = useContext(AppContext);
+  const { isAuthenticated } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
 
-  const [allowWithoutLogin, setAllowWithoutLogin] = useState(false);
-
-  useEffect(() => {
-    let match = ["/auth", "/s3"];
-
-    const data = match?.filter((url) => {
-      return pathname.includes(url);
-    });
-
-    setAllowWithoutLogin(
-      data?.length > 0 ? true : false || (pathname === "/" && true)
-    );
-  }, [pathname]);
-
   return (
-    !isAuthenticated && (
+    isAuthenticated === false && (
       <Dialog
-        open={
-          !isAuthenticated === null &&
-          !loadingCheck &&
-          showDialog &&
-          !allowWithoutLogin
-        }
+        open={!isAuthenticated && !isUnrestrictedRoute}
         fullWidth={true}
         maxWidth="xs"
         PaperProps={{
@@ -108,7 +88,6 @@ const NearButton = ({ requestSignIn }) => {
       }}
       onClick={() => {
         requestSignIn();
-        setShowDialog(false);
       }}
     >
       <svg

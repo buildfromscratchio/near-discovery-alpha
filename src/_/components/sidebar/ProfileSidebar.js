@@ -18,7 +18,7 @@ export default function ProfileSidebar({ appProps, logOut, requestSignIn }) {
   const history = useHistory();
 
   const { accountId: myAccountId } = useAccount();
-  const { logout, user } = useContext(AuthContext);
+  const { logout, user, isAuthenticated } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
 
   const [accountId, setAccountId] = useState("");
@@ -68,6 +68,7 @@ export default function ProfileSidebar({ appProps, logOut, requestSignIn }) {
       <Box
         sx={{
           display: "flex",
+          flexDirection: "column",
           gap: 2,
           justifyContent: "center",
           width: "100%",
@@ -75,7 +76,7 @@ export default function ProfileSidebar({ appProps, logOut, requestSignIn }) {
           pt: 2,
         }}
       >
-        {accountId === myAccountId && (
+        {isAuthenticated && accountId === myAccountId && (
           <CustomButton
             sx={{
               flex: 1,
@@ -102,7 +103,7 @@ export default function ProfileSidebar({ appProps, logOut, requestSignIn }) {
           </CustomButton>
         )}
 
-        {!accountId && (
+        {isAuthenticated && !accountId && (
           <Box
             sx={{
               display: "flex",

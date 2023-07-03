@@ -107,7 +107,6 @@ export default function EditorPage(props) {
 
   const [loading, setLoading] = useState(false);
   const [code, setCode] = useState(undefined);
-  console.log("code : ", code?.length);
   const [path, setPath] = useState(undefined);
   // const [files, setFiles] = useState(undefined);
   // const [lastPath, setLastPath] = useState(undefined);
@@ -171,7 +170,6 @@ export default function EditorPage(props) {
           time: Date.now(),
         }
       );
-      console.log("updateCode : ", code?.length);
       setCode(code);
     },
     [cache, setCode]

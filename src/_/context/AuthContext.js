@@ -1,14 +1,16 @@
-import React, { useEffect, useState, createContext } from "react";
+import React, { useEffect, useState, createContext, useContext } from "react";
 import { useAccount } from "near-social-vm";
 import { useSnackbar } from "notistack";
 import httpClient from "../libs/httpClient";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import LoadingPage from "../components/LoadingPage";
+import { AppContext } from "./AppContext";
 
 export const AuthContext = createContext();
 
 export const AuthContextProvider = (props) => {
-  const { pathname } = useLocation();
+  const { isUnrestrictedRoute } = useContext(AppContext);
+
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
   const nearUser = useAccount();
@@ -17,14 +19,23 @@ export const AuthContextProvider = (props) => {
   const [loading, setLoading] = useState(false);
 
   const [isAuthenticated, setIsAuthenticated] = useState(null);
-
   const [user, setUser] = useState();
 
-  const [showDialog, setShowDialog] = useState(false);
+  // useEffect(() => {
+  //   console.log("isAuthenticated", JSON.stringify(isAuthenticated));
+  // }, [isAuthenticated]);
+  // useEffect(() => {
+  //   console.log("loadingCheck", JSON.stringify(loadingCheck));
+  // }, [loadingCheck]);
+  // useEffect(() => {
+  //   console.log("loading", JSON.stringify(loading));
+  // }, [loading]);
+
+  // console.log("nearUser : ", nearUser);
 
   useEffect(() => {
     if (!isAuthenticated) checkAuth();
-  }, []);
+  }, [nearUser]);
 
   const checkAuth = async () => {
     if (isAuthenticated) return;
@@ -35,59 +46,61 @@ export const AuthContextProvider = (props) => {
     const userId = await localStorage.getItem("userId");
 
     if (!accessToken || !userId) {
+      if (nearUser) {
+        console.log("nearUser?.accountId", nearUser);
+        loginWithNear();
+
+        return;
+      }
+
       setLoadingCheck(false);
       setIsAuthenticated(false);
       return;
-    } else {
-      // console.log("User exists? ", userId);
-
-      await httpClient()
-        .get(`/users/${userId}`)
-        .then((res) => {
-          const { data } = res;
-
-          setLoadingCheck(false);
-          saveUserData(data);
-          setLoading(false);
-          setShowDialog(false);
-        })
-        .catch((err) => {
-          console.log("ERROR from ToggleAuth : ", err);
-          enqueueSnackbar("Fail to login.", { variant: "error" });
-          setLoadingCheck(false);
-
-          logout();
-        });
     }
+
+    await httpClient()
+      .get(`/users/${userId}`)
+      .then((res) => {
+        saveUserData(res.data);
+      })
+      .catch((err) => {
+        console.log("ERROR from Check Auth : ", err);
+        enqueueSnackbar("Fail to login.", { variant: "error" });
+        setLoadingCheck(false);
+        setIsAuthenticated(false);
+
+        logout();
+      });
   };
 
-  useEffect(() => {
-    if (!isAuthenticated && nearUser) {
-      loginWithNear();
-    }
-  }, [nearUser]);
-
   const saveUserData = async (user) => {
-    setLoading(true);
     try {
-      setUser(user);
+      setLoading(true);
+
       setIsAuthenticated(true);
+      setUser(user);
 
       user.accessToken &&
         (await localStorage.setItem("accessToken", user.accessToken));
       await localStorage.setItem("userId", user._id || user.id);
-      setShowDialog(false);
+
+      setLoadingCheck(false);
+      setLoading(false);
     } catch (err) {
+      setLoading(false);
+      setLoadingCheck(false);
+      setIsAuthenticated(false);
       console.log(err);
     }
-    setLoading(false);
   };
 
   const loginWithNear = async () => {
-    const accessToken = await localStorage.getItem("accessToken");
-    const userId = await localStorage.getItem("userId");
+    // const accessToken = await localStorage.getItem("accessToken");
+    // const userId = await localStorage.getItem("userId");
+    setLoadingCheck(true);
+    // setLoading(true);
 
-    if (nearUser?.accountId && (!accessToken || !userId)) {
+    if (nearUser?.accountId) {
       setLoading(true);
       setLoadingCheck(true);
 
@@ -109,7 +122,6 @@ export const AuthContextProvider = (props) => {
     } else {
       // console.log("Near Key is not available");
 
-      setShowDialog(true);
       setLoadingCheck(false);
       setIsAuthenticated(false);
       setLoading(false);
@@ -151,7 +163,6 @@ export const AuthContextProvider = (props) => {
   const logout = async () => {
     await localStorage.removeItem("accessToken");
     await localStorage.removeItem("userId");
-    setShowDialog(true);
     setUser();
     setIsAuthenticated(false);
     setLoadingCheck(false);
@@ -170,17 +181,18 @@ export const AuthContextProvider = (props) => {
         checkAuth,
         logout,
         //
-        showDialog,
-        setShowDialog,
-        //
         saveUserData,
       }}
     >
-      {(loading || loadingCheck) && pathname !== "/" ? (
-        <LoadingPage fullSize />
+      {/* {!isUnrestrictedRoute && (loading || loadingCheck) ? (
+        <LoadingPage fullSize={true} />
       ) : (
         props.children
+      )} */}
+      {!isUnrestrictedRoute && (loading || loadingCheck) && (
+        <LoadingPage fullSize={true} />
       )}
+      {props.children}
     </AuthContext.Provider>
   );
 };
