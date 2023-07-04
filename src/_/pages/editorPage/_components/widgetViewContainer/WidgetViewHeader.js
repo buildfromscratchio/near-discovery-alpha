@@ -10,9 +10,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useContext, useEffect } from "react";
-import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
-import Brightness4RoundedIcon from "@mui/icons-material/Brightness4Rounded";
-import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
 import PublicRoundedIcon from "@mui/icons-material/PublicRounded";
 import OpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
 import PhonelinkRoundedIcon from "@mui/icons-material/PhonelinkRounded";
@@ -92,7 +90,7 @@ export default function WidgetViewHeader({
           Preview
         </Typography>
 
-        <Tooltip
+        {/* <Tooltip
           title={`Live Preview: ${showLiveCodePreview ? "On" : "Off"}`}
           placement="bottom"
         >
@@ -107,34 +105,8 @@ export default function WidgetViewHeader({
                   : theme.textColor2,
               }}
             />
-            {/* <img
-              style={{
-                height: 20,
-                filter: showLiveCodePreview ? "invert(0)" : "invert(1)",
-              }}
-              src={
-                showLiveCodePreview
-                  ? "https://cdn-icons-png.flaticon.com/512/3049/3049365.png"
-                  : "https://cdn-icons-png.flaticon.com/512/8064/8064583.png"
-              }
-              alt="live icon"
-            /> */}
           </IconButton>
-        </Tooltip>
-
-        <Tooltip
-          title={allowTheming ? "Darkmode" : "Lightmode"}
-          placement="bottom"
-        >
-          <IconButton onClick={() => setAllowTheming((e) => !e)}>
-            <Brightness4RoundedIcon
-              sx={{
-                fill: allowTheming ? theme.buttonColor : theme.textColor2,
-                fontSize: "1.25rem",
-              }}
-            />
-          </IconButton>
-        </Tooltip>
+        </Tooltip> */}
       </Box>
 
       <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -146,7 +118,7 @@ export default function WidgetViewHeader({
 
         {loading && <CircularProgress thickness={6} size={18} />}
 
-        <Tooltip title="Preview Widget" placement="bottom">
+        {/* <Tooltip title="Preview Widget" placement="bottom">
           <IconButton
             sx={{
               color: theme.buttonColor,
@@ -160,7 +132,7 @@ export default function WidgetViewHeader({
               sx={{ fontSize: "1.75rem", fill: theme.buttonColor }}
             />
           </IconButton>
-        </Tooltip>
+        </Tooltip> */}
 
         <div
           style={{
@@ -204,6 +176,16 @@ export default function WidgetViewHeader({
             />
           </IconButton>
         </Tooltip> */}
+        <Tooltip title="Toggle Theme" placement="bottom">
+          <IconButton onClick={() => setAllowTheming((e) => !e)}>
+            <DarkModeIcon
+              sx={{
+                fill: allowTheming ? theme.buttonColor : theme.textColor2,
+                fontSize: "1.25rem",
+              }}
+            />
+          </IconButton>
+        </Tooltip>
 
         <MultiViewMenu viewBox={viewBox} setViewBox={setViewBox} />
 
@@ -243,7 +225,7 @@ const MultiViewMenu = ({ viewBox, setViewBox }) => {
 
   return (
     <>
-      <Tooltip title="Toggle Device" placement="bottom">
+      <Tooltip title="Toggle Responsive Preview" placement="bottom">
         <IconButton
           aria-label="more"
           id="long-button"
@@ -285,23 +267,25 @@ const MultiViewMenu = ({ viewBox, setViewBox }) => {
           }}
         >
           <ListItemText sx={{ color: theme.textColor3, fontWeight: 700 }}>
-            Free Size
+            Default
           </ListItemText>
         </MenuItem>
+
         <MenuItem
           sx={{
             backgroundColor:
-              viewBox === "desktop" ? theme.textColor3 + 33 : theme.ui,
+              viewBox === "phone" ? theme.textColor3 + 33 : theme.ui,
           }}
           onClick={() => {
-            setViewBox("desktop");
+            setViewBox("phone");
             handleClose();
           }}
         >
           <ListItemText sx={{ color: theme.textColor3, fontWeight: 700 }}>
-            Desktop
+            Mobile
           </ListItemText>
         </MenuItem>
+
         <MenuItem
           sx={{
             backgroundColor:
@@ -316,18 +300,19 @@ const MultiViewMenu = ({ viewBox, setViewBox }) => {
             Tablet
           </ListItemText>
         </MenuItem>
+
         <MenuItem
           sx={{
             backgroundColor:
-              viewBox === "phone" ? theme.textColor3 + 33 : theme.ui,
+              viewBox === "desktop" ? theme.textColor3 + 33 : theme.ui,
           }}
           onClick={() => {
-            setViewBox("phone");
+            setViewBox("desktop");
             handleClose();
           }}
         >
           <ListItemText sx={{ color: theme.textColor3, fontWeight: 700 }}>
-            Phone
+            Desktop
           </ListItemText>
         </MenuItem>
       </Menu>
