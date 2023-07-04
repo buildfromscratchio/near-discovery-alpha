@@ -929,7 +929,7 @@ export default function EditorPage(props) {
           maxSize="100%"
           vertical={bp}
           // vertical={true}
-          defaultSizes={[75, 200, 100]}
+          defaultSizes={[75, 200, 200]}
         >
           {!bp && (
             <Allotment.Pane

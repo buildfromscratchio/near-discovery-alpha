@@ -16,11 +16,16 @@ import DiamondRoundedIcon from "@mui/icons-material/DiamondRounded";
 import { stringify } from "querystring";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import { Link, useHistory, useLocation } from "react-router-dom";
+import { ActivityButton } from "../../../components/Activitybar";
+
+import LightModeIcon from "@mui/icons-material/LightMode";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
 
 export default function HomeHeader(props) {
   const { pathname } = useLocation();
 
-  const { theme, bp } = useContext(ThemeContext);
+  const { theme, bp, enableDarkMode, setEnableDarkMode } =
+    useContext(ThemeContext);
   const { isAuthenticated } = useContext(AuthContext);
 
   return (
@@ -73,6 +78,22 @@ export default function HomeHeader(props) {
             alignItems: "center",
           }}
         >
+          <IconButton
+            onClick={() => {
+              setEnableDarkMode(!enableDarkMode);
+            }}
+          >
+            {enableDarkMode ? (
+              <LightModeIcon
+                sx={{ fill: theme.textColor3, fontSize: "1.25rem" }}
+              />
+            ) : (
+              <DarkModeIcon
+                sx={{ fill: theme.textColor3, fontSize: "1.25rem" }}
+              />
+            )}
+          </IconButton>
+
           {/* 
             <Link to="editor" style={{ textDecoration: "none" }}>
               <HeaderButton>Editor</HeaderButton>
@@ -186,6 +207,8 @@ const HeaderMenuForUser = (props) => {
           sx: {
             overflow: "visible",
             filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+
+            backgroundColor: theme.ui,
             mt: 1.5,
             minWidth: 200,
             "& .MuiAvatar-root": {
@@ -203,6 +226,7 @@ const HeaderMenuForUser = (props) => {
               width: 10,
               height: 10,
               bgcolor: "background.paper",
+              backgroundColor: theme.ui,
               transform: "translateY(-50%) rotate(45deg)",
               zIndex: 0,
             },

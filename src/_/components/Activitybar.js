@@ -305,7 +305,7 @@ export default function Activitybar(props) {
   );
 }
 
-const ActivityButton = ({ icon, label, to, onClick, sx, disabled }) => {
+export const ActivityButton = ({ icon, label, to, onClick, sx, disabled }) => {
   const { theme } = useContext(ThemeContext);
   const { selectedActivity, setSelectedActivity } = useContext(EditorContext);
   const { pathname } = useLocation();

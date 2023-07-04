@@ -14,6 +14,7 @@ import DarkModeIcon from "@mui/icons-material/DarkMode";
 import PublicRoundedIcon from "@mui/icons-material/PublicRounded";
 import OpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
 import PhonelinkRoundedIcon from "@mui/icons-material/PhonelinkRounded";
+import LightModeIcon from "@mui/icons-material/LightMode";
 
 import { useAccount } from "near-social-vm";
 
@@ -178,12 +179,21 @@ export default function WidgetViewHeader({
         </Tooltip> */}
         <Tooltip title="Toggle Theme" placement="bottom">
           <IconButton onClick={() => setAllowTheming((e) => !e)}>
-            <DarkModeIcon
-              sx={{
-                fill: allowTheming ? theme.buttonColor : theme.textColor2,
-                fontSize: "1.25rem",
-              }}
-            />
+            {allowTheming ? (
+              <LightModeIcon
+                sx={{
+                  fill: theme.textColor2,
+                  fontSize: "1.25rem",
+                }}
+              />
+            ) : (
+              <DarkModeIcon
+                sx={{
+                  fill: theme.textColor2,
+                  fontSize: "1.25rem",
+                }}
+              />
+            )}
           </IconButton>
         </Tooltip>
 
@@ -251,7 +261,7 @@ const MultiViewMenu = ({ viewBox, setViewBox }) => {
         PaperProps={{
           style: {
             // maxHeight: 3 * 4.5,
-            width: "20ch",
+            width: "25ch",
 
             backgroundColor: theme.backgroundColor,
           },
@@ -282,7 +292,7 @@ const MultiViewMenu = ({ viewBox, setViewBox }) => {
           }}
         >
           <ListItemText sx={{ color: theme.textColor3, fontWeight: 700 }}>
-            Mobile
+            Mobile <Typography variant="p2">(320X675)</Typography>
           </ListItemText>
         </MenuItem>
 
@@ -297,7 +307,7 @@ const MultiViewMenu = ({ viewBox, setViewBox }) => {
           }}
         >
           <ListItemText sx={{ color: theme.textColor3, fontWeight: 700 }}>
-            Tablet
+            Tablet <Typography variant="p2">(768X1024)</Typography>
           </ListItemText>
         </MenuItem>
 
@@ -312,7 +322,7 @@ const MultiViewMenu = ({ viewBox, setViewBox }) => {
           }}
         >
           <ListItemText sx={{ color: theme.textColor3, fontWeight: 700 }}>
-            Desktop
+            Desktop <Typography variant="p2">(1400X800)</Typography>
           </ListItemText>
         </MenuItem>
       </Menu>

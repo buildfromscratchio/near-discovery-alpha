@@ -274,12 +274,39 @@ a:hover {
 
 .desktop {
   width: 90%;
+
+  /* width: 1400px;
+  height: 800px; */
+
+  /* aspect-ratio: 16/9; */
 }
 
 .tablet {
   width: 768px;
+  /* height: 60%; */
+  margin-block: 32px;
+  /* max-height: 1024px; */
+  /* max-height: 524px; */
+  aspect-ratio: 2 / 1;
+
+  /* height: calc(768px * 16 / 9); */
+
+  /* position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto; */
 }
 
 .phone {
-  width: 480px;
+  width: 320px;
+  max-height: 675px;
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
 }
