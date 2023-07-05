@@ -6,6 +6,7 @@ import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import Groups3RoundedIcon from "@mui/icons-material/Groups3Rounded";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
+import CellTowerRoundedIcon from "@mui/icons-material/CellTowerRounded";
 
 import HelpRoundedIcon from "@mui/icons-material/HelpRounded";
 import FeedbackRoundedIcon from "@mui/icons-material/FeedbackRounded";
@@ -75,7 +76,7 @@ export default function Activitybar(props) {
               ></path>
             </svg>
           }
-          label="create Component"
+          label="Create Component"
           to="/editor"
           onClick={() => {
             history.push("/editor");
@@ -89,7 +90,7 @@ export default function Activitybar(props) {
               sx={{ fill: theme.textColor4, fontSize: "1.5rem" }}
             />
           }
-          label="search widgets"
+          label="Search Components"
           to="/search"
           onClick={() => {
             history.push("/search");
@@ -97,13 +98,13 @@ export default function Activitybar(props) {
           }}
         />
 
-        {/* <ActivityButton
+        <ActivityButton
           icon={
             <CellTowerRoundedIcon
               sx={{ fill: theme.textColor4, fontSize: "1.5rem" }}
             />
           }
-          label="changeNetwork"
+          label="Switch Networks"
           to="/changeNetwork"
           onClick={() => {
             history.push("/changeNetwork");
@@ -111,14 +112,14 @@ export default function Activitybar(props) {
               e === "changeNetwork" ? "" : "changeNetwork"
             );
           }}
-        /> */}
+        />
         <ActivityButton
           icon={
             <MenuBookOutlinedIcon
               sx={{ fill: theme.textColor4, fontSize: "1.5rem" }}
             />
           }
-          label="learn"
+          label="Community Learning"
           to="/learn"
           onClick={() => {
             history.push("/learn");
@@ -132,7 +133,7 @@ export default function Activitybar(props) {
               sx={{ fill: theme.textColor4, fontSize: "1.5rem" }}
             />
           }
-          label="collaboration"
+          label="Live Collaboration"
           to="/collaborations"
           onClick={() => {
             history.push("/collaborations");
@@ -146,14 +147,14 @@ export default function Activitybar(props) {
               sx={{ fill: theme.textColor4, fontSize: "1.5rem" }}
             />
           }
-          label="settings"
+          label="Platform Settings"
           onClick={() => {
             history.push("/settings");
             setSelectedActivity((e) => (e === "settings" ? "" : "settings"));
           }}
         />
 
-        <ActivityButton
+        {/* <ActivityButton
           icon={
             enableDarkMode ? (
               <LightModeIcon
@@ -169,7 +170,7 @@ export default function Activitybar(props) {
           onClick={() => {
             setEnableDarkMode(!enableDarkMode);
           }}
-        />
+        /> */}
       </div>
 
       <div>
@@ -193,7 +194,7 @@ export default function Activitybar(props) {
           />
         )}
 
-        <Tooltip title="BOS - Docs" placement="right">
+        <Tooltip title="NEAR Documentation" placement="right">
           <a href="https://docs.near.org/bos" target="_blank">
             <Box
               style={{
@@ -215,7 +216,7 @@ export default function Activitybar(props) {
           </a>
         </Tooltip>
 
-        <Tooltip title="Feedback" placement="right">
+        <Tooltip title="Give Feedback" placement="right">
           <a
             href="https://components.canny.io/feature-requests"
             target="_blank"

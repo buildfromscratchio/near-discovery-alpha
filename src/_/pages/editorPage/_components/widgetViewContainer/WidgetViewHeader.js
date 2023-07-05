@@ -180,14 +180,14 @@ export default function WidgetViewHeader({
         <Tooltip title="Toggle Theme" placement="bottom">
           <IconButton onClick={() => setAllowTheming((e) => !e)}>
             {allowTheming ? (
-              <LightModeIcon
+              <DarkModeIcon
                 sx={{
                   fill: theme.textColor2,
                   fontSize: "1.25rem",
                 }}
               />
             ) : (
-              <DarkModeIcon
+              <LightModeIcon
                 sx={{
                   fill: theme.textColor2,
                   fontSize: "1.25rem",
@@ -260,9 +260,7 @@ const MultiViewMenu = ({ viewBox, setViewBox }) => {
         onClose={handleClose}
         PaperProps={{
           style: {
-            // maxHeight: 3 * 4.5,
             width: "25ch",
-
             backgroundColor: theme.backgroundColor,
           },
         }}
