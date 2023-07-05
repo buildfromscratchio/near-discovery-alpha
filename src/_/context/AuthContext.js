@@ -21,18 +21,6 @@ export const AuthContextProvider = (props) => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [user, setUser] = useState();
 
-  // useEffect(() => {
-  //   console.log("isAuthenticated", JSON.stringify(isAuthenticated));
-  // }, [isAuthenticated]);
-  // useEffect(() => {
-  //   console.log("loadingCheck", JSON.stringify(loadingCheck));
-  // }, [loadingCheck]);
-  // useEffect(() => {
-  //   console.log("loading", JSON.stringify(loading));
-  // }, [loading]);
-
-  // console.log("nearUser : ", nearUser);
-
   useEffect(() => {
     if (!isAuthenticated) checkAuth();
   }, [nearUser]);
@@ -189,10 +177,11 @@ export const AuthContextProvider = (props) => {
       ) : (
         props.children
       )} */}
-      {!isUnrestrictedRoute && (loading || loadingCheck) && (
+      {!isUnrestrictedRoute && (loading || loadingCheck) ? (
         <LoadingPage fullSize={true} />
+      ) : (
+        props.children
       )}
-      {props.children}
     </AuthContext.Provider>
   );
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Dialog,
@@ -17,10 +17,12 @@ export default function LoginDialog({ requestSignIn }) {
   const { isAuthenticated } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
 
+  const [showDialog, setShowDialog] = useState(true);
+
   return (
     isAuthenticated === false && (
       <Dialog
-        open={!isAuthenticated && !isUnrestrictedRoute}
+        open={showDialog && !isAuthenticated && !isUnrestrictedRoute}
         fullWidth={true}
         maxWidth="xs"
         PaperProps={{
@@ -56,16 +58,18 @@ export default function LoginDialog({ requestSignIn }) {
           }}
         >
           <GithubButton />
-          <NearButton requestSignIn={requestSignIn} />
+          <NearButton
+            requestSignIn={requestSignIn}
+            setShowDialog={setShowDialog}
+          />
         </DialogContent>
       </Dialog>
     )
   );
 }
 
-const NearButton = ({ requestSignIn }) => {
+const NearButton = ({ requestSignIn, setShowDialog }) => {
   const { theme } = useContext(ThemeContext);
-  const { setShowDialog } = useContext(AuthContext);
 
   return (
     <Button
@@ -87,6 +91,7 @@ const NearButton = ({ requestSignIn }) => {
         },
       }}
       onClick={() => {
+        setShowDialog(false);
         requestSignIn();
       }}
     >

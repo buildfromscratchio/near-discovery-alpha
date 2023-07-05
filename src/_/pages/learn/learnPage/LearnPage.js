@@ -30,7 +30,7 @@ export default function LearnPage(props) {
 
   const getData = () => {
     httpClient()
-      .get("/learn")
+      .get("/public/learn")
       .then((res) => {
         setProjects(res.data);
         setLoading(false);

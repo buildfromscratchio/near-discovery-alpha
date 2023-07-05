@@ -34,7 +34,7 @@ export default function ProjectPage(props) {
     setLoading(true);
     // console.log("result: ");
     httpClient()
-      .get(`/learn/${projectSlug}`)
+      .get(`/public/learn/${projectSlug}`)
       .then((res) => {
         // console.log(res.data);
         setProject(res.data);

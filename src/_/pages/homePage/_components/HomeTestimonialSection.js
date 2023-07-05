@@ -97,14 +97,14 @@ export default function HomeTestimonialSection({ sx }) {
 }
 
 const TestimonialItem = ({ fullName, avatar, username, quote }) => {
-  const { theme, bp } = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext);
 
   return (
     <Card
       sx={{
         maxWidth: "100%",
         boxShadow: "none",
-        backgroundColor: theme.ui,
+        backgroundColor: theme.backgroundColor,
       }}
     >
       <CardHeader
