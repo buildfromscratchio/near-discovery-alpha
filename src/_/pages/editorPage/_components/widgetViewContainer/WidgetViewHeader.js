@@ -17,6 +17,7 @@ import PhonelinkRoundedIcon from "@mui/icons-material/PhonelinkRounded";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import VisibilityOffRoundedIcon from "@mui/icons-material/VisibilityOffRounded";
+import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
 
 import { useAccount } from "near-social-vm";
 
@@ -78,7 +79,7 @@ export default function WidgetViewHeader({
 
         {loading && <CircularProgress thickness={6} size={18} />}
 
-        {/* <Tooltip title="Preview Widget" placement="bottom">
+        <Tooltip title="Run" placement="bottom">
           <IconButton
             sx={{
               color: theme.buttonColor,
@@ -92,7 +93,7 @@ export default function WidgetViewHeader({
               sx={{ fontSize: "1.75rem", fill: theme.buttonColor }}
             />
           </IconButton>
-        </Tooltip> */}
+        </Tooltip>
 
         <div
           style={{
@@ -210,7 +211,7 @@ const MultiViewMenu = ({ viewBox, setViewBox }) => {
 
   return (
     <>
-      <Tooltip title="Toggle Responsive Preview" placement="bottom">
+      <Tooltip title="Responsive Preview" placement="bottom">
         <IconButton
           aria-label="more"
           id="long-button"
