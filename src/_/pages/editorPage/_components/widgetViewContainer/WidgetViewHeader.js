@@ -15,6 +15,8 @@ import PublicRoundedIcon from "@mui/icons-material/PublicRounded";
 import OpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
 import PhonelinkRoundedIcon from "@mui/icons-material/PhonelinkRounded";
 import LightModeIcon from "@mui/icons-material/LightMode";
+import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
+import VisibilityOffRoundedIcon from "@mui/icons-material/VisibilityOffRounded";
 
 import { useAccount } from "near-social-vm";
 
@@ -45,31 +47,6 @@ export default function WidgetViewHeader({
 
   const { theme } = useContext(ThemeContext);
 
-  // console.log(
-  //   "pathname : ",
-  //   pathname.substring(pathname.indexOf("/editor/") + 8)
-  // );
-
-  // console.warn = () => {};
-
-  // // const [loading, setLoading] = useState(false);
-  // const handlePostInGithub = () => {
-  //   // setLoading(true);
-
-  //   httpClient()
-  //     .get("/github")
-  //     .then((res) => {
-  //       // setProjects(res.data);
-  //       // setLoading(false);
-
-  //       // console.log("handlePostInGithub : ", res.data);
-  //     })
-  //     .catch((err) => {
-  //       // console.log(err);
-  //       // setLoading(false);
-  //     });
-  // };
-
   return (
     <Box
       sx={{
@@ -90,24 +67,6 @@ export default function WidgetViewHeader({
         >
           Preview
         </Typography>
-
-        {/* <Tooltip
-          title={`Live Preview: ${showLiveCodePreview ? "On" : "Off"}`}
-          placement="bottom"
-        >
-          <IconButton
-            sx={{ color: theme.buttonTextColor }}
-            onClick={() => setShowLiveCodePreview((e) => !e)}
-          >
-            <VisibilityRoundedIcon
-              sx={{
-                fill: showLiveCodePreview
-                  ? theme.buttonColor
-                  : theme.textColor2,
-              }}
-            />
-          </IconButton>
-        </Tooltip> */}
       </Box>
 
       <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -177,6 +136,27 @@ export default function WidgetViewHeader({
             />
           </IconButton>
         </Tooltip> */}
+
+        <Tooltip title="Toggle Live Preview" placement="bottom">
+          <IconButton onClick={() => setShowLiveCodePreview((e) => !e)}>
+            {showLiveCodePreview ? (
+              <VisibilityRoundedIcon
+                sx={{
+                  fill: theme.textColor2,
+                  fontSize: "1.25rem",
+                }}
+              />
+            ) : (
+              <VisibilityOffRoundedIcon
+                sx={{
+                  fill: theme.textColor2,
+                  fontSize: "1.25rem",
+                }}
+              />
+            )}
+          </IconButton>
+        </Tooltip>
+
         <Tooltip title="Toggle Theme" placement="bottom">
           <IconButton onClick={() => setAllowTheming((e) => !e)}>
             {allowTheming ? (
@@ -200,11 +180,6 @@ export default function WidgetViewHeader({
         <MultiViewMenu viewBox={viewBox} setViewBox={setViewBox} />
 
         <OpenInNewTabMenu />
-        {/* <ActivityButton
-          icon={<VerticalSplitRoundedIcon sx={{ fill: theme.textColor4 }} />}
-          label="showWebsite"
-          onClick={() => setShowWebsiteView((e) => !e)}
-        /> */}
 
         <div
           style={{
