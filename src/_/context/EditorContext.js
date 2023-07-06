@@ -101,7 +101,7 @@ export const EditorContextProvider = (props) => {
     image: "mob.near/widget/Image",
     default: "near/widget/ActivityPage",
     viewSource: "mob.near/widget/WidgetSource",
-    widgetMetadataEditor: "mob.near/widget/WidgetMetadataEditor",
+    // widgetMetadataEditor: "mob.near/widget/WidgetMetadataEditor",
     widgetMetadata: "mob.near/widget/WidgetMetadata",
     profileImage: "mob.near/widget/ProfileImage",
     profileName: "patrick.near/widget/ProfileName",
@@ -119,6 +119,8 @@ export const EditorContextProvider = (props) => {
     wrapper: "near/widget/DIG.Theme",
 
     // My
+    widgetMetadataEditor:
+      "saidulbadhon.near/widget/EditorPage.Metadata.WidgetMetadataEditor",
     profilePageSidebar: "saidulbadhon.near/widget/ProfilePage.Sidebar",
     profilePageMain: "saidulbadhon.near/widget/ProfilePage.Main",
     activitybarNotificationButton:

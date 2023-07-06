@@ -310,3 +310,7 @@ a:hover {
   bottom: 0;
   margin: auto;
 }
+
+.rbt-input-multi.form-control.rbt-input {
+  /* background-color: red; */
+}

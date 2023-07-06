@@ -10,6 +10,7 @@ import {
   vscDarkPlus,
   vs,
 } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { sanitizeGutenberg } from "sanitize-html";
 
 export default function MarkdownViewer({ className, src }) {
   const { enqueueSnackbar } = useSnackbar();
@@ -269,6 +270,7 @@ export default function MarkdownViewer({ className, src }) {
       }}
     >
       {src}
+      {/* {sanitizeGutenberg(src || "")} */}
     </Markdown>
   ) : (
     <div />

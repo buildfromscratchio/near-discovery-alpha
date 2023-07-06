@@ -48,6 +48,8 @@
 
 .contributions .footer .footerText {
   font-size: 0.8rem;
+  padding: 0 5px;
+  margin: 0;
 }
 
 .contributions .weekdays {

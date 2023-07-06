@@ -1070,6 +1070,7 @@ export default function EditorPage(props) {
                       () => ({
                         widgetPath,
                         onChange: setMetadata,
+                        theme: theme,
                       }),
                       [widgetPath]
                     )}
@@ -1100,6 +1101,7 @@ export default function EditorPage(props) {
             <WidgetViewContainer
               showWebsiteView={showWebsiteView}
               parsedWidgetProps={parsedWidgetProps}
+              widgetProps={widgetProps}
               renderCode={renderCode}
               loading={loading}
               //

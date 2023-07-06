@@ -36,7 +36,7 @@ export default function ProjectPage(props) {
     httpClient()
       .get(`/public/learn/${projectSlug}`)
       .then((res) => {
-        // console.log(res.data);
+        console.log("ProjectPage :", res.data);
         setProject(res.data);
         setLoading(false);
       })
