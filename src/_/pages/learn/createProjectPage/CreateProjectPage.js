@@ -59,6 +59,8 @@ export default function CreateProjectPage(props) {
     httpClient()
       .get(`/learn/${projectSlug}`)
       .then((res) => {
+        console.log(res.data);
+
         setName(res.data.name);
         setDescription(res.data.description);
         setSections(
@@ -73,7 +75,7 @@ export default function CreateProjectPage(props) {
         );
         setSelectedProject(res.data);
 
-        res.data.tags((tag) => {
+        res.data.tags?.map((tag) => {
           setTags((e) => [...e, { label: camelToNormal(tag), value: tag }]);
         });
         setLevel({

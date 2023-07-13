@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PagesContainer from "../../../components/PagesContainer";
-import { Box, Button, IconButton, Skeleton, Typography } from "@mui/material";
+import { Box, Skeleton, Typography } from "@mui/material";
 import { useContext } from "react";
 import { ThemeContext } from "../../../context/ThemeContext";
 import httpClient from "../../../libs/httpClient";
@@ -12,9 +12,9 @@ import CustomButton from "../../../components/custom/CustomButton";
 import { Link } from "react-router-dom";
 
 export default function LearnPage(props) {
-  const { selectedActivity, setSelectedActivity } = useContext(EditorContext);
+  const { setSelectedActivity } = useContext(EditorContext);
   const { theme, bp } = useContext(ThemeContext);
-  const { user } = useContext(AuthContext);
+  const { isAuthenticated } = useContext(AuthContext);
 
   const [loading, setLoading] = useState(false);
   const [projects, setProjects] = useState();
@@ -26,11 +26,11 @@ export default function LearnPage(props) {
   useEffect(() => {
     setLoading(true);
     getData();
-  }, []);
+  }, [isAuthenticated]);
 
   const getData = () => {
     httpClient()
-      .get("/public/learn")
+      .get(isAuthenticated ? "/learn" : "/public/learn")
       .then((res) => {
         setProjects(res.data);
         setLoading(false);
