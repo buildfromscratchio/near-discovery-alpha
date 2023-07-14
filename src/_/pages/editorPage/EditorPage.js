@@ -37,6 +37,7 @@ import { useDebouncedCallback } from "use-debounce";
 import OpenWidgetDialog from "../../dialogs/OpenWidgetDialog";
 import Tabsbar from "./_components/Tabsbar";
 import Sidebar from "../../components/sidebar/Sidebar";
+import EditorContainer from "../../components/EditorContainer";
 
 const StorageDomain = {
   page: "editor",
@@ -993,7 +994,7 @@ export default function EditorPage(props) {
                     height: "calc(100vh - 75px)",
                   }}
                 >
-                  <Editor
+                  <EditorContainer
                     // This is for props
                     theme={theme.name === "dark" ? "vs-dark" : "light"}
                     options={{
@@ -1024,7 +1025,7 @@ export default function EditorPage(props) {
                     height: "calc(100vh - 75px)",
                   }}
                 >
-                  <Editor
+                  <EditorContainer
                     // This is for Component
                     theme={theme.name === "dark" ? "vs-dark" : "light"}
                     options={{

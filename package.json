@@ -39,6 +39,7 @@
     "local-storage": "^2.0.0",
     "markdown-loader": "^8.0.0",
     "markdown-to-jsx": "^7.2.1",
+    "monaco-editor": "^0.40.0",
     "near-api-js": "^0.45.1",
     "near-social-vm": "git+https://github.com/NearSocial/VM.git#2.2.3",
     "notistack": "^3.0.1",
