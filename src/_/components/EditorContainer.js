@@ -11,7 +11,7 @@ export default function EditorContainer(props) {
     if (monacoRef) {
       monacoRef.languages.registerCompletionItemProvider("javascript", {
         provideCompletionItems: (model, position) => {
-          const suggestions = [
+          let suggestions = [
             {
               label: "console",
               kind: monaco.languages.CompletionItemKind.Keyword,
@@ -23,12 +23,66 @@ export default function EditorContainer(props) {
               insertText: "log3",
             },
             {
-              label: "platform",
+              label: "platform('nearpad.dev')",
               kind: monaco.languages.CompletionItemKind.Method,
               insertText: "platform('nearpad.dev')",
             },
+            {
+              label: `console.log("")`,
+              kind: monaco.languages.CompletionItemKind.Method,
+              insertText: "console.log($1)",
+              insertTextRules:
+                monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              range: new monaco.Range(
+                position.lineNumber,
+                position.column - 1,
+                position.lineNumber,
+                position.column - 1
+              ),
+              detail: "Log a message to the console",
+            },
+
+            {
+              label: `<Widget src="" />`,
+              kind: monaco.languages.CompletionItemKind.Method,
+              insertText: `<Widget src="$1" props={{$2}}/>`,
+              insertTextRules:
+                monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              range: new monaco.Range(
+                position.lineNumber,
+                position.column - 100,
+                position.lineNumber,
+                position.column - 100
+              ),
+              detail: "Add a near widget",
+            },
+
             // Add more suggestions as needed
           ];
+
+          const wordUntilPosition = model.getWordUntilPosition(position);
+          const { word } = wordUntilPosition;
+
+          console.log(word);
+
+          // Show suggestions for properties and methods of console object
+          if (word == "badhon") {
+            console.log("THE ORLD I badhon!!!");
+            suggestions.push({
+              label: "warn",
+              kind: monaco.languages.CompletionItemKind.Method,
+              insertText: "warn($1)",
+              insertTextRules:
+                monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              range: new monaco.Range(
+                position.lineNumber,
+                position.column - word.length,
+                position.lineNumber,
+                position.column
+              ),
+              detail: "Log a warning message to the console",
+            });
+          }
 
           return { suggestions };
         },
@@ -40,40 +94,5 @@ export default function EditorContainer(props) {
     editorRef.current = editor;
   };
 
-  return (
-    <Editor
-      {...props}
-      // language="javascript"
-      // defaultLanguage="javascript"
-      // onMount={(editor, monaco) => {
-      //   editorRef.current = editor;
-      // }}
-
-      editorDidMount={handleEditorDidMount}
-
-      // editorDidMount={(editor, monaco) => {
-      //   editorRef.current = editor;
-      // }}
-
-      //   // This is for props
-      //   theme={theme.name === "dark" ? "vs-dark" : "light"}
-      //   options={{
-      //     minimap: {
-      //       enabled: false,
-      //     },
-      //     wordWrap: "on",
-      //     fontSize: editorFontSize || "16px",
-      //   }}
-      //   value={code}
-      //   path={widgetPath}
-      //   defaultLanguage="javascript"
-      //   onChange={(code) => {
-      //     if (showLiveCodePreview) debouncedFunction();
-      //     updateCode(path, code);
-      //   }}
-      //   wrapperProps={{
-      //     onBlur: () => reformat(path, code),
-      //   }}
-    />
-  );
+  return <Editor {...props} editorDidMount={handleEditorDidMount} />;
 }
