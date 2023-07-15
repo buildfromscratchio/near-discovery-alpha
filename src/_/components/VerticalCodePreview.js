@@ -6,13 +6,13 @@ import { Box } from "@mui/system";
 import prettier from "prettier";
 import parserBabel from "prettier/parser-babel";
 
-import Editor from "@monaco-editor/react";
 import { Widget } from "near-social-vm";
 import { ThemeContext } from "../context/ThemeContext";
 import { useContext, useCallback } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useSnackbar } from "notistack";
+import EditorContainer from "./EditorContainer";
 
 export default function VerticalCodePreview({
   initialCode,
@@ -61,7 +61,7 @@ export default function VerticalCodePreview({
       <Allotment.Pane priority={2}>
         <LearnPageHeader title="Code" onCopyButtonClick={onCopyButtonClick} />
 
-        <Editor
+        <EditorContainer
           theme={theme.name === "dark" ? "vs-dark" : "light"}
           options={{
             minimap: { enabled: false },
