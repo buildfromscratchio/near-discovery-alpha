@@ -1,17 +1,16 @@
 import React, { useEffect, useRef } from "react";
 
-import Editor from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
+import { Editor, useMonaco } from "@monaco-editor/react";
 
 export default function EditorContainer(props) {
   const editorRef = useRef(null);
+  const monacoRef = useMonaco();
 
   useEffect(() => {
-    if (editorRef.current) {
-      const editor = editorRef.current.editor;
-
-      monaco.languages.registerCompletionItemProvider("javascript", {
-        provideCompletionItems: () => {
+    if (monacoRef) {
+      monacoRef.languages.registerCompletionItemProvider("javascript", {
+        provideCompletionItems: (model, position) => {
           const suggestions = [
             {
               label: "console",
@@ -19,9 +18,14 @@ export default function EditorContainer(props) {
               insertText: "console",
             },
             {
-              label: "log",
+              label: "log3",
               kind: monaco.languages.CompletionItemKind.Method,
-              insertText: "log",
+              insertText: "log3",
+            },
+            {
+              label: "platform",
+              kind: monaco.languages.CompletionItemKind.Method,
+              insertText: "platform('nearpad.dev')",
             },
             // Add more suggestions as needed
           ];
@@ -30,11 +34,27 @@ export default function EditorContainer(props) {
         },
       });
     }
-  }, []);
+  }, [monacoRef]);
+
+  const handleEditorDidMount = (editor) => {
+    editorRef.current = editor;
+  };
 
   return (
     <Editor
       {...props}
+      // language="javascript"
+      // defaultLanguage="javascript"
+      // onMount={(editor, monaco) => {
+      //   editorRef.current = editor;
+      // }}
+
+      editorDidMount={handleEditorDidMount}
+
+      // editorDidMount={(editor, monaco) => {
+      //   editorRef.current = editor;
+      // }}
+
       //   // This is for props
       //   theme={theme.name === "dark" ? "vs-dark" : "light"}
       //   options={{
