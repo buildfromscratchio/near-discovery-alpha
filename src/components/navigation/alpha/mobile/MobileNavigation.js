@@ -4,7 +4,7 @@ import { BottomNavigation } from "./BottomNavigation";
 import { MenuLeft } from "./MenuLeft";
 import { MenuRight } from "./MenuRight";
 import { useLocation } from "react-router-dom";
-import useScrollBlock from "../.././../../hooks/useScrollBlock";
+import useScrollBlock from "../../../../_/libs/useScrollBlock";
 
 export function MobileNavigation(props) {
   const [showMenu, setShowMenu] = useState(false);
