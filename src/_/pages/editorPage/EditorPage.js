@@ -9,7 +9,6 @@ import ls from "local-storage";
 import prettier from "prettier";
 import parserBabel from "prettier/parser-babel";
 import { useHistory, useParams } from "react-router-dom";
-import Editor from "@monaco-editor/react";
 import ReactGA from "react-ga4";
 import {
   Widget,
@@ -38,6 +37,7 @@ import OpenWidgetDialog from "../../dialogs/OpenWidgetDialog";
 import Tabsbar from "./_components/Tabsbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import EditorContainer from "../../components/EditorContainer";
+import httpClient from "../../libs/httpClient";
 
 const StorageDomain = {
   page: "editor",
@@ -80,6 +80,9 @@ export default function EditorPage(props) {
     setSelectedActivity,
     showWebsiteView,
 
+    code,
+    setCode,
+
     files,
     setFiles,
     filesDetails,
@@ -107,7 +110,6 @@ export default function EditorPage(props) {
   const setWidgetSrc = props.setWidgetSrc;
 
   const [loading, setLoading] = useState(false);
-  const [code, setCode] = useState(undefined);
   const [path, setPath] = useState(undefined);
   // const [files, setFiles] = useState(undefined);
   // const [lastPath, setLastPath] = useState(undefined);
@@ -581,7 +583,23 @@ export default function EditorPage(props) {
       setTimeout(function () {
         console.log("Executed after 1 second");
         // history.push(`/editor/`);
-        history.replace(`/editor/`);
+
+        if (!widgetSrc) return;
+
+        const parts = widgetSrc.split("/");
+        // console.log("FORKING...");
+        httpClient()
+          .post("/fork", {
+            source: widgetSrc,
+            originalOwner: parts[0],
+            componentName: parts[parts.length - 1],
+          })
+          .then((res) => {
+            history.replace(`/editor/`);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }, 1000);
 
       // history.replace(`/editor/`);

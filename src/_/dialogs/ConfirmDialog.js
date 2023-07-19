@@ -16,6 +16,7 @@ export default function ConfirmDialog({
   onClick,
   label,
   description,
+  actionButtonLabel,
 }) {
   const { theme } = useContext(ThemeContext);
 
@@ -74,7 +75,7 @@ export default function ConfirmDialog({
             setOpen(false);
           }}
         >
-          Remove
+          {actionButtonLabel || "Remove"}
         </CustomButton>
       </DialogActions>
     </Dialog>

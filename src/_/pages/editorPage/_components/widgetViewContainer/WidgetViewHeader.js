@@ -25,6 +25,7 @@ import { ThemeContext } from "../../../../context/ThemeContext";
 import { EditorContext } from "../../../../context/EditorContext";
 import { useState } from "react";
 import { useSnackbar } from "notistack";
+import CreatePullRequestDialog from "../../../../dialogs/CreatePullRequestDialog";
 
 export default function WidgetViewHeader({
   loading,
@@ -43,67 +44,71 @@ export default function WidgetViewHeader({
   viewBox,
   setViewBox,
 }) {
-  const { showLiveCodePreview, setShowLiveCodePreview } =
+  const { showLiveCodePreview, setShowLiveCodePreview, forked } =
     useContext(EditorContext);
 
   const { theme } = useContext(ThemeContext);
 
-  return (
-    <Box
-      sx={{
-        paddingInline: 1,
-        height: 50,
-        minHeight: 50,
-        backgroundColor: theme.backgroundColor,
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        width: "100%",
-      }}
-    >
-      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-        <Typography
-          variant="h6"
-          sx={{ color: theme.textColor2, width: "100%" }}
-        >
-          Preview
-        </Typography>
-      </Box>
+  const [showCreatePullRequestDialog, setShowCreatePullRequestDialog] =
+    useState(false);
 
-      <Box sx={{ display: "flex", alignItems: "center" }}>
-        {/* <Tooltip title="Upload to Github" placement="bottom">
+  return (
+    <>
+      <Box
+        sx={{
+          paddingInline: 1,
+          height: 50,
+          minHeight: 50,
+          backgroundColor: theme.backgroundColor,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          width: "100%",
+        }}
+      >
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <Typography
+            variant="h6"
+            sx={{ color: theme.textColor2, width: "100%" }}
+          >
+            Preview
+          </Typography>
+        </Box>
+
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          {/* <Tooltip title="Upload to Github" placement="bottom">
           <IconButton onClick={() => handlePostInGithub()}>
             <GitHubIcon sx={{ fontSize: "1.25rem", fill: theme.textColor2 }} />
           </IconButton>
         </Tooltip> */}
 
-        {loading && <CircularProgress thickness={6} size={18} />}
+          {loading && <CircularProgress thickness={6} size={18} />}
 
-        <Tooltip title="Run" placement="bottom">
-          <IconButton
-            sx={{
-              color: theme.buttonColor,
-              "&:hover": {
-                backgroundColor: theme.buttonColor + 66,
-              },
+          <Tooltip title="Run" placement="bottom">
+            <IconButton
+              sx={{
+                color: theme.buttonColor,
+                "&:hover": {
+                  backgroundColor: theme.buttonColor + 66,
+                },
+              }}
+              onClick={onRunButtonClick}
+            >
+              <PlayArrowRoundedIcon
+                sx={{ fontSize: "1.75rem", fill: theme.buttonColor }}
+              />
+            </IconButton>
+          </Tooltip>
+
+          <div
+            style={{
+              width: 1.5,
+              height: 25,
+              marginInline: 8,
+              backgroundColor: theme.borderColor,
             }}
-            onClick={onRunButtonClick}
-          >
-            <PlayArrowRoundedIcon
-              sx={{ fontSize: "1.75rem", fill: theme.buttonColor }}
-            />
-          </IconButton>
-        </Tooltip>
-
-        <div
-          style={{
-            width: 1.5,
-            height: 25,
-            marginInline: 8,
-            backgroundColor: theme.borderColor,
-          }}
-        />
-        {/*  <Tooltip title="Fork Widget" placement="bottom">
+          />
+          {/*  <Tooltip title="Fork Widget" placement="bottom">
           <IconButton
             sx={{ color: theme.textColor2 }}
             onClick={onForkButtonClick}
@@ -123,14 +128,14 @@ export default function WidgetViewHeader({
           </IconButton>
         </Tooltip>*/}
 
-        {/* <Tooltip title="Publish Widget" placement="bottom">
+          {/* <Tooltip title="Publish Widget" placement="bottom">
           <IconButton sx={{ color: theme.textColor2 }}>
             <PublicRoundedIcon
               sx={{ fill: theme.textColor2, fontSize: "1rem" }}
             />
           </IconButton>
         </Tooltip> */}
-        {/* <Tooltip title="Open in a new tab" placement="bottom">
+          {/* <Tooltip title="Open in a new tab" placement="bottom">
           <IconButton sx={{ color: theme.textColor2 }}>
             <OpenInNewRoundedIcon
               sx={{ fill: theme.textColor2, fontSize: "1rem" }}
@@ -138,61 +143,88 @@ export default function WidgetViewHeader({
           </IconButton>
         </Tooltip> */}
 
-        <Tooltip title="Toggle Live Preview" placement="bottom">
-          <IconButton onClick={() => setShowLiveCodePreview((e) => !e)}>
-            {showLiveCodePreview ? (
-              <VisibilityRoundedIcon
-                sx={{
-                  fill: theme.textColor2,
-                  fontSize: "1.25rem",
-                }}
-              />
-            ) : (
-              <VisibilityOffRoundedIcon
-                sx={{
-                  fill: theme.textColor2,
-                  fontSize: "1.25rem",
-                }}
-              />
-            )}
-          </IconButton>
-        </Tooltip>
+          <Tooltip title="Toggle Live Preview" placement="bottom">
+            <IconButton onClick={() => setShowLiveCodePreview((e) => !e)}>
+              {showLiveCodePreview ? (
+                <VisibilityRoundedIcon
+                  sx={{
+                    fill: theme.textColor2,
+                    fontSize: "1.25rem",
+                  }}
+                />
+              ) : (
+                <VisibilityOffRoundedIcon
+                  sx={{
+                    fill: theme.textColor2,
+                    fontSize: "1.25rem",
+                  }}
+                />
+              )}
+            </IconButton>
+          </Tooltip>
 
-        <Tooltip title="Toggle Theme" placement="bottom">
-          <IconButton onClick={() => setAllowTheming((e) => !e)}>
-            {allowTheming ? (
-              <DarkModeIcon
-                sx={{
-                  fill: theme.textColor2,
-                  fontSize: "1.25rem",
-                }}
-              />
-            ) : (
-              <LightModeIcon
-                sx={{
-                  fill: theme.textColor2,
-                  fontSize: "1.25rem",
-                }}
-              />
-            )}
-          </IconButton>
-        </Tooltip>
+          <Tooltip title="Toggle Theme" placement="bottom">
+            <IconButton onClick={() => setAllowTheming((e) => !e)}>
+              {allowTheming ? (
+                <DarkModeIcon
+                  sx={{
+                    fill: theme.textColor2,
+                    fontSize: "1.25rem",
+                  }}
+                />
+              ) : (
+                <LightModeIcon
+                  sx={{
+                    fill: theme.textColor2,
+                    fontSize: "1.25rem",
+                  }}
+                />
+              )}
+            </IconButton>
+          </Tooltip>
 
-        <MultiViewMenu viewBox={viewBox} setViewBox={setViewBox} />
+          <MultiViewMenu viewBox={viewBox} setViewBox={setViewBox} />
 
-        <OpenInNewTabMenu />
+          <OpenInNewTabMenu />
 
-        <div
-          style={{
-            width: 1.5,
-            height: 25,
-            marginInline: 8,
-            backgroundColor: theme.borderColor,
-          }}
-        />
-        {publishWidgetButton}
+          <div
+            style={{
+              width: 1.5,
+              height: 25,
+              marginInline: 8,
+              backgroundColor: theme.borderColor,
+            }}
+          />
+
+          {forked && (
+            <Tooltip title="Create Pull Request" placement="bottom">
+              <IconButton
+                onClick={() => setShowCreatePullRequestDialog((e) => !e)}
+                sx={{ mr: 1 }}
+              >
+                <svg
+                  fill={theme.buttonColor}
+                  width="16px"
+                  height="16px"
+                  viewBox="0 0 512 512"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M192,96a64,64,0,1,0-96,55.39V360.61a64,64,0,1,0,64,0V151.39A64,64,0,0,0,192,96ZM128,64A32,32,0,1,1,96,96,32,32,0,0,1,128,64Zm0,384a32,32,0,1,1,32-32A32,32,0,0,1,128,448Z" />
+                  <path d="M416,360.61V156a92.1,92.1,0,0,0-92-92H304V32a16,16,0,0,0-27.31-11.31l-64,64a16,16,0,0,0,0,22.62l64,64A16,16,0,0,0,304,160V128h20a28,28,0,0,1,28,28V360.61a64,64,0,1,0,64,0ZM384,448a32,32,0,1,1,32-32A32,32,0,0,1,384,448Z" />
+                </svg>
+              </IconButton>
+            </Tooltip>
+          )}
+
+          {publishWidgetButton}
+        </Box>
       </Box>
-    </Box>
+
+      <CreatePullRequestDialog
+        open={showCreatePullRequestDialog}
+        setOpen={setShowCreatePullRequestDialog}
+      />
+    </>
   );
 }
 
