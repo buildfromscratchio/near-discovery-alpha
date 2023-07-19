@@ -11,13 +11,11 @@ import {
   Chip,
   Fade,
   IconButton,
-  Rating,
   Typography,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
-import MarkdownViewer from "../../../../components/MarkdownViewer";
 import ConfirmDialog from "../../../../dialogs/ConfirmDialog";
 import camelToNormal from "../../../../libs/camelToNormal";
 import EventIcon from "@mui/icons-material/Event";

@@ -1,4 +1,5 @@
 import React, { useState, createContext, useEffect } from "react";
+import httpClient from "../libs/httpClient";
 
 export const EditorContext = createContext();
 
@@ -10,12 +11,25 @@ export const EditorContextProvider = (props) => {
 
   const [selectedActivity, setSelectedActivity] = useState("");
 
+  const [code, setCode] = useState(undefined);
   const [files, setFiles] = useState([]);
   const [filesDetails, setFilesDetails] = useState(new Map());
   const [lastPath, setLastPath] = useState(undefined);
 
+  // useEffect(() => {
+  //   console.log({
+  //     files,
+  //     filesDetails,
+  //     lastPath,
+  //   });
+  // }, [files, filesDetails, lastPath]);
+
   useEffect(() => {
     setLogs([]);
+
+    if (lastPath) {
+      checkIsForked();
+    }
   }, [lastPath]);
 
   const [curFileGasFee, setCurFileGasFee] = useState(0);
@@ -131,6 +145,25 @@ export const EditorContextProvider = (props) => {
 
   //
 
+  // Fork section
+  const [forked, setForked] = useState(undefined);
+
+  const checkIsForked = () => {
+    setForked(undefined);
+    httpClient()
+      .get(`/fork/${lastPath?.name}`)
+      .then((res) => {
+        if (res.data?._id) {
+          setForked(res.data);
+        } else {
+          setForked(undefined);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <EditorContext.Provider
       value={{
@@ -144,6 +177,8 @@ export const EditorContextProvider = (props) => {
         logs,
         setLogs,
         //
+        code,
+        setCode,
         files,
         setFiles,
         filesDetails,
@@ -166,6 +201,9 @@ export const EditorContextProvider = (props) => {
         // For Search Page
         openComponentDetail,
         setOpenComponentDetail,
+
+        // Fork section
+        forked,
       }}
     >
       {props.children}

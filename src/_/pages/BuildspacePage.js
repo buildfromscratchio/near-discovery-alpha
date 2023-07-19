@@ -16,6 +16,9 @@ export default function BuildspacePage(props) {
     <div>
       {/* <NavigationWrapper {...props} /> */}
 
+      <title>Saidul</title>
+      <meta name="description" content="BADHON 2" />
+
       <Widget
         src={props?.widgetSrc}
         props={{
