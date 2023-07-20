@@ -12,6 +12,7 @@ import NotificationsSidebar from "./NotificationsSidebar";
 
 import CollaborationSidebar from "../../pages/collaborations/collaborationPage/_components/CollaborationSidebar";
 import CollaborationsSidebar from "../../pages/collaborations/collaborationsPage/CollaborationsSidebar";
+import DiffSidebar from "./DiffSidebar";
 
 export default function Sidebar({
   appProps,
@@ -65,6 +66,7 @@ export default function Sidebar({
             />
           )) ||
             (selectedActivity === "search" && <SearchSidebar />) ||
+            (selectedActivity === "diff" && <DiffSidebar />) ||
             (selectedActivity === "settings" && <SettingsSidebar />) ||
             (selectedActivity === "changeNetwork" && <EnvironmentlSidebar />) ||
             (selectedActivity === "notifications" && (

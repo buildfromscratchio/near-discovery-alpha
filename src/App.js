@@ -67,6 +67,7 @@ import CollaborationPage from "./_/pages/collaborations/collaborationPage/Collab
 export const refreshAllowanceObj = {};
 ReactGA.initialize("G-YJ2FL738R6");
 import { useEthersProviderContext } from "./data/web3";
+import DiffEditorPage from "./_/pages/DiffEditorPage";
 
 export default function App() {
   const { NetworkId, Widgets } = useContext(EditorContext);
@@ -289,6 +290,16 @@ export default function App() {
 
                 <Route path={"/search"}>
                   <SearchPage {...passProps} />
+                  <Footer />
+                </Route>
+
+                <Route path={"/diff/:prId"}>
+                  <DiffEditorPage {...passProps} />
+                  <Footer />
+                </Route>
+
+                <Route path={"/diff"}>
+                  <EmptyPage {...passProps} />
                   <Footer />
                 </Route>
 

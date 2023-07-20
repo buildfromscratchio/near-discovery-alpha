@@ -14,14 +14,7 @@ import ConfirmDialog from "./ConfirmDialog";
 import httpClient from "../libs/httpClient";
 import { EditorContext } from "../context/EditorContext";
 
-import {
-  Widget,
-  useCache,
-  useNear,
-  CommitButton,
-  useAccountId,
-} from "near-social-vm";
-import { useCallback } from "react";
+import { useCache, useNear } from "near-social-vm";
 
 export default function CreatePullRequestDialog({ open, setOpen }) {
   const cache = useCache();
@@ -36,19 +29,6 @@ export default function CreatePullRequestDialog({ open, setOpen }) {
   const [description, setDescription] = useState("");
 
   const [loading, setLoading] = useState(false);
-
-  //   const getOriginalCode = (fn) => {
-  //     const code = cache.socialGet(near, forked?.source);
-
-  //     setTimeout(() => {
-  //       if (code) {
-  //         // handleSubmit(code);
-  //         fn(code);
-  //       } else {
-  //         getOriginalCode(fn);
-  //       }
-  //     }, 250);
-  //   };
 
   const getOriginalCode = () => {
     return new Promise((resolve, reject) => {
@@ -71,6 +51,7 @@ export default function CreatePullRequestDialog({ open, setOpen }) {
     const originalCode = await getOriginalCode();
 
     const data = {
+      fork: forked?._id,
       title,
       description,
       originalCode,
@@ -84,10 +65,12 @@ export default function CreatePullRequestDialog({ open, setOpen }) {
       .then((res) => {
         setLoading(false);
         console.log(res);
+        setOpen(false);
       })
       .catch((err) => {
         setLoading(false);
         console.log(err);
+        setOpen(false);
       });
   };
 

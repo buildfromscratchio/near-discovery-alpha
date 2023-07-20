@@ -86,6 +86,78 @@ export default function Activitybar(props) {
 
         <ActivityButton
           icon={
+            <svg
+              height="20px"
+              version="1.1"
+              viewBox="0 0 48 48"
+              width="48px"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <title />
+              <desc />
+              <g
+                fill="none"
+                fill-rule="evenodd"
+                id="pull-requests"
+                stroke="none"
+                stroke-linejoin="round"
+                stroke-width="1"
+              >
+                <rect fill="white" fill-opacity="0.01" height="48" width="48" />
+                <g
+                  stroke="#000000"
+                  stroke-width="4"
+                  transform="translate(7.000000, 4.000000)"
+                >
+                  <circle
+                    cx="30"
+                    cy="36"
+                    fill="#FFF"
+                    fill-rule="nonzero"
+                    id="Oval"
+                    r="4"
+                  />
+                  <circle
+                    cx="4"
+                    cy="4"
+                    fill="#FFF"
+                    fill-rule="nonzero"
+                    id="Oval-Copy"
+                    r="4"
+                  />
+                  <circle
+                    cx="4"
+                    cy="36"
+                    fill="#FFF"
+                    fill-rule="nonzero"
+                    id="Oval-Copy-2"
+                    r="4"
+                  />
+                  <path d="M4,8 L4,32" id="Path-315" stroke-linecap="round" />
+                  <path
+                    d="M17,6 L26,6 C28.209139,6 30,7.790861 30,10 L30,32"
+                    id="Path-317"
+                    stroke-linecap="round"
+                  />
+                  <polyline
+                    id="Path-367"
+                    points="17 0 23 6 17 12"
+                    stroke-linecap="round"
+                    transform="translate(20.000000, 6.000000) rotate(180.000000) translate(-20.000000, -6.000000) "
+                  />
+                </g>
+              </g>
+            </svg>
+          }
+          label="Pull Requests"
+          onClick={() => {
+            history.push("/diff");
+            setSelectedActivity((e) => (e === "diff" ? "" : "diff"));
+          }}
+        />
+
+        <ActivityButton
+          icon={
             <SearchRoundedIcon
               sx={{ fill: theme.textColor4, fontSize: "1.5rem" }}
             />
@@ -153,24 +225,6 @@ export default function Activitybar(props) {
             setSelectedActivity((e) => (e === "settings" ? "" : "settings"));
           }}
         />
-
-        {/* <ActivityButton
-          icon={
-            enableDarkMode ? (
-              <LightModeIcon
-                sx={{ fill: theme.textColor4, fontSize: "1.5rem" }}
-              />
-            ) : (
-              <DarkModeIcon
-                sx={{ fill: theme.textColor4, fontSize: "1.5rem" }}
-              />
-            )
-          }
-          label={enableDarkMode ? "Enable Light Mode" : "Enable Dark Mode"}
-          onClick={() => {
-            setEnableDarkMode(!enableDarkMode);
-          }}
-        /> */}
       </div>
 
       <div>
