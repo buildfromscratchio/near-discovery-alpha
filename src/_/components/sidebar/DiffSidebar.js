@@ -115,23 +115,25 @@ export default function DiffSidebar() {
                     </Typography>
 
                     <Box>
-                      {pr?.createdBy?.name ||
-                        (pr?.createdBy?.userName && (
-                          <Typography
-                            variant="p1"
-                            sx={{ color: theme.textColor3, textAlign: "left" }}
-                          >
-                            {`${
-                              pr?.createdBy?.name || pr?.createdBy?.userName
-                            } - `}
-                          </Typography>
-                        ))}
                       <Typography
+                        variant="p1"
+                        align="left"
+                        sx={{
+                          color: theme.textColor3,
+                          textAlign: "left",
+                        }}
+                      >
+                        {`${
+                          pr?.createdBy?.name || pr?.createdBy?.userName
+                        } -> ${pr?.originalOwner || pr?.fork?.originalOwner}`}
+                      </Typography>
+                      {/* <Typography
                         variant="p2"
                         sx={{ color: theme.textColor3, textAlign: "left" }}
                       >
+                        {pr?.originalOwner || pr?.fork?.originalOwner}
                         {formattedDate(pr?.createdAt)}
-                      </Typography>
+                      </Typography> */}
                     </Box>
                   </Box>
 

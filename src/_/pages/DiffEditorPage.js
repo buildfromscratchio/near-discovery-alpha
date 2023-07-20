@@ -157,23 +157,41 @@ export default function DiffEditorPage(props) {
         </Box>
       </Box>
 
-      <Box
-        style={{
-          minHeight: 750,
-          height: "calc(100vh - 75px)",
-        }}
-      >
-        {loading ? (
-          <LoadingPage />
-        ) : (
-          <DiffEditor
-            // height="90vh"
-            language="javascript"
-            original={pr?.originalCode}
-            modified={pr?.updatedCode}
-          />
-        )}
-      </Box>
+      {loading ? (
+        <LoadingPage />
+      ) : (
+        <Box>
+          <Box
+            sx={{
+              width: "100%",
+              height: 50,
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              backgroundColor: theme.backgroundColor,
+              borderBottom: `1px solid ${theme.borderColor}`,
+              paddingInline: 1,
+            }}
+          >
+            <Typography variant="h6" sx={{ color: theme.textColor }}>
+              Mine
+            </Typography>
+
+            <Typography variant="h6" sx={{ color: theme.textColor }}>
+              {pr?.createdBy?.name || pr?.createdBy?.userName}
+            </Typography>
+          </Box>
+
+          <Box sx={{ minHeight: 750, height: "calc(100vh - 125px)" }}>
+            <DiffEditor
+              // height="90vh"
+              language="javascript"
+              original={pr?.originalCode}
+              modified={pr?.updatedCode}
+            />
+          </Box>
+        </Box>
+      )}
     </PagesContainer>
   );
 }

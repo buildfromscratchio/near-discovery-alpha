@@ -10,7 +10,6 @@ import React, { useContext, useState } from "react";
 import CustomButton from "../components/custom/CustomButton";
 import { ThemeContext } from "../context/ThemeContext";
 import CustomInput from "../components/custom/CustomInput";
-import ConfirmDialog from "./ConfirmDialog";
 import httpClient from "../libs/httpClient";
 import { EditorContext } from "../context/EditorContext";
 
@@ -22,8 +21,6 @@ export default function CreatePullRequestDialog({ open, setOpen }) {
 
   const { theme } = useContext(ThemeContext);
   const { forked, code } = useContext(EditorContext);
-
-  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -52,6 +49,7 @@ export default function CreatePullRequestDialog({ open, setOpen }) {
 
     const data = {
       fork: forked?._id,
+      originalOwner: forked?.originalOwner,
       title,
       description,
       originalCode,
@@ -134,34 +132,25 @@ export default function CreatePullRequestDialog({ open, setOpen }) {
           </Button>
           <CustomButton
             loading={loading}
-            disabled={loading || title?.length <= 3 || description?.length <= 3}
+            disabled={loading || title?.length <= 3}
             sx={{
               textTransform: "none",
               fontWeight: 500,
 
               color: "#FFF",
               backgroundColor:
-                loading || title?.length <= 3 || description?.length <= 3
+                loading || title?.length <= 3
                   ? theme.buttonColor + 33
                   : theme.buttonColor,
               padding: "5px 30px",
               borderRadius: 0.5,
             }}
-            onClick={() => setShowConfirmDialog(true)}
+            onClick={() => handleSubmit()}
           >
             Create
           </CustomButton>
         </DialogActions>
       </Dialog>
-
-      <ConfirmDialog
-        open={showConfirmDialog}
-        setOpen={setShowConfirmDialog}
-        onClick={() => handleSubmit()}
-        label={`Create pull request`}
-        description={`Are you sure you want to create this pull request?`}
-        actionButtonLabel="Create"
-      />
     </>
   );
 }
