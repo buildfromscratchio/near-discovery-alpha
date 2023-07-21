@@ -145,7 +145,9 @@ export const EditorContextProvider = (props) => {
 
   //
 
-  // Fork section
+  // Fork and PRs section
+  const [prs, setPrs] = useState([]);
+  const [loadingPrs, setLoadingPrs] = useState(false);
   const [forked, setForked] = useState(undefined);
 
   const checkIsForked = () => {
@@ -160,6 +162,54 @@ export const EditorContextProvider = (props) => {
         }
       })
       .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getPrs();
+  }, []);
+
+  const getPrs = () => {
+    setLoadingPrs(true);
+
+    httpClient()
+      .get("/pr")
+      .then((res) => {
+        console.log(res.data);
+        setPrs(res.data);
+        setLoadingPrs(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoadingPrs(false);
+      });
+  };
+
+  const [loadingSeen, setLoadingSeen] = useState(false);
+
+  const handleSeen = () => {
+    setLoadingSeen(true);
+    const ids = prs?.map((pr) => pr._id);
+
+    httpClient()
+      .post("/pr/seen", { ids })
+      .then((res) => {
+        setLoadingSeen(false);
+
+        let newPrs = [];
+
+        prs?.map((pr) => {
+          pr.seen = true;
+          newPrs.push(pr);
+        });
+
+        setPrs(newPrs);
+
+        console.log("handleSeen : ", res.data);
+      })
+      .catch((err) => {
+        setLoadingSeen(false);
         console.log(err);
       });
   };
@@ -204,6 +254,10 @@ export const EditorContextProvider = (props) => {
 
         // Fork section
         forked,
+        prs,
+        loadingPrs,
+        getPrs,
+        handleSeen,
       }}
     >
       {props.children}

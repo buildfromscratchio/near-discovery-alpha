@@ -293,12 +293,12 @@ export default function App() {
                   <Footer />
                 </Route>
 
-                <Route path={"/diff/:prId"}>
+                <Route path={"/prs/:prId"}>
                   <DiffEditorPage {...passProps} />
                   <Footer />
                 </Route>
 
-                <Route path={"/diff"}>
+                <Route path={"/prs"}>
                   <EmptyPage {...passProps} />
                   <Footer />
                 </Route>

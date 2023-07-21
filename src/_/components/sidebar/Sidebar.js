@@ -66,7 +66,7 @@ export default function Sidebar({
             />
           )) ||
             (selectedActivity === "search" && <SearchSidebar />) ||
-            (selectedActivity === "diff" && <DiffSidebar />) ||
+            (selectedActivity === "prs" && <DiffSidebar />) ||
             (selectedActivity === "settings" && <SettingsSidebar />) ||
             (selectedActivity === "changeNetwork" && <EnvironmentlSidebar />) ||
             (selectedActivity === "notifications" && (

@@ -15,27 +15,31 @@ import { useParams } from "react-router-dom";
 import httpClient from "../libs/httpClient";
 import { useRef } from "react";
 import { DiffEditor } from "@monaco-editor/react";
-import {
-  Widget,
-  useCache,
-  useNear,
-  CommitButton,
-  useAccountId,
-} from "near-social-vm";
+import { useNear, CommitButton } from "near-social-vm";
 import LoadingPage from "../components/LoadingPage";
+import { AuthContext } from "../context/AuthContext";
+import { useHistory } from "react-router-dom";
 
 export default function DiffEditorPage(props) {
+  const history = useHistory();
   const near = useNear();
   const { prId } = useParams();
 
   const { theme } = useContext(ThemeContext);
-  const { setSelectedActivity } = useContext(EditorContext);
+  const { setSelectedActivity, getPrs } = useContext(EditorContext);
+  const { user } = useContext(AuthContext);
 
   const [loading, setLoading] = useState(false);
   const [pr, setPr] = useState();
 
+  const [isMine, setIsMine] = useState(false);
+
   useEffect(() => {
-    setSelectedActivity("diff");
+    setIsMine(pr?.createdBy?._id === user?._id);
+  }, [pr, user?._id]);
+
+  useEffect(() => {
+    setSelectedActivity("prs");
   }, []);
 
   useEffect(() => {
@@ -59,14 +63,19 @@ export default function DiffEditorPage(props) {
 
   //
   const [loadingSubmit, setLoadingSubmit] = useState(false);
-  function handleSubmit(status) {
+  function handleSubmit(data) {
     setLoadingSubmit(true);
     httpClient()
-      .put(`/pr/${prId}`, { status })
+      .put(`/pr/${prId}`, data)
       .then((res) => {
         console.log(res.data);
-        document.getElementById("publishButton").click();
+        if (data.status === "merged")
+          document.getElementById("publishButton").click();
+
+        getPrs();
         setLoadingSubmit(false);
+
+        history.push("/prs");
       })
       .catch((err) => {
         console.log(err);
@@ -98,62 +107,83 @@ export default function DiffEditorPage(props) {
           Diff
         </Typography>
         <Box sx={{ display: "flex", gap: 1 }}>
-          <Button
-            sx={{
-              backgroundColor: theme.textColor3 + "20",
-              color: theme.buttonColor,
-              paddingInline: 2,
-              borderRadius: 1,
-              fontWeight: 500,
-              textTransform: "none",
-            }}
-            onClick={() => handleSubmit("rejected")}
-          >
-            Reject
-          </Button>
+          {!isMine ? (
+            <>
+              <Button
+                sx={{
+                  backgroundColor: theme.textColor3 + "20",
+                  color: theme.buttonColor,
+                  paddingInline: 2,
+                  borderRadius: 1,
+                  fontWeight: 500,
+                  textTransform: "none",
+                }}
+                onClick={() => handleSubmit({ status: "rejected" })}
+              >
+                Reject
+              </Button>
 
-          <Button
-            sx={{
-              backgroundColor: theme.buttonColor,
-              color: theme.buttonTextColor,
-              paddingInline: 2,
-              borderRadius: 1,
-              fontWeight: 500,
-              textTransform: "none",
-              "&:hover": {
-                backgroundColor: theme.buttonColor + 99,
-              },
-            }}
-            onClick={() => handleSubmit("merged")}
-          >
-            Marge Code
-          </Button>
+              <Button
+                sx={{
+                  backgroundColor: theme.buttonColor,
+                  color: theme.buttonTextColor,
+                  paddingInline: 2,
+                  borderRadius: 1,
+                  fontWeight: 500,
+                  textTransform: "none",
+                  "&:hover": {
+                    backgroundColor: theme.buttonColor + 99,
+                  },
+                }}
+                onClick={() => handleSubmit({ status: "merged" })}
+              >
+                Marge Code
+              </Button>
 
-          <CommitButton
-            id="publishButton"
-            className={`btn btn-primary`}
-            style={{
-              backgroundColor: theme.buttonColor,
+              <CommitButton
+                id="publishButton"
+                className={`btn btn-primary`}
+                style={{
+                  backgroundColor: theme.buttonColor,
 
-              paddingInline: 16,
-              borderRadius: 4,
+                  paddingInline: 16,
+                  borderRadius: 4,
 
-              fontWeight: 500,
-              display: "none",
-            }}
-            //
-            disabled={!pr?.fork?.source}
-            near={near}
-            data={{
-              widget: {
-                [pr?.fork?.componentName]: {
-                  "": pr?.updatedCode,
+                  fontWeight: 500,
+                  display: "none",
+                }}
+                //
+                disabled={!pr?.fork?.source}
+                near={near}
+                data={{
+                  widget: {
+                    [pr?.fork?.componentName]: {
+                      "": pr?.updatedCode,
+                    },
+                  },
+                }}
+              >
+                Publish
+              </CommitButton>
+            </>
+          ) : (
+            <Button
+              sx={{
+                backgroundColor: theme.buttonColor2,
+                color: theme.buttonTextColor,
+                paddingInline: 2,
+                borderRadius: 1,
+                fontWeight: 500,
+                textTransform: "none",
+                "&:hover": {
+                  backgroundColor: theme.buttonColor2 + 99,
                 },
-              },
-            }}
-          >
-            Publish
-          </CommitButton>
+              }}
+              onClick={() => handleSubmit({ isDeleted: true })}
+            >
+              Delete
+            </Button>
+          )}
         </Box>
       </Box>
 

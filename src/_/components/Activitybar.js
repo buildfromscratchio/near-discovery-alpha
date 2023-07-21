@@ -4,8 +4,6 @@ import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import Groups3RoundedIcon from "@mui/icons-material/Groups3Rounded";
-import LightModeIcon from "@mui/icons-material/LightMode";
-import DarkModeIcon from "@mui/icons-material/DarkMode";
 import CellTowerRoundedIcon from "@mui/icons-material/CellTowerRounded";
 
 import HelpRoundedIcon from "@mui/icons-material/HelpRounded";
@@ -16,7 +14,7 @@ import { ThemeContext } from "../context/ThemeContext";
 import { EditorContext } from "../context/EditorContext";
 
 import DiamondRoundedIcon from "@mui/icons-material/DiamondRounded";
-import { Box, ButtonBase, Tooltip } from "@mui/material";
+import { Badge, Box, ButtonBase, Tooltip } from "@mui/material";
 
 import { Widget, useAccount } from "near-social-vm";
 import { AuthContext } from "../context/AuthContext";
@@ -26,7 +24,8 @@ export default function Activitybar(props) {
   const history = useHistory();
   const { accountId } = useAccount();
   const { theme, enableDarkMode, setEnableDarkMode } = useContext(ThemeContext);
-  const { setSelectedActivity, Widgets, NetworkId } = useContext(EditorContext);
+  const { setSelectedActivity, Widgets, NetworkId, prs } =
+    useContext(EditorContext);
   const { user, logout } = useContext(AuthContext);
 
   console.error = () => {};
@@ -86,73 +85,72 @@ export default function Activitybar(props) {
 
         <ActivityButton
           icon={
-            <svg
-              height="20px"
-              version="1.1"
-              viewBox="0 0 48 48"
-              width="48px"
-              xmlns="http://www.w3.org/2000/svg"
+            <Badge
+              badgeContent={prs?.map((pr) => !pr.seen).length}
+              variant="standard"
+              color="success"
+              sx={{
+                color: "#FFF",
+                fontSize: 8,
+              }}
             >
-              <title />
-              <desc />
-              <g
+              <svg
+                width="16"
+                height="18"
+                viewBox="0 0 38 44"
                 fill="none"
-                fill-rule="evenodd"
-                id="pull-requests"
-                stroke="none"
-                stroke-linejoin="round"
-                stroke-width="1"
+                xmlns="http://www.w3.org/2000/svg"
               >
-                <rect fill="white" fill-opacity="0.01" height="48" width="48" />
-                <g
-                  stroke="#000000"
+                <path
+                  d="M32 42C34.2091 42 36 40.2091 36 38C36 35.7909 34.2091 34 32 34C29.7909 34 28 35.7909 28 38C28 40.2091 29.7909 42 32 42Z"
+                  stroke={theme.textColor3}
                   stroke-width="4"
-                  transform="translate(7.000000, 4.000000)"
-                >
-                  <circle
-                    cx="30"
-                    cy="36"
-                    fill="#FFF"
-                    fill-rule="nonzero"
-                    id="Oval"
-                    r="4"
-                  />
-                  <circle
-                    cx="4"
-                    cy="4"
-                    fill="#FFF"
-                    fill-rule="nonzero"
-                    id="Oval-Copy"
-                    r="4"
-                  />
-                  <circle
-                    cx="4"
-                    cy="36"
-                    fill="#FFF"
-                    fill-rule="nonzero"
-                    id="Oval-Copy-2"
-                    r="4"
-                  />
-                  <path d="M4,8 L4,32" id="Path-315" stroke-linecap="round" />
-                  <path
-                    d="M17,6 L26,6 C28.209139,6 30,7.790861 30,10 L30,32"
-                    id="Path-317"
-                    stroke-linecap="round"
-                  />
-                  <polyline
-                    id="Path-367"
-                    points="17 0 23 6 17 12"
-                    stroke-linecap="round"
-                    transform="translate(20.000000, 6.000000) rotate(180.000000) translate(-20.000000, -6.000000) "
-                  />
-                </g>
-              </g>
-            </svg>
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M6 10C8.20914 10 10 8.20914 10 6C10 3.79086 8.20914 2 6 2C3.79086 2 2 3.79086 2 6C2 8.20914 3.79086 10 6 10Z"
+                  stroke={theme.textColor3}
+                  stroke-width="4"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M6 42C8.20914 42 10 40.2091 10 38C10 35.7909 8.20914 34 6 34C3.79086 34 2 35.7909 2 38C2 40.2091 3.79086 42 6 42Z"
+                  stroke={theme.textColor3}
+                  stroke-width="4"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M6 10V34"
+                  stroke={theme.textColor3}
+                  stroke-width="4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M19 8H28C30.2091 8 32 9.79086 32 12V34"
+                  stroke={theme.textColor3}
+                  stroke-width="4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M25 14L19 8L25 2"
+                  stroke={theme.textColor3}
+                  stroke-width="4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </Badge>
           }
+          sx={{
+            opacity: "1 !important",
+          }}
           label="Pull Requests"
+          to="/prs"
           onClick={() => {
-            history.push("/diff");
-            setSelectedActivity((e) => (e === "diff" ? "" : "diff"));
+            history.push("/prs");
+            setSelectedActivity((e) => (e === "prs" ? "" : "prs"));
           }}
         />
 
