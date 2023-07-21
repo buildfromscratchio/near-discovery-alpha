@@ -14,11 +14,12 @@ import { EditorContext } from "../../context/EditorContext";
 export default function DiffSidebar() {
   const { prId } = useParams();
   const { theme } = useContext(ThemeContext);
-  const { prs, loadingPrs, handleSeen } = useContext(EditorContext);
+  const { prs, loadingPrs, handleSeen, getPrs } = useContext(EditorContext);
 
   useEffect(() => {
+    getPrs();
     handleSeen();
-  }, [prs]);
+  }, []);
 
   return (
     <Box
@@ -53,7 +54,7 @@ export default function DiffSidebar() {
               key={index}
               variant="rectangular"
               width="100%"
-              height={102}
+              height={59}
               sx={{ mb: "1px" }}
             />
           ))

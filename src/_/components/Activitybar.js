@@ -23,8 +23,8 @@ import { useHistory, useLocation } from "react-router-dom";
 export default function Activitybar(props) {
   const history = useHistory();
   const { accountId } = useAccount();
-  const { theme, enableDarkMode, setEnableDarkMode } = useContext(ThemeContext);
-  const { setSelectedActivity, Widgets, NetworkId, prs } =
+  const { theme } = useContext(ThemeContext);
+  const { setSelectedActivity, Widgets, NetworkId, unseenPrCount } =
     useContext(EditorContext);
   const { user, logout } = useContext(AuthContext);
 
@@ -86,7 +86,7 @@ export default function Activitybar(props) {
         <ActivityButton
           icon={
             <Badge
-              badgeContent={prs?.map((pr) => !pr.seen).length}
+              badgeContent={unseenPrCount}
               variant="standard"
               color="success"
               sx={{
