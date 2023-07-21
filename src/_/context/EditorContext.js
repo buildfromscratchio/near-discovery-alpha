@@ -267,7 +267,6 @@ export const EditorContextProvider = (props) => {
         forked,
         prs,
         unseenPrCount,
-        unseenPrCount,
         loadingPrs,
         getPrs,
         handleSeen,
