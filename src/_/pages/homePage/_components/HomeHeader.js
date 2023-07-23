@@ -16,7 +16,6 @@ import DiamondRoundedIcon from "@mui/icons-material/DiamondRounded";
 import { stringify } from "querystring";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import { Link, useHistory, useLocation } from "react-router-dom";
-import { ActivityButton } from "../../../components/Activitybar";
 
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";

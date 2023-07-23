@@ -93,6 +93,9 @@ export default function EditorPage(props) {
     calculateGasFee,
 
     showLiveCodePreview,
+    NetworkId,
+
+    checkIsForked,
   } = useContext(EditorContext);
 
   const debouncedFunction = useDebouncedCallback(
@@ -102,6 +105,36 @@ export default function EditorPage(props) {
     },
     // Delay in ms
     500
+  );
+
+  const handleFork = useDebouncedCallback(
+    // function
+    (widgetSrc) => {
+      console.log("Executed after 1 second");
+      // history.push(`/editor/`);
+
+      if (!widgetSrc) return;
+
+      const parts = widgetSrc.split("/");
+      // console.log("FORKING...");
+      httpClient()
+        .post("/fork", {
+          source: widgetSrc,
+          originalOwner: parts[0],
+          componentName: parts[parts.length - 1],
+          network: NetworkId,
+        })
+        .then((res) => {
+          // checkIsForked();
+          setForked(res.data);
+          history.replace(`/editor/`);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    // delay in ms
+    1000
   );
   // END OF _ CODES
 
@@ -580,29 +613,32 @@ export default function EditorPage(props) {
       //   },
       // });
 
-      setTimeout(function () {
-        console.log("Executed after 1 second");
-        // history.push(`/editor/`);
+      handleFork(widgetSrc);
 
-        if (!widgetSrc) return;
+      // setTimeout(() => {
+      //   console.log("Executed after 1 second");
+      //   // history.push(`/editor/`);
 
-        const parts = widgetSrc.split("/");
-        // console.log("FORKING...");
-        httpClient()
-          .post("/fork", {
-            source: widgetSrc,
-            originalOwner: parts[0],
-            componentName: parts[parts.length - 1],
-          })
-          .then((res) => {
-            history.replace(`/editor/`);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }, 1000);
+      //   if (!widgetSrc) return;
 
-      // history.replace(`/editor/`);
+      //   const parts = widgetSrc.split("/");
+      //   // console.log("FORKING...");
+      //   httpClient()
+      //     .post("/fork", {
+      //       source: widgetSrc,
+      //       originalOwner: parts[0],
+      //       componentName: parts[parts.length - 1],
+      //       network: NetworkId,
+      //     })
+      //     .then((res) => {
+      //       history.replace(`/editor/`);
+      //     })
+      //     .catch((err) => {
+      //       console.log(err);
+      //     });
+      // }, 5000);
+
+      history.replace(`/editor/`);
     } else if (path === undefined) {
       if (!loading) {
         if (files.length === 0) {

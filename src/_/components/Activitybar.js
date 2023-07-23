@@ -19,16 +19,29 @@ import { Badge, Box, ButtonBase, Tooltip } from "@mui/material";
 import { Widget, useAccount } from "near-social-vm";
 import { AuthContext } from "../context/AuthContext";
 import { useHistory, useLocation } from "react-router-dom";
+import { useState } from "react";
+import { useEffect } from "react";
 
 export default function Activitybar(props) {
   const history = useHistory();
   const { accountId } = useAccount();
   const { theme } = useContext(ThemeContext);
-  const { setSelectedActivity, Widgets, NetworkId, unseenPrCount } =
+  const { setSelectedActivity, Widgets, NetworkId, prs } =
     useContext(EditorContext);
   const { user, logout } = useContext(AuthContext);
 
   console.error = () => {};
+
+  const [unseenPrCount, setUnseenPrCount] = useState(0);
+
+  useEffect(() => {
+    if (prs?.length === 0) setUnseenPrCount(0);
+    prs?.map((pr) => {
+      if (!pr.seen && pr.createdBy?._id !== user?._id) {
+        setUnseenPrCount((prev) => prev + 1);
+      }
+    });
+  }, [prs]);
 
   return (
     <div

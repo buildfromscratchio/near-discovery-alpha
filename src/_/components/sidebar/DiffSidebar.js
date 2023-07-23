@@ -2,12 +2,9 @@ import React, { useContext } from "react";
 import { Box, ButtonBase, Chip, Skeleton, Typography } from "@mui/material";
 
 import { ThemeContext } from "../../context/ThemeContext";
-import httpClient from "../../libs/httpClient";
 import { useEffect } from "react";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import formattedDate from "../../libs/formattedDate";
 import capitalizeWords from "../../libs/capitalizeWords";
 import { EditorContext } from "../../context/EditorContext";
 

@@ -148,8 +148,6 @@ export const EditorContextProvider = (props) => {
   // Fork and PRs section
   const [prs, setPrs] = useState([]);
 
-  const [unseenPrCount, setUnseenPrCount] = useState(0);
-
   const [loadingPrs, setLoadingPrs] = useState(false);
   const [forked, setForked] = useState(undefined);
 
@@ -181,13 +179,6 @@ export const EditorContextProvider = (props) => {
       .then((res) => {
         console.log(res.data);
         setPrs(res.data);
-
-        setUnseenPrCount(0);
-        res.data?.map((pr) => {
-          if (!pr.seen && pr.createdBy?._id !== user?._id) {
-            setUnseenPrCount((prev) => prev + 1);
-          }
-        });
 
         setLoadingPrs(false);
       })
@@ -265,8 +256,8 @@ export const EditorContextProvider = (props) => {
 
         // Fork section
         forked,
+        checkIsForked,
         prs,
-        unseenPrCount,
         loadingPrs,
         getPrs,
         handleSeen,

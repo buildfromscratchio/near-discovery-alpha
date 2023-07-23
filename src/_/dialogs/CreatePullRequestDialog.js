@@ -54,6 +54,7 @@ export default function CreatePullRequestDialog({ open, setOpen }) {
       description,
       originalCode,
       updatedCode: code,
+      network: forked?.network,
     };
 
     console.log("forked : ", forked, data);

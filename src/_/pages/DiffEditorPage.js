@@ -13,7 +13,6 @@ import { EditorContext } from "../context/EditorContext";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import httpClient from "../libs/httpClient";
-import { useRef } from "react";
 import { DiffEditor } from "@monaco-editor/react";
 import { useNear, CommitButton } from "near-social-vm";
 import LoadingPage from "../components/LoadingPage";
