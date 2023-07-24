@@ -20,7 +20,7 @@ export default function CreatePullRequestDialog({ open, setOpen }) {
   const near = useNear();
 
   const { theme } = useContext(ThemeContext);
-  const { forked, code } = useContext(EditorContext);
+  const { forked, code, NetworkId } = useContext(EditorContext);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -54,7 +54,7 @@ export default function CreatePullRequestDialog({ open, setOpen }) {
       description,
       originalCode,
       updatedCode: code,
-      network: forked?.network,
+      network: NetworkId,
     };
 
     console.log("forked : ", forked, data);

@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import {
+  Box,
   Button,
+  ButtonBase,
   Dialog,
   DialogContent,
   DialogTitle,
+  Divider,
   Typography,
 } from "@mui/material";
 import { AuthContext } from "../context/AuthContext";
@@ -11,6 +14,7 @@ import { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
 import { stringify } from "querystring";
 import { AppContext } from "../context/AppContext";
+import { EditorContext } from "../context/EditorContext";
 
 export default function LoginDialog({ requestSignIn }) {
   const { isUnrestrictedRoute } = useContext(AppContext);
@@ -36,7 +40,7 @@ export default function LoginDialog({ requestSignIn }) {
       >
         <DialogTitle sx={{ padding: "16px 16px 16px 16px" }}>
           <Typography
-            variant="h4"
+            variant="h3"
             sx={{
               fontWeight: 600,
               color: theme.textColor2,
@@ -54,10 +58,15 @@ export default function LoginDialog({ requestSignIn }) {
             mt: 2,
             display: "flex",
             flexDirection: "column",
-            gap: 2,
+            gap: 1,
           }}
         >
+          <ChangeEnvButton />
+
+          <div style={{ height: 16 }} />
+
           <GithubButton />
+
           <NearButton
             requestSignIn={requestSignIn}
             setShowDialog={setShowDialog}
@@ -168,5 +177,106 @@ const GithubButton = () => {
         </Typography>
       </Button>
     </a>
+  );
+};
+
+const ChangeEnvButton = () => {
+  const { theme } = useContext(ThemeContext);
+  const { NetworkId, setNetworkId } = useContext(EditorContext);
+
+  const styles = {
+    buttonStyle: {
+      flex: 1,
+      width: "100%",
+      py: 1.5,
+      borderRadius: 0.5,
+      transition: `all .2s ease-in-out`,
+    },
+  };
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        justifyContent: "space-between",
+        // paddingInline: 1,
+      }}
+    >
+      <Typography
+        variant="p1"
+        sx={{ fontWeight: 500, color: theme.textColor2, py: 1 }}
+      >
+        Select Networks
+      </Typography>
+
+      <Box
+        sx={{
+          display: "grid",
+          width: "100%",
+          gridTemplateColumns: "1fr 1fr",
+          gap: 1,
+        }}
+      >
+        <ButtonBase
+          sx={{
+            ...styles.buttonStyle,
+            backgroundColor:
+              NetworkId === "testnet"
+                ? theme.buttonColor + "!important"
+                : theme.textColor + 11,
+
+            borderRadius: 1,
+            overflow: "hidden",
+            "&:hover": {
+              backgroundColor: theme.textColor + 33,
+            },
+          }}
+          onClick={() => setNetworkId("testnet")}
+        >
+          <Typography
+            variant="h6"
+            fontWeight={500}
+            sx={{
+              color:
+                NetworkId === "testnet"
+                  ? theme.buttonTextColor
+                  : theme.textColor3,
+            }}
+          >
+            Testnet
+          </Typography>
+        </ButtonBase>
+        <ButtonBase
+          sx={{
+            ...styles.buttonStyle,
+            backgroundColor:
+              NetworkId === "mainnet"
+                ? theme.buttonColor + "!important"
+                : theme.textColor + 11,
+
+            borderRadius: 1,
+            overflow: "hidden",
+            "&:hover": {
+              backgroundColor: theme.textColor + 22,
+            },
+          }}
+          onClick={() => setNetworkId("mainnet")}
+        >
+          <Typography
+            variant="h6"
+            fontWeight={500}
+            sx={{
+              color:
+                NetworkId === "mainnet"
+                  ? theme.buttonTextColor
+                  : theme.textColor3,
+            }}
+          >
+            Mainnet
+          </Typography>
+        </ButtonBase>
+      </Box>
+    </Box>
   );
 };

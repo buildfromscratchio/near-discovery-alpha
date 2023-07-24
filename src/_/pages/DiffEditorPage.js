@@ -73,8 +73,6 @@ export default function DiffEditorPage(props) {
 
         getPrs();
         setLoadingSubmit(false);
-
-        history.push("/prs");
       })
       .catch((err) => {
         console.log(err);
@@ -162,6 +160,9 @@ export default function DiffEditorPage(props) {
                     },
                   },
                 }}
+                onCommit={() => {
+                  history.push("/prs");
+                }}
               >
                 Publish
               </CommitButton>
@@ -193,6 +194,7 @@ export default function DiffEditorPage(props) {
           backgroundColor: theme.backgroundColor,
           borderBottom: `1px solid ${theme.borderColor}`,
           paddingInline: 1,
+          paddingBlock: 2,
         }}
       >
         <Typography variant="h2" sx={{ color: theme.textColor }}>
@@ -202,9 +204,14 @@ export default function DiffEditorPage(props) {
           {pr?.decription}
         </Typography>
         <Typography variant="span" sx={{ color: theme.textColor }}>
-          created by <b>{pr?.createdBy?.name || pr?.createdBy?.userName}</b> in{" "}
-          <b>{pr?.network}</b> on{" "}
-          <b> {new Date(pr?.createdAt).toLocaleDateString("en-us")}</b>
+          created by{" "}
+          <span style={{ fontWeight: 600 }}>
+            {pr?.createdBy?.name || pr?.createdBy?.userName}
+          </span>{" "}
+          in <span style={{ fontWeight: 600 }}>{pr?.network}</span> on{" "}
+          <span style={{ fontWeight: 600 }}>
+            {new Date(pr?.createdAt).toLocaleDateString("en-us")}
+          </span>
         </Typography>
       </Box>
 

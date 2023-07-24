@@ -95,7 +95,7 @@ export default function MyWidgets({
   };
 
   useEffect(() => {
-    if (myWidgets) {
+    if (myWidgets?.length > 0) {
       let widgets = [];
 
       Object.keys(myWidgets)?.map((name) => {
@@ -147,7 +147,7 @@ export default function MyWidgets({
         <Accordion
           // defaultExpanded
           onClick={() => {
-            if (myWidgets.length <= 0) {
+            if (myWidgets?.length <= 0) {
               getData();
             }
           }}
