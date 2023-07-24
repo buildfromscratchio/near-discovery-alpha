@@ -103,8 +103,9 @@ export default function DiffEditorPage(props) {
         }}
       >
         <Typography variant="h6" sx={{ color: theme.textColor }}>
-          Diff
+          Code Diff
         </Typography>
+
         <Box sx={{ display: "flex", gap: 1 }}>
           {!isMine ? (
             <>
@@ -136,7 +137,7 @@ export default function DiffEditorPage(props) {
                 }}
                 onClick={() => handleSubmit({ status: "merged" })}
               >
-                Marge Code
+                Marge
               </Button>
 
               <CommitButton
@@ -186,6 +187,27 @@ export default function DiffEditorPage(props) {
         </Box>
       </Box>
 
+      <Box
+        sx={{
+          width: "100%",
+          backgroundColor: theme.backgroundColor,
+          borderBottom: `1px solid ${theme.borderColor}`,
+          paddingInline: 1,
+        }}
+      >
+        <Typography variant="h2" sx={{ color: theme.textColor }}>
+          {pr?.title}
+        </Typography>
+        <Typography variant="h6" sx={{ color: theme.textColor }}>
+          {pr?.decription}
+        </Typography>
+        <Typography variant="span" sx={{ color: theme.textColor }}>
+          created by <b>{pr?.createdBy?.name || pr?.createdBy?.userName}</b> in{" "}
+          <b>{pr?.network}</b> on{" "}
+          <b> {new Date(pr?.createdAt).toLocaleDateString("en-us")}</b>
+        </Typography>
+      </Box>
+
       {loading ? (
         <LoadingPage />
       ) : (
@@ -203,11 +225,10 @@ export default function DiffEditorPage(props) {
             }}
           >
             <Typography variant="h6" sx={{ color: theme.textColor }}>
-              Mine
+              Original
             </Typography>
-
             <Typography variant="h6" sx={{ color: theme.textColor }}>
-              {pr?.createdBy?.name || pr?.createdBy?.userName}
+              Changed
             </Typography>
           </Box>
 

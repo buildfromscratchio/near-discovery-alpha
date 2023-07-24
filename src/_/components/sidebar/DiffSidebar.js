@@ -42,9 +42,7 @@ export default function DiffSidebar() {
         </Typography>
       </Box>
 
-      <Box
-      //  sx={{ containerType: "inline-size" }}
-      >
+      <Box>
         {loadingPrs ? (
           Array.from(new Array(10)).map((item, index) => (
             <Skeleton
@@ -105,7 +103,7 @@ export default function DiffSidebar() {
                   }}
                 >
                   <Typography
-                    variant="p1"
+                    variant="h5"
                     fontWeight={500}
                     sx={{ color: theme.textColor2, lineHeight: 1.5 }}
                   >
@@ -113,7 +111,7 @@ export default function DiffSidebar() {
                   </Typography>
 
                   <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
-                    <Typography
+                    {/* <Typography
                       variant="p1"
                       align="left"
                       sx={{
@@ -124,14 +122,19 @@ export default function DiffSidebar() {
                       {`${pr?.createdBy?.name || pr?.createdBy?.userName} -> ${
                         pr?.originalOwner || pr?.fork?.originalOwner
                       }`}
+                    </Typography> */}
+                    <Typography
+                      variant="p1"
+                      align="left"
+                      sx={{
+                        color: theme.textColor3,
+                        textAlign: "left",
+                      }}
+                    >
+                      {`${pr?.createdBy?.name || pr?.createdBy?.userName} | 
+                      ${pr?.network} |
+                      ${new Date(pr?.createdAt).toLocaleDateString("en-us")}`}
                     </Typography>
-                    {/* <Typography
-                        variant="p2"
-                        sx={{ color: theme.textColor3, textAlign: "left" }}
-                      >
-                        {pr?.originalOwner || pr?.fork?.originalOwner}
-                        {formattedDate(pr?.createdAt)}
-                      </Typography> */}
                   </Box>
                 </Box>
 
