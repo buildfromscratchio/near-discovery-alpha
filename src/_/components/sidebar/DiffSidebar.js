@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Box, ButtonBase, Chip, Skeleton, Typography } from "@mui/material";
 
 import { ThemeContext } from "../../context/ThemeContext";
@@ -7,16 +7,49 @@ import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import capitalizeWords from "../../libs/capitalizeWords";
 import { EditorContext } from "../../context/EditorContext";
+import httpClient from "../../libs/httpClient";
 
 export default function DiffSidebar() {
   const { prId } = useParams();
   const { theme } = useContext(ThemeContext);
-  const { prs, loadingPrs, handleSeen, getPrs } = useContext(EditorContext);
+  const { prs, setPrs, loadingPrs, getPrs } = useContext(EditorContext);
+
+  const [hasSeen, setHasSeen] = useState(false);
 
   useEffect(() => {
     getPrs();
-    handleSeen();
   }, []);
+
+  useEffect(() => {
+    if (prs?.length > 0 && !hasSeen) handleSeen();
+  }, [prs, hasSeen]);
+
+  const [loadingSeen, setLoadingSeen] = useState(false);
+
+  const handleSeen = () => {
+    setHasSeen(true);
+    setLoadingSeen(true);
+    const ids = prs?.map((pr) => pr._id);
+
+    httpClient()
+      .post("/pr/seen", { ids })
+      .then((res) => {
+        setLoadingSeen(false);
+
+        const newPrs = prs?.map((pr) => {
+          pr.seen = true;
+          return pr;
+        });
+
+        setPrs(newPrs);
+
+        console.log("newPrs : ", newPrs, prs);
+      })
+      .catch((err) => {
+        setLoadingSeen(false);
+        console.log(err);
+      });
+  };
 
   return (
     <Box

@@ -95,7 +95,7 @@ export default function MyWidgets({
   };
 
   useEffect(() => {
-    if (myWidgets?.length > 0) {
+    if (myWidgets && Object.keys(myWidgets)?.length) {
       let widgets = [];
 
       Object.keys(myWidgets)?.map((name) => {
@@ -147,7 +147,7 @@ export default function MyWidgets({
         <Accordion
           // defaultExpanded
           onClick={() => {
-            if (myWidgets?.length <= 0) {
+            if (myWidgets.length <= 0) {
               getData();
             }
           }}
@@ -354,7 +354,7 @@ const CustomLabel = ({
         alignItems: "center",
         justifyContent: "space-between",
       }}
-      // onClick={() => isWidget && handleClick()}
+      onClick={() => isWidget && handleClick()}
     >
       <Box
         sx={{
@@ -385,24 +385,24 @@ const CustomLabel = ({
         </Typography>
       </Box>
 
-      {/* {!isWidget && ( */}
-      <IconButton
-        size="small"
-        sx={{ p: 0, m: 0 }}
-        onClick={() => handleClick()}
-      >
-        <AddCircleRoundedIcon
-          fontSize="small"
-          sx={{
-            fill: theme.textColor3 + 33,
-            minHeight: 16,
-            height: 16,
-            minWidth: 16,
-            width: 16,
-          }}
-        />
-      </IconButton>
-      {/* )} */}
+      {!isWidget && (
+        <IconButton
+          size="small"
+          sx={{ p: 0, m: 0 }}
+          onClick={() => handleClick()}
+        >
+          <AddCircleRoundedIcon
+            fontSize="small"
+            sx={{
+              fill: theme.textColor3 + 33,
+              minHeight: 16,
+              height: 16,
+              minWidth: 16,
+              width: 16,
+            }}
+          />
+        </IconButton>
+      )}
     </Box>
   );
 };

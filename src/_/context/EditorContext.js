@@ -168,12 +168,11 @@ export const EditorContextProvider = (props) => {
   };
 
   useEffect(() => {
+    setLoadingPrs(true);
     getPrs();
   }, []);
 
   const getPrs = () => {
-    setLoadingPrs(true);
-
     httpClient()
       .get("/pr")
       .then((res) => {
@@ -185,34 +184,6 @@ export const EditorContextProvider = (props) => {
       .catch((err) => {
         console.log(err);
         setLoadingPrs(false);
-      });
-  };
-
-  const [loadingSeen, setLoadingSeen] = useState(false);
-
-  const handleSeen = () => {
-    setLoadingSeen(true);
-    const ids = prs?.map((pr) => pr._id);
-
-    httpClient()
-      .post("/pr/seen", { ids })
-      .then((res) => {
-        setLoadingSeen(false);
-
-        let newPrs = [];
-
-        prs?.map((pr) => {
-          pr.seen = true;
-          newPrs.push(pr);
-        });
-
-        setPrs(newPrs);
-
-        console.log("newPrs : ", newPrs);
-      })
-      .catch((err) => {
-        setLoadingSeen(false);
-        console.log(err);
       });
   };
 
@@ -258,9 +229,9 @@ export const EditorContextProvider = (props) => {
         forked,
         checkIsForked,
         prs,
+        setPrs,
         loadingPrs,
         getPrs,
-        handleSeen,
       }}
     >
       {props.children}
