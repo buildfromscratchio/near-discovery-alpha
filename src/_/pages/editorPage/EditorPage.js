@@ -735,6 +735,9 @@ export default function EditorPage(props) {
           },
         },
       }}
+      onCommit={() => {
+        handleAddCmponentAnalysis();
+      }}
     >
       Publish
     </CommitButton>
@@ -787,6 +790,9 @@ export default function EditorPage(props) {
               metadata,
             },
           },
+        }}
+        onCommit={() => {
+          handleAddCmponentAnalysis();
         }}
       >
         Publish
@@ -878,6 +884,20 @@ export default function EditorPage(props) {
 
   const showEditor = !(files?.length === 1 && files[0]?.unnamed === true);
   // const showEditor = false;
+
+  const handleAddCmponentAnalysis = () => {
+    httpClient()
+      .post("/cmponentAnalysis", {
+        source: `${accountId}/widget/${widgetName}`,
+        network: NetworkId,
+      })
+      .then((res) => {
+        console.log("Analysis Done");
+      })
+      .catch((err) => {
+        console.log("Analysis Faild : ", err);
+      });
+  };
 
   return (
     <>
