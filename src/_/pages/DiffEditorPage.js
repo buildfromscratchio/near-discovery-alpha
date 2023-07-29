@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useContext } from "react";
+import moment from "moment";
 import { ThemeContext } from "../context/ThemeContext";
 import { EditorContext } from "../context/EditorContext";
 import { useState } from "react";
@@ -204,13 +205,13 @@ export default function DiffEditorPage(props) {
           {pr?.decription}
         </Typography>
         <Typography variant="span" sx={{ color: theme.textColor }}>
-          created by{" "}
+          PR created by{" "}
           <span style={{ fontWeight: 600 }}>
             {pr?.createdBy?.name || pr?.createdBy?.userName}
           </span>{" "}
-          in <span style={{ fontWeight: 600 }}>{pr?.network}</span> on{" "}
+          in <span style={{ fontWeight: 600 }}>{pr?.network}</span> -{" "}
           <span style={{ fontWeight: 600 }}>
-            {new Date(pr?.createdAt).toLocaleDateString("en-us")}
+            {moment(pr?.createdAt).fromNow()}
           </span>
         </Typography>
       </Box>
@@ -231,8 +232,9 @@ export default function DiffEditorPage(props) {
               paddingInline: 1,
             }}
           >
-            <Typography variant="h6" sx={{ color: theme.textColor }}>
-              Original
+            <Typography variant="span" sx={{ color: theme.textColor }}>
+              Original -{" "}
+              <span style={{ fontWeight: 600 }}>{pr?.fork?.source}</span>
             </Typography>
             <Typography variant="h6" sx={{ color: theme.textColor }}>
               Changed

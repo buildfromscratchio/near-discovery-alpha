@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Box, ButtonBase, Chip, Skeleton, Typography } from "@mui/material";
+import moment from "moment";
 
 import { ThemeContext } from "../../context/ThemeContext";
 import { useEffect } from "react";
@@ -140,22 +141,10 @@ export default function DiffSidebar() {
                     fontWeight={500}
                     sx={{ color: theme.textColor2, lineHeight: 1.5 }}
                   >
-                    {pr?.title || pr?.fork?.title}
+                    {(pr?.title || pr?.fork?.title)?.substring(0, 17) + "..."}
                   </Typography>
 
                   <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
-                    {/* <Typography
-                      variant="p1"
-                      align="left"
-                      sx={{
-                        color: theme.textColor3,
-                        textAlign: "left",
-                      }}
-                    >
-                      {`${pr?.createdBy?.name || pr?.createdBy?.userName} -> ${
-                        pr?.originalOwner || pr?.fork?.originalOwner
-                      }`}
-                    </Typography> */}
                     <Typography
                       variant="p1"
                       align="left"
@@ -165,8 +154,7 @@ export default function DiffSidebar() {
                       }}
                     >
                       {`${pr?.createdBy?.name || pr?.createdBy?.userName} | 
-                      ${pr?.network} |
-                      ${new Date(pr?.createdAt).toLocaleDateString("en-us")}`}
+                      ${pr?.network} | ${moment(pr?.createdAt).fromNow()}`}
                     </Typography>
                   </Box>
                 </Box>
