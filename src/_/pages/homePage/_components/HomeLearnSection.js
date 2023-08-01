@@ -33,10 +33,7 @@ export default function HomeLearnSection() {
   };
 
   return (
-    <Box
-      className="containerCSS"
-      sx={{ py: 10, backgroundColor: theme.backgroundColor }}
-    >
+    <Box className="containerCSS" sx={{ py: 10, backgroundColor: theme.ui }}>
       <Box className="contentCSS">
         <Box
           sx={{

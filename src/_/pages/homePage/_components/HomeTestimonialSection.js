@@ -104,7 +104,7 @@ const TestimonialItem = ({ fullName, avatar, username, quote }) => {
       sx={{
         maxWidth: "100%",
         boxShadow: "none",
-        backgroundColor: theme.backgroundColor,
+        backgroundColor: theme.ui,
       }}
     >
       <CardHeader

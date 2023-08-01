@@ -28,7 +28,7 @@ export default function WidgetsSidebar({
   setShowOpenModal,
 }) {
   const { theme } = useContext(ThemeContext);
-  const { files, filesDetails } = useContext(EditorContext);
+  const { files, filesDetails, lastPath } = useContext(EditorContext);
 
   useEffect(() => {
     files?.map((file) => {
@@ -55,9 +55,7 @@ export default function WidgetsSidebar({
     }
   }, [files, memoizedCreateFileTree]);
 
-  // useEffect(() => {
-  //   setOpenWidgetsExpanded([3, 2, 1]);
-  // }, []);
+  // useEffect(() => { setOpenWidgetsExpanded([3, 2, 1]) }, []);
 
   return (
     <div

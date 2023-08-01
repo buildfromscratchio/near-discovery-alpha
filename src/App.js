@@ -35,8 +35,11 @@ import { useFlags } from "./utils/flags";
 import ReactGA from "react-ga4";
 import { Box } from "@mui/material";
 
-import MyEditorPage from "./_/pages/editorPage/EditorPage";
-import MyBetaEditorPage from "./_/pages/editorPage/EditorPage.beta";
+import EditorPage from "./_/pages/editorPage/EditorPage";
+import MyEditorPage from "./_/pages/myEditorPage/MyEditorPage";
+
+// import MyBetaEditorPage from "./_/pages/editorPage/v2/EditorPage.beta";
+
 import SearchPage from "./_/pages/SearchPage";
 import HomePage from "./_/pages/homePage/HomePage";
 import EmbedPage from "./_/pages/EmbedPage";
@@ -68,6 +71,7 @@ export const refreshAllowanceObj = {};
 ReactGA.initialize("G-YJ2FL738R6");
 import { useEthersProviderContext } from "./data/web3";
 import DiffEditorPage from "./_/pages/DiffEditorPage";
+import MyEditorContextProvider from "./_/pages/myEditorPage/MyEditorContext";
 
 export default function App() {
   const { NetworkId, Widgets } = useContext(EditorContext);
@@ -304,12 +308,14 @@ export default function App() {
                 </Route>
 
                 <Route path={"/editor/:widgetSrc*"}>
-                  <MyEditorPage {...passProps} />
+                  <EditorPage {...passProps} />
                   <Footer />
                 </Route>
 
-                <Route path={"/editorBeta/:widgetSrc*"}>
-                  <MyBetaEditorPage {...passProps} />
+                <Route path={"/myEditor/:widgetSrc*"}>
+                  <MyEditorContextProvider>
+                    <MyEditorPage {...passProps} />
+                  </MyEditorContextProvider>
                   <Footer />
                 </Route>
 

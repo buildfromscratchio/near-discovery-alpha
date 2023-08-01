@@ -77,7 +77,7 @@ export default function HomePage(props) {
 
       <HomeLearnSection />
 
-      <Box className="containerCSS" sx={{ py: 10, backgroundColor: theme.ui }}>
+      {/* <Box className="containerCSS" sx={{ py: 10, backgroundColor: theme.ui }}>
         <Box className="contentCSS">
           <Widget src="near/widget/PeoplePage" />
         </Box>
@@ -90,9 +90,9 @@ export default function HomePage(props) {
         <Box className="contentCSS">
           <Widget src="near/widget/ComponentsPage" />
         </Box>
-      </Box>
+      </Box> */}
 
-      <HomeTestimonialSection sx={{ backgroundColor: theme.ui }} />
+      <HomeTestimonialSection sx={{ backgroundColor: theme.backgroundColor }} />
 
       <HomeFooter />
     </>

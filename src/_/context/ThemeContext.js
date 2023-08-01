@@ -30,9 +30,9 @@ export const ThemeContextProvider = (props) => {
   };
 
   const dark = {
-    textColor: "#e2e8f0",
-    textColor2: "#94a3b8",
-    textColor3: "#7e8185",
+    textColor: "#FFFFFF",
+    textColor2: "#d1d5db",
+    textColor3: "#94a3b8",
     textColor4: "#ffffff",
 
     buttonColor: "#0d6efd",
@@ -40,16 +40,37 @@ export const ThemeContextProvider = (props) => {
 
     buttonTextColor: "#ffffff",
 
-    ui: "#1e1e1e",
-    ui2: "#262626",
-    backgroundColor: "#1a1a1a",
+    // ui2: "#111827",
+    ui: "#111827",
+    backgroundColor: "#1d2432",
 
     borderRadius: 1,
     // borderColor: "#101010",
-    borderColor: "#414141",
+    borderColor: "#2e3345",
 
     name: "dark",
   };
+  // const dark = {
+  //   textColor: "#e2e8f0",
+  //   textColor2: "#94a3b8",
+  //   textColor3: "#7e8185",
+  //   textColor4: "#ffffff",
+
+  //   buttonColor: "#0d6efd",
+  //   buttonColor2: "#ff004e",
+
+  //   buttonTextColor: "#ffffff",
+
+  //   ui: "#1e1e1e",
+  //   ui2: "#262626",
+  //   backgroundColor: "#1a1a1a",
+
+  //   borderRadius: 1,
+  //   // borderColor: "#101010",
+  //   borderColor: "#414141",
+
+  //   name: "dark",
+  // };
 
   // const breakpoints = {
   //   sm: useMediaQuery("(max-width:560px)"),

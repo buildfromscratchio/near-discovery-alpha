@@ -94,6 +94,7 @@ export default function EditorPage(props) {
 
     showLiveCodePreview,
     NetworkId,
+    setForked,
 
     checkIsForked,
   } = useContext(EditorContext);
@@ -106,6 +107,14 @@ export default function EditorPage(props) {
     // Delay in ms
     500
   );
+
+  useEffect(() => {
+    if (lastPath?.name?.split("/")[0] === "widget")
+      openFile(lastPath, undefined);
+    else setCode("return <div>Hello World</div>;");
+
+    console.log("lastPath : ", lastPath);
+  }, [lastPath]);
 
   const handleFork = useDebouncedCallback(
     // function
@@ -206,6 +215,8 @@ export default function EditorPage(props) {
           time: Date.now(),
         }
       );
+
+      console.log("updateCode : ", code, " _ ", path);
       setCode(code);
     },
     [cache, setCode]
@@ -432,6 +443,9 @@ export default function EditorPage(props) {
         setRenderCode(code);
         setLoading(false);
       } else {
+        console.log(
+          "XXXXXXXXXXXXXXXXXXXXX : : : SAD DASASDASD ASD ASD ASD ASD asd "
+        );
         setLoading(true);
         cache
           .asyncLocalStorageGet(StorageDomain, {

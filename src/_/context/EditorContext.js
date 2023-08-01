@@ -176,7 +176,7 @@ export const EditorContextProvider = (props) => {
     httpClient()
       .get("/pr")
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setPrs(res.data);
 
         setLoadingPrs(false);

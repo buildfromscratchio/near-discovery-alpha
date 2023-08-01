@@ -93,10 +93,12 @@ const NearButton = ({ requestSignIn, setShowDialog }) => {
         color: theme.textColor,
         borderRadius: 1,
 
-        backgroundColor: theme.textColor,
+        backgroundColor:
+          theme.name === "light" ? theme.textColor : theme.backgroundColor,
 
         "&:hover": {
-          backgroundColor: theme.textColor2,
+          backgroundColor:
+            theme.name === "light" ? theme.textColor : theme.textColor + 33,
         },
       }}
       onClick={() => {
@@ -154,10 +156,12 @@ const GithubButton = () => {
           color: theme.textColor,
           borderRadius: 1,
 
-          backgroundColor: theme.textColor,
+          backgroundColor:
+            theme.name === "light" ? theme.textColor : theme.backgroundColor,
 
           "&:hover": {
-            backgroundColor: theme.textColor2,
+            backgroundColor:
+              theme.name === "light" ? theme.textColor : theme.textColor + 33,
           },
         }}
       >

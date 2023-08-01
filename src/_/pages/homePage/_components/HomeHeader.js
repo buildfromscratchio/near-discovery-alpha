@@ -207,7 +207,7 @@ const HeaderMenuForUser = (props) => {
             overflow: "visible",
             filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
 
-            backgroundColor: theme.ui,
+            backgroundColor: theme.backgroundColor,
             mt: 1.5,
             minWidth: 200,
             "& .MuiAvatar-root": {
@@ -225,7 +225,7 @@ const HeaderMenuForUser = (props) => {
               width: 10,
               height: 10,
               bgcolor: "background.paper",
-              backgroundColor: theme.ui,
+              backgroundColor: theme.backgroundColor,
               transform: "translateY(-50%) rotate(45deg)",
               zIndex: 0,
             },
@@ -347,6 +347,7 @@ const HeaderMenuForSignup = (props) => {
             filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
             mt: 1.5,
             minWidth: 200,
+            backgroundColor: theme.backgroundColor,
             "& .MuiAvatar-root": {
               width: 32,
               height: 32,
@@ -364,6 +365,7 @@ const HeaderMenuForSignup = (props) => {
               bgcolor: "background.paper",
               transform: "translateY(-50%) rotate(45deg)",
               zIndex: 0,
+              backgroundColor: theme.backgroundColor,
             },
           },
         }}

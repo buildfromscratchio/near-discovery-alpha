@@ -42,7 +42,7 @@ export default function HomeTopSection() {
 
         justifyContent: "center",
         position: "relative",
-        backgroundColor: theme.backgroundColor,
+        backgroundColor: theme.ui,
         // overflow: "hidden",
       }}
     >
@@ -60,7 +60,7 @@ export default function HomeTopSection() {
           maxWidth: "90vw",
           // maxWidth: 1250,
           flex: 1,
-          gap: 2,
+          gap: 4,
           display: "grid",
           gridTemplateColumns: bp ? "1fr" : "1fr 1fr",
           justifyContent: "center",
@@ -102,6 +102,7 @@ export default function HomeTopSection() {
               fontSize: bp ? "1rem" : "1.25rem",
               fontWeight: 600,
               backgroundColor: theme.textColor + "0D",
+
               color: theme.textColor,
               "&:hover": {
                 backgroundColor: theme.textColor + "1A !important",

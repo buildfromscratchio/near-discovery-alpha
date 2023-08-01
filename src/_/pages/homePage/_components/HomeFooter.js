@@ -23,7 +23,7 @@ export default function HomeFooter() {
   return (
     <Box
       sx={{
-        backgroundColor: theme.backgroundColor,
+        backgroundColor: theme.ui,
 
         width: "100%",
         minHeight: 75,
