@@ -18,7 +18,7 @@ const findParentsNodeByName = (nodes, widgetName, parentIds = []) => {
       return [...parentIds, node.nodeId];
     }
 
-    if (node.children && node.children.length > 0) {
+    if (node.children && node.children?.length > 0) {
       const result = findParentsNodeByName(node.children, widgetName, [
         ...parentIds,
         node.nodeId,
@@ -35,7 +35,7 @@ const findParentsNodeByName = (nodes, widgetName, parentIds = []) => {
   //   return [...parentIds, node.nodeId];
   // }
 
-  // if (node.children && node.children.length > 0) {
+  // if (node.children && node.children?.length > 0) {
   //   for (const child of node.children) {
   //     const result = findParentsNodeByName(child, widgetName, [
   //       ...parentIds,
@@ -58,7 +58,7 @@ function getWidgets(node, widgetsArray) {
     widgetsArray.push({ type: "widget", name: node.name });
   }
 
-  if (node.children && node.children.length > 0) {
+  if (node.children && node.children?.length > 0) {
     for (let child of node.children) {
       getWidgets(child, widgetsArray);
     }
@@ -90,8 +90,6 @@ export default function OpenWidgets({
   } = useContext(MyEditorContext);
 
   const handleToggle = (event, nodeIds) => {
-    console.log("handleToggle setOpenWidgetsExpanded : ", nodeIds);
-
     setOpenWidgetsExpanded(nodeIds);
   };
 
@@ -293,7 +291,7 @@ const CustomTreeView = ({
         const widgetName = fileFromItem?.name?.split("/")[0] || "";
 
         const { codeChangesPresent, isDraft } =
-          filesDetails.get(widgetName) || {};
+          filesDetails?.find((item) => item.name === widgetName) || {};
 
         const handleOpenFile = () => {
           if (!isWidget) return;
@@ -329,7 +327,7 @@ const CustomTreeView = ({
           }
 
           if (fileFromItem === curPath) {
-            if (files.length > 1)
+            if (files?.length > 1)
               openFile(files[index - 1] || files[index + 1]);
             else createFile("widget");
           }

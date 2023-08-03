@@ -97,6 +97,8 @@ export default function MyEditorSidebar(
           height: "max(calc(100vh - 25px), 700px)",
           overflowY: "auto",
           paddingBottom: 25,
+
+          backgroundColor: theme.ui,
         }}
       >
         <div

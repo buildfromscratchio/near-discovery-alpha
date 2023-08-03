@@ -72,6 +72,7 @@ ReactGA.initialize("G-YJ2FL738R6");
 import { useEthersProviderContext } from "./data/web3";
 import DiffEditorPage from "./_/pages/DiffEditorPage";
 import MyEditorContextProvider from "./_/pages/myEditorPage/MyEditorContext";
+import MyEditorPewviewPage from "./_/pages/myEditorPage/MyEditorPewviewPage";
 
 export default function App() {
   const { NetworkId, Widgets } = useContext(EditorContext);
@@ -309,6 +310,11 @@ export default function App() {
 
                 <Route path={"/editor/:widgetSrc*"}>
                   <EditorPage {...passProps} />
+                  <Footer />
+                </Route>
+
+                <Route path={"/preview"}>
+                  <MyEditorPewviewPage {...passProps} />
                   <Footer />
                 </Route>
 

@@ -11,4 +11,11 @@ const Filetype = {
 };
 const DefaultEditorCode = "return <div>Hello World</div>;";
 
-export { StorageDomain, StorageType, Filetype, DefaultEditorCode };
+const EditorTabs = {
+  Editor: "Editor",
+  Props: "Props",
+  Metadata: "Metadata",
+  Widget: "Widget",
+};
+
+export { StorageDomain, StorageType, Filetype, DefaultEditorCode, EditorTabs };

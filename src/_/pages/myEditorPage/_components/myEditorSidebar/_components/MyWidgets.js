@@ -22,7 +22,7 @@ function findWidgets(obj) {
     widgets.push(obj?.name);
   }
   if (Array.isArray(obj.children)) {
-    for (let i = 0; i < obj.children.length; i++) {
+    for (let i = 0; i < obj.children?.length; i++) {
       const childWidgets = findWidgets(obj.children[i]);
       widgets = widgets.concat(childWidgets);
     }
@@ -73,7 +73,7 @@ export default function MyWidgets({
       });
 
       setProjectFiles([]);
-      if (widgets.length > 0) {
+      if (widgets?.length > 0) {
         setProjectFiles(createFileTree(widgets));
       }
     }
@@ -122,6 +122,7 @@ export default function MyWidgets({
               </>
             ) : (
               <ButtonBase
+                disabled={true}
                 sx={{
                   fontSize: 14,
                   textTransform: "none",
@@ -130,7 +131,8 @@ export default function MyWidgets({
                 }}
                 onClick={() => getData()}
               >
-                Click here to see all widgets
+                {/* Click here to see all widgets */}
+                Please publish a widget to see it here
               </ButtonBase>
             )}
           </AccordionDetails>
@@ -255,7 +257,7 @@ const CustomLabel = ({
     let itemToSelect;
 
     let result = findItemsByName(
-      widgets[widgets.length - 1],
+      widgets[widgets?.length - 1],
       openWidgetsFilesList
     );
 

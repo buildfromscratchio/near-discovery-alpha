@@ -86,7 +86,7 @@ export default function LabelWithFileIcon({
           )}
         </div>
         <Box sx={{ display: "flex", gap: 1 }}>
-          {isSelected && (
+          {isWidget && isSelected && (
             <Fade in={isSelected}>
               <IconButton
                 size="small"
@@ -108,7 +108,10 @@ export default function LabelWithFileIcon({
               sx={{
                 padding: "3px",
                 margin: 0,
-                color: isSelected ? theme.textColor3 : theme.textColor3 + 33,
+                color:
+                  isWidget && isSelected
+                    ? theme.textColor3
+                    : theme.textColor3 + 33,
                 transition: "all .2s ease-in-out",
                 "&:hover": {
                   color: isSelected ? theme.textColor3 : theme.textColor3 + 99,
@@ -122,12 +125,7 @@ export default function LabelWithFileIcon({
                 }
               }}
             >
-              <CancelRoundedIcon
-                sx={{
-                  fontSize: "1rem",
-                  // fill: theme.textColor3 || "rgba(255,255,255,.75)",
-                }}
-              />
+              <CancelRoundedIcon sx={{ fontSize: "1rem" }} />
             </IconButton>
           )}
         </Box>
