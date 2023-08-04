@@ -14,13 +14,19 @@ import httpClient from "../libs/httpClient";
 import { EditorContext } from "../context/EditorContext";
 
 import { useCache, useNear } from "near-social-vm";
+import { MyEditorContext } from "../pages/myEditorPage/MyEditorContext";
+import { useSnackbar } from "notistack";
+import { AppContext } from "../context/AppContext";
 
 export default function CreatePullRequestDialog({ open, setOpen }) {
   const cache = useCache();
   const near = useNear();
+  const { enqueueSnackbar } = useSnackbar();
 
   const { theme } = useContext(ThemeContext);
-  const { forked, code, NetworkId } = useContext(EditorContext);
+  const { NetworkId } = useContext(EditorContext);
+  const { code } = useContext(MyEditorContext);
+  const { forked } = useContext(AppContext);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -57,14 +63,16 @@ export default function CreatePullRequestDialog({ open, setOpen }) {
       network: NetworkId,
     };
 
-    console.log("forked : ", forked, data);
-
     httpClient()
       .post("/pr", data)
       .then((res) => {
         setLoading(false);
         console.log(res);
         setOpen(false);
+
+        enqueueSnackbar("Pull request created successfully.", {
+          variant: "success",
+        });
       })
       .catch((err) => {
         setLoading(false);

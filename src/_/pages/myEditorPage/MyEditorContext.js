@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext } from "react";
+import React, { useState, createContext, useContext, useCallback } from "react";
 import { useAccountId, useNear, useCache, CommitButton } from "near-social-vm";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -14,6 +14,7 @@ import httpClient from "../../libs/httpClient";
 import { EditorContext } from "../../context/EditorContext";
 import ReactGA from "react-ga4";
 import { useSnackbar } from "notistack";
+import { AppContext } from "../../context/AppContext";
 
 export const MyEditorContext = createContext();
 
@@ -23,9 +24,9 @@ export const MyEditorContextProvider = (props) => {
   const accountId = useAccountId();
   const { widgetSrc } = useParams();
   const history = useHistory();
-
   const { enqueueSnackbar } = useSnackbar();
 
+  const { checkIsForked, setForked } = useContext(AppContext);
   const { theme } = useContext(ThemeContext);
   const { NetworkId } = useContext(EditorContext);
 
@@ -89,7 +90,28 @@ export const MyEditorContextProvider = (props) => {
             );
 
             if (widgetSrc?.length > 0) {
-              history.replace(`/myEditor`);
+              // history.replace(`/editor`);
+
+              const parts = widgetSrc.split("/");
+              // console.log("FORKING...");
+              httpClient()
+                .post("/fork", {
+                  source: widgetSrc,
+                  originalOwner: parts[0],
+                  componentName: parts[parts.length - 1],
+                  network: NetworkId,
+                })
+                .then((res) => {
+                  // checkIsForked();
+                  console.log("Forke Done - going back to editor");
+                  setForked(res.data);
+                  history.replace(`/editor/`);
+
+                  console.log("Forke Done");
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
             }
           })
           .catch((err) => {
@@ -103,6 +125,8 @@ export const MyEditorContextProvider = (props) => {
         // console.log("lastPath", lastPath);
       }
     }
+
+    if (lastPath) checkIsForked(lastPath);
   }, [widgetSrc, lastPath]);
 
   // Start of getting my widgets
@@ -196,24 +220,30 @@ export const MyEditorContextProvider = (props) => {
   };
 
   // handle create file
+
+  const toPath = useCallback((type, nameOrPath) => {
+    const name =
+      nameOrPath.indexOf("/") >= 0
+        ? nameOrPath.split("/").slice(2).join("/")
+        : nameOrPath;
+    return { type, name };
+  }, []);
+
   const renameFile = (newName, code) => {
-    const newPath = toPath(path.type, newName);
-    const jNewPath = JSON.stringify(newPath);
-    const jPath = JSON.stringify(path);
-    setFiles((files) => {
-      const newFiles = files.filter(
-        (file) => JSON.stringify(file) !== jNewPath
-      );
-      const i = newFiles.findIndex((file) => JSON.stringify(file) === jPath);
-      if (i >= 0) {
-        newFiles[i] = newPath;
-      }
+    const oldPath = lastPath;
+    const newPath = toPath(Filetype.Widget, newName);
+
+    setOpenWidgets((files) => {
+      let newFiles = files.filter((file) => file.name !== lastPath.name);
+      newFiles.push(newPath);
+
       return newFiles;
     });
+
     setLastPath(newPath);
-    setPath(newPath);
-    updateCode(newPath, code);
-    setCode(code);
+
+    localStorage.removeItem(oldPath?.name);
+    localStorage.setItem(newPath?.name, JSON.stringify(code));
   };
 
   // handle remove file

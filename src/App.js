@@ -298,27 +298,27 @@ export default function App() {
                   <Footer />
                 </Route>
 
-                <Route path={"/prs/:prId"}>
+                <Route path={"/prs/:prId*"}>
                   <DiffEditorPage {...passProps} />
                   <Footer />
                 </Route>
 
-                <Route path={"/prs"}>
+                {/* <Route path={"/prs"}>
                   <EmptyPage {...passProps} />
                   <Footer />
-                </Route>
+                </Route> */}
 
-                <Route path={"/editor/:widgetSrc*"}>
+                {/* <Route path={"/editor/:widgetSrc*"}>
                   <EditorPage {...passProps} />
                   <Footer />
-                </Route>
+                </Route> */}
 
                 <Route path={"/preview"}>
                   <MyEditorPewviewPage {...passProps} />
                   <Footer />
                 </Route>
 
-                <Route path={"/myEditor/:widgetSrc*"}>
+                <Route path={"/editor/:widgetSrc*"}>
                   <MyEditorContextProvider>
                     <MyEditorPage {...passProps} />
                   </MyEditorContextProvider>

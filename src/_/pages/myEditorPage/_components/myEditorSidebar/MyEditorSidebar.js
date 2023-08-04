@@ -1,16 +1,15 @@
-import { Box, IconButton, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  ButtonBase,
+  IconButton,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import NoteAddRoundedIcon from "@mui/icons-material/NoteAddRounded";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useNear } from "near-social-vm";
 
-import { styled } from "@mui/material/styles";
-import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
-import MuiAccordion from "@mui/material/Accordion";
-import MuiAccordionSummary from "@mui/material/AccordionSummary";
-import MuiAccordionDetails from "@mui/material/AccordionDetails";
-
 import { ThemeContext } from "../../../../context/ThemeContext";
-import { EditorContext } from "../../../../context/EditorContext";
 import AddModal from "../../../../../components/Editor/AddModal";
 import CreateModal from "../../../../../components/Editor/CreateModal";
 
@@ -23,6 +22,11 @@ import OpenWidgetDialog from "../../../../dialogs/OpenWidgetDialog";
 import { SaveDraftModal } from "../../../../../components/SaveDraft";
 import { Filetype } from "../../libs/editorInterfaces";
 import { MyEditorContext } from "../../MyEditorContext";
+import {
+  CustomAccordion,
+  CustomAccordionDetails,
+  CustomAccordionSummary,
+} from "../../../../components/custom/CustomAccordion";
 
 export default function MyEditorSidebar(
   {
@@ -133,8 +137,8 @@ export default function MyEditorSidebar(
 
         {/* EDITING THIS */}
 
-        <Accordion defaultExpanded>
-          <AccordionSummary
+        <CustomAccordion>
+          <CustomAccordionSummary
             aria-controls="panel1d-content"
             id="panel1d-header"
             sx={{ backgroundColor: theme.backgroundColor }}
@@ -142,75 +146,37 @@ export default function MyEditorSidebar(
             <Typography sx={{ fontWeight: 600, fontSize: 13 }}>
               Open Widgets
             </Typography>
-          </AccordionSummary>
-          <AccordionDetails sx={{ backgroundColor: theme.ui }}>
-            <OpenWidgets
-              openWidgetsExpanded={openWidgetsExpanded}
-              setOpenWidgetsExpanded={setOpenWidgetsExpanded}
-              openWidgetsSelected={openWidgetsSelected}
-              setOpenWidgetsSelected={setOpenWidgetsSelected}
-              //
-              projectFiles={projectFiles}
-              setShowRenameModal={setShowRenameModal}
-              // createFile={createFile}
-              // openFile={openFile}
-              // curPath={curPath}
-              // filesDetails={filesDetails}
-              // removeFromFiles={removeFromFiles}
-            />
+          </CustomAccordionSummary>
 
-            {/* {files?.map((file, index) => {
-            // let file = typeof f === "string" ? JSON.parse(f) : f;
-            // console.log("filex : ", file, " - ");
-
-            if (!file) {
-              console.log("File is undefined " + file);
-              return;
-            }
-
-            if (typeof file === "string") return;
-
-            if (file?.unnamed) {
-              return;
-            }
-
-            const jp = file;
-            const widgetName = file?.name?.split("/")[0] || "";
-            const { codeChangesPresent, isDraft } =
-              filesDetails.get(widgetName) || {};
-
-            // console.log({ file });
-            return (
-              <OpenEditorItem
-                key={index}
-                item={file}
-                codeChangesPresent={codeChangesPresent}
-                isDraft={isDraft}
-                isSelected={curPath === file}
-                // handleClicks
-                onClick={() => openFile(file)}
-                renameButtonOnClick={() => {
-                  setShowRenameModal((e) => !e);
-                }}
-                removeButtonOnClick={() => {
-                  removeFromFiles(file);
-                  // if (jp === jpath) {
-
-                  if (jp === curPath) {
-                    if (files.length > 1) {
-                      console.log("HI FORM FILS ASE ARO>...");
-                      openFile(files[index - 1] || files[index + 1]);
-                    } else {
-                      console.log("HI FORM FILE NAI R>...");
-                      createFile(Filetype.Widget);
-                    }
-                  }
-                }}
+          <CustomAccordionDetails sx={{ backgroundColor: theme.ui }}>
+            {projectFiles?.length > 0 ? (
+              <OpenWidgets
+                openWidgetsExpanded={openWidgetsExpanded}
+                setOpenWidgetsExpanded={setOpenWidgetsExpanded}
+                openWidgetsSelected={openWidgetsSelected}
+                setOpenWidgetsSelected={setOpenWidgetsSelected}
+                projectFiles={projectFiles}
+                setShowRenameModal={setShowRenameModal}
               />
-            );
-          })} */}
-          </AccordionDetails>
-        </Accordion>
+            ) : (
+              <ButtonBase
+                sx={{
+                  fontSize: 14,
+                  textTransform: "none",
+                  width: "100%",
+                  py: 4,
+                }}
+                onClick={() => {
+                  createNewFile(Filetype.Widget);
+                  setShowRenameModal(true);
+                }}
+              >
+                You don't have any widgets yet. <br />
+                Click here to create one.
+              </ButtonBase>
+            )}
+          </CustomAccordionDetails>
+        </CustomAccordion>
 
         <MyWidgets
           loadFile={loadFile}
@@ -274,44 +240,3 @@ export default function MyEditorSidebar(
     </>
   );
 }
-
-const Accordion = styled((props) => (
-  <MuiAccordion disableGutters elevation={0} square {...props} />
-))(({ theme }) => ({
-  // border: `1px solid ${theme.palette.divider}`,
-  // backgroundColor: "transparent",
-  color: "#7e8185",
-  "&:not(:last-child)": {
-    borderBottom: 0,
-  },
-  "&:before": {
-    display: "none",
-  },
-}));
-
-const AccordionSummary = styled((props) => (
-  <MuiAccordionSummary
-    expandIcon={
-      <ArrowForwardIosSharpIcon sx={{ fontSize: "0.8rem", fill: "#7e8185" }} />
-    }
-    {...props}
-  />
-))(({ theme }) => ({
-  backgroundColor: "#1a1a1a",
-  // backgroundColor:
-  //   theme.palette.mode === "dark" ? "#1e1e1e" : "rgba(0, 0, 0, .03)",
-  flexDirection: "row-reverse",
-  "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
-    transform: "rotate(90deg)",
-  },
-  "& .MuiAccordionSummary-content": {
-    marginLeft: theme.spacing(1),
-  },
-}));
-
-const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-  // backgroundColor: "#262626",
-  backgroundColor: "#1e1e1e",
-  padding: 0,
-  borderTop: "1px solid rgba(0, 0, 0, .125)",
-}));

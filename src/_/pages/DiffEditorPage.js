@@ -5,6 +5,8 @@ import {
   Box,
   Button,
   CircularProgress,
+  IconButton,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { useContext } from "react";
@@ -19,6 +21,10 @@ import { useNear, CommitButton } from "near-social-vm";
 import LoadingPage from "../components/LoadingPage";
 import { AuthContext } from "../context/AuthContext";
 import { useHistory } from "react-router-dom";
+import EmptyPage from "../components/EmptyPage";
+import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
+import { stringify } from "querystring";
+import { AppContext } from "../context/AppContext";
 
 export default function DiffEditorPage(props) {
   const history = useHistory();
@@ -26,8 +32,9 @@ export default function DiffEditorPage(props) {
   const { prId } = useParams();
 
   const { theme } = useContext(ThemeContext);
-  const { setSelectedActivity, getPrs } = useContext(EditorContext);
+  const { setSelectedActivity } = useContext(EditorContext);
   const { user } = useContext(AuthContext);
+  const { getPrs } = useContext(AppContext);
 
   const [loading, setLoading] = useState(false);
   const [pr, setPr] = useState();
@@ -51,7 +58,6 @@ export default function DiffEditorPage(props) {
     httpClient()
       .get(`/pr/${prId}`)
       .then((res) => {
-        console.log("GETTING PR : ", res.data);
         setPr(res.data);
         setLoading(false);
       })
@@ -72,6 +78,8 @@ export default function DiffEditorPage(props) {
         if (data.status === "merged")
           document.getElementById("publishButton").click();
 
+        history.replace(`/prs/`);
+
         getPrs();
         setLoadingSubmit(false);
       })
@@ -81,7 +89,30 @@ export default function DiffEditorPage(props) {
       });
   }
 
-  return (
+  const handleOpenInNewTab = (code) => {
+    // Replace 'https://www.example.com' with your desired URL
+    const newWindow = window.open(
+      "",
+      "_blank",
+      "width=1200,height=730,location=no,menubar=no,toolbar=no"
+    );
+
+    const query = {
+      code: JSON.stringify(code),
+    };
+
+    if (newWindow) {
+      newWindow.location.href = `/preview?` + stringify(query);
+    } else {
+      console.error("Popup blocked.");
+    }
+  };
+
+  return !prId ? (
+    <PagesContainer {...props}>
+      <EmptyPage />
+    </PagesContainer>
+  ) : (
     <PagesContainer {...props}>
       <Backdrop sx={{ color: "#fff", zIndex: 9999 }} open={loadingSubmit}>
         <CircularProgress color="inherit" />
@@ -162,7 +193,7 @@ export default function DiffEditorPage(props) {
                   },
                 }}
                 onCommit={() => {
-                  history.push("/prs");
+                  history.replace("/prs");
                 }}
               >
                 Publish
@@ -232,13 +263,36 @@ export default function DiffEditorPage(props) {
               paddingInline: 1,
             }}
           >
-            <Typography variant="span" sx={{ color: theme.textColor }}>
-              Original -{" "}
-              <span style={{ fontWeight: 600 }}>{pr?.fork?.source}</span>
-            </Typography>
-            <Typography variant="h6" sx={{ color: theme.textColor }}>
-              Changed
-            </Typography>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <Typography variant="span" sx={{ color: theme.textColor }}>
+                Original -{" "}
+                <span style={{ fontWeight: 600 }}>{pr?.fork?.source}</span>
+              </Typography>
+
+              <Tooltip title="View Widget">
+                <IconButton
+                  sx={{ color: theme.buttonColor }}
+                  onClick={() => handleOpenInNewTab(pr?.originalCode)}
+                >
+                  <VisibilityRoundedIcon />
+                </IconButton>
+              </Tooltip>
+            </Box>
+
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <Tooltip title="View Widget">
+                <IconButton
+                  sx={{ color: theme.buttonColor }}
+                  onClick={() => handleOpenInNewTab(pr?.updatedCode)}
+                >
+                  <VisibilityRoundedIcon />
+                </IconButton>
+              </Tooltip>
+
+              <Typography variant="h6" sx={{ color: theme.textColor }}>
+                Changed
+              </Typography>
+            </Box>
           </Box>
 
           <Box sx={{ minHeight: 750, height: "calc(100vh - 125px)" }}>

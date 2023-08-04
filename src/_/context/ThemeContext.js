@@ -11,7 +11,7 @@ export const ThemeContextProvider = (props) => {
   const light = {
     textColor: "#1e293b",
     textColor2: "#334155",
-    textColor3: "#475569",
+    textColor3: "#475569D9",
     textColor4: "#000",
 
     buttonColor: "#0d6efd",

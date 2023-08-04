@@ -29,6 +29,7 @@ import { useSnackbar } from "notistack";
 import CreatePullRequestDialog from "../../../../dialogs/CreatePullRequestDialog";
 import { MyEditorContext } from "../../MyEditorContext";
 import ReactGA from "react-ga4";
+import { AppContext } from "../../../../context/AppContext";
 
 export default function WidgetViewHeader({
   loading,
@@ -51,11 +52,7 @@ export default function WidgetViewHeader({
 }) {
   const { accountId } = useAccount();
 
-  // const { showLiveCodePreview, setShowLiveCodePreview } =
-  //   useContext(EditorContext);
-
   const {
-    forked,
     filesDetails,
 
     path,
@@ -66,6 +63,8 @@ export default function WidgetViewHeader({
 
     setShowPreview,
   } = useContext(MyEditorContext);
+
+  const { forked } = useContext(AppContext);
 
   const { theme } = useContext(ThemeContext);
 
@@ -115,9 +114,7 @@ export default function WidgetViewHeader({
             <GitHubIcon sx={{ fontSize: "1.25rem", fill: theme.textColor2 }} />
           </IconButton>
         </Tooltip> */}
-
           {loading && <CircularProgress thickness={6} size={18} />}
-
           {/* <Tooltip title="Run" placement="bottom">
             <IconButton
               sx={{
@@ -162,7 +159,6 @@ export default function WidgetViewHeader({
               backgroundColor: theme.borderColor,
             }}
           /> */}
-
           <Tooltip title="Open preview in new tab" placement="bottom">
             <IconButton
               onClick={() => {
@@ -179,7 +175,6 @@ export default function WidgetViewHeader({
               />
             </IconButton>
           </Tooltip>
-
           <div
             style={{
               width: 1.5,
@@ -188,7 +183,6 @@ export default function WidgetViewHeader({
               backgroundColor: theme.borderColor,
             }}
           />
-
           <Tooltip title="Toggle Theme" placement="bottom">
             <IconButton onClick={() => setAllowTheming((e) => !e)}>
               {allowTheming ? (
@@ -208,11 +202,8 @@ export default function WidgetViewHeader({
               )}
             </IconButton>
           </Tooltip>
-
           <MultiViewMenu viewBox={viewBox} setViewBox={setViewBox} />
-
           <OpenInNewTabMenu />
-
           <div
             style={{
               width: 1.5,
@@ -221,7 +212,6 @@ export default function WidgetViewHeader({
               backgroundColor: theme.borderColor,
             }}
           />
-
           {forked && (
             <Tooltip title="Create Pull Request" placement="bottom">
               <IconButton
@@ -241,9 +231,7 @@ export default function WidgetViewHeader({
               </IconButton>
             </Tooltip>
           )}
-
           {/* {publishWidgetButton} */}
-
           {accountId ? (
             filesDetails?.find(
               (item) => item.name === (path?.name || lastPath?.name)

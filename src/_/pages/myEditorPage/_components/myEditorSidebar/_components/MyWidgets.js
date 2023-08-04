@@ -1,20 +1,20 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useAccountId, useNear, useCache } from "near-social-vm";
+import { useAccountId } from "near-social-vm";
 import { ThemeContext } from "../../../../../context/ThemeContext";
 import { Box, ButtonBase, IconButton, Typography } from "@mui/material";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 
-import { styled } from "@mui/material/styles";
-import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
-import MuiAccordion from "@mui/material/Accordion";
-import MuiAccordionSummary from "@mui/material/AccordionSummary";
-import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import FileIcon from "../../../../../components/FileIcon";
 import createFileTree from "../../../../../libs/createFileTree";
 import { TreeItem, TreeView } from "@mui/lab";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { MyEditorContext } from "../../../MyEditorContext";
+import {
+  CustomAccordion,
+  CustomAccordionDetails,
+  CustomAccordionSummary,
+} from "../../../../../components/custom/CustomAccordion";
 
 function findWidgets(obj) {
   let widgets = [];
@@ -54,8 +54,6 @@ export default function MyWidgets({
   openWidgetsSelected,
   setOpenWidgetsSelected,
 }) {
-  const near = useNear();
-  const cache = useCache();
   const accountId = useAccountId();
 
   const { theme } = useContext(ThemeContext);
@@ -88,8 +86,8 @@ export default function MyWidgets({
     <>
       {/* MY WIDGETS SEECTION - NOT EDITING... */}
       {accountId && (
-        <Accordion defaultExpanded>
-          <AccordionSummary
+        <CustomAccordion>
+          <CustomAccordionSummary
             aria-controls="panel2d-content"
             id="panel2d-header"
             sx={{ backgroundColor: theme.backgroundColor }}
@@ -97,9 +95,9 @@ export default function MyWidgets({
             <Typography sx={{ fontWeight: 600, fontSize: 13 }}>
               My Widgets
             </Typography>
-          </AccordionSummary>
-          <AccordionDetails sx={{ backgroundColor: theme.ui }}>
-            {myWidgets ? (
+          </CustomAccordionSummary>
+          <CustomAccordionDetails sx={{ backgroundColor: theme.ui }}>
+            {myWidgets.length > 0 ? (
               <>
                 <TreeView
                   aria-label="multi-select"
@@ -135,8 +133,8 @@ export default function MyWidgets({
                 Please publish a widget to see it here
               </ButtonBase>
             )}
-          </AccordionDetails>
-        </Accordion>
+          </CustomAccordionDetails>
+        </CustomAccordion>
       )}
     </>
   );
@@ -424,44 +422,3 @@ const CustomLabel = ({
 //     </Box>
 //   );
 // };
-
-const Accordion = styled((props) => (
-  <MuiAccordion disableGutters elevation={0} square {...props} />
-))(({ theme }) => ({
-  // border: `1px solid ${theme.palette.divider}`,
-  // backgroundColor: "transparent",
-  color: "#7e8185",
-  "&:not(:last-child)": {
-    borderBottom: 0,
-  },
-  "&:before": {
-    display: "none",
-  },
-}));
-
-const AccordionSummary = styled((props) => (
-  <MuiAccordionSummary
-    expandIcon={
-      <ArrowForwardIosSharpIcon sx={{ fontSize: "0.8rem", fill: "#7e8185" }} />
-    }
-    {...props}
-  />
-))(({ theme }) => ({
-  backgroundColor: "#1a1a1a",
-  // backgroundColor:
-  //   theme.palette.mode === "dark" ? "#1e1e1e" : "rgba(0, 0, 0, .03)",
-  flexDirection: "row-reverse",
-  "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
-    transform: "rotate(90deg)",
-  },
-  "& .MuiAccordionSummary-content": {
-    marginLeft: theme.spacing(1),
-  },
-}));
-
-const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-  // backgroundColor: "#262626",
-  backgroundColor: "#1e1e1e",
-  padding: 0,
-  borderTop: "1px solid rgba(0, 0, 0, .125)",
-}));

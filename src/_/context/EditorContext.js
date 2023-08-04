@@ -145,47 +145,48 @@ export const EditorContextProvider = (props) => {
 
   //
 
-  // Fork and PRs section
-  const [prs, setPrs] = useState([]);
+  // // Fork and PRs section
+  // const [prs, setPrs] = useState([]);
+  // const [hasSeen, setHasSeen] = useState(false);
 
-  const [loadingPrs, setLoadingPrs] = useState(false);
-  const [forked, setForked] = useState(undefined);
+  // const [loadingPrs, setLoadingPrs] = useState(false);
+  // const [forked, setForked] = useState(undefined);
 
-  const checkIsForked = () => {
-    setForked(undefined);
-    httpClient()
-      .get(`/fork/${lastPath?.name}`)
-      .then((res) => {
-        if (res.data?._id) {
-          setForked(res.data);
-        } else {
-          setForked(undefined);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  // const checkIsForked = () => {
+  //   setForked(undefined);
+  //   httpClient()
+  //     .get(`/fork/${lastPath?.name}`)
+  //     .then((res) => {
+  //       if (res.data?._id) {
+  //         setForked(res.data);
+  //       } else {
+  //         setForked(undefined);
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
 
-  useEffect(() => {
-    setLoadingPrs(true);
-    getPrs();
-  }, []);
+  // useEffect(() => {
+  //   setLoadingPrs(true);
+  //   getPrs();
+  // }, []);
 
-  const getPrs = () => {
-    httpClient()
-      .get("/pr")
-      .then((res) => {
-        // console.log(res.data);
-        setPrs(res.data);
+  // const getPrs = () => {
+  //   httpClient()
+  //     .get("/pr")
+  //     .then((res) => {
+  //       // console.log(res.data);
+  //       setPrs(res.data);
 
-        setLoadingPrs(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoadingPrs(false);
-      });
-  };
+  //       setLoadingPrs(false);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       setLoadingPrs(false);
+  //     });
+  // };
 
   return (
     <EditorContext.Provider
@@ -225,13 +226,16 @@ export const EditorContextProvider = (props) => {
         openComponentDetail,
         setOpenComponentDetail,
 
-        // Fork section
-        forked,
-        checkIsForked,
-        prs,
-        setPrs,
-        loadingPrs,
-        getPrs,
+        // // Fork section
+        // forked,
+        // setForked,
+        // checkIsForked,
+        // prs,
+        // setPrs,
+        // loadingPrs,
+        // getPrs,
+        // hasSeen,
+        // setHasSeen,
       }}
     >
       {props.children}

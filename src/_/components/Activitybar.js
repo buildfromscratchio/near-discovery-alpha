@@ -21,13 +21,16 @@ import { AuthContext } from "../context/AuthContext";
 import { useHistory, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
+import { AppContext } from "../context/AppContext";
 
 export default function Activitybar(props) {
   const history = useHistory();
   const { accountId } = useAccount();
   const { theme } = useContext(ThemeContext);
-  const { setSelectedActivity, Widgets, NetworkId, prs } =
-    useContext(EditorContext);
+  const { setSelectedActivity, Widgets, NetworkId } = useContext(EditorContext);
+
+  const { prs, hasSeen } = useContext(AppContext);
+
   const { user, logout } = useContext(AuthContext);
 
   console.error = () => {};
@@ -35,8 +38,10 @@ export default function Activitybar(props) {
   const [unseenPrCount, setUnseenPrCount] = useState(0);
 
   useEffect(() => {
+    setUnseenPrCount(0);
+
     if (prs?.length === 0) setUnseenPrCount(0);
-    prs?.map((pr) => {
+    prs?.openedPullRequests?.map((pr) => {
       if (!pr.seen && pr.createdBy?._id !== user?._id) {
         setUnseenPrCount((prev) => prev + 1);
       }
@@ -96,7 +101,7 @@ export default function Activitybar(props) {
           }}
         />
 
-        <ActivityButton
+        {/* <ActivityButton
           icon={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -117,12 +122,12 @@ export default function Activitybar(props) {
             history.push("/myEditor");
             setSelectedActivity((e) => (e === "myEditor" ? "" : "myEditor"));
           }}
-        />
+        /> */}
 
         <ActivityButton
           icon={
             <Badge
-              badgeContent={unseenPrCount}
+              badgeContent={hasSeen ? 0 : unseenPrCount}
               variant="standard"
               color="success"
               sx={{

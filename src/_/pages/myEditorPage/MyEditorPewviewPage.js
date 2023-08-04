@@ -12,6 +12,19 @@ export default function MyEditorPewviewPage() {
   const [lastPath, setLastPath] = useLocalStorage("lastPath", "");
   const [code, setCode] = useState("");
 
+  const [urlCode, setUrlCode] = useState("");
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window?.location?.search);
+    const codeParam = urlParams?.get("code");
+
+    if (codeParam) {
+      // Decode the URI component if needed
+      const decodedCode = decodeURIComponent(codeParam);
+      setUrlCode(isJSON(decodedCode));
+    }
+  }, []);
+
   // Memoized function to update code based on lastPath.name
   const updateCodeFromLocalStorage = useCallback(() => {
     const key = lastPath.name;
@@ -25,6 +38,7 @@ export default function MyEditorPewviewPage() {
 
   // Effect to run the update function when lastPath changes
   useEffect(() => {
+    if (urlCode) return;
     updateCodeFromLocalStorage();
   }, [updateCodeFromLocalStorage]);
 
@@ -40,6 +54,8 @@ export default function MyEditorPewviewPage() {
 
   // Effect to monitor changes in local storage
   useEffect(() => {
+    if (urlCode) return;
+
     // Listen for storage change events
     window.addEventListener("storage", storageChangeHandler);
 
@@ -48,6 +64,8 @@ export default function MyEditorPewviewPage() {
       window.removeEventListener("storage", storageChangeHandler);
     };
   }, [storageChangeHandler]);
+
+  console.log(urlCode);
 
   return (
     <Box
@@ -72,7 +90,7 @@ export default function MyEditorPewviewPage() {
           width: "100%",
         }}
       >
-        <Widget code={code} props={{ theme: theme }} />
+        <Widget code={urlCode ? urlCode : code} props={{ theme: theme }} />
       </Box>
     </Box>
   );

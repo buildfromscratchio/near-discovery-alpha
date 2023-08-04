@@ -274,7 +274,7 @@ const CustomTreeView = ({
   setShowConfirmDialog,
 }) => {
   const { theme } = useContext(ThemeContext);
-  const { files, openFile } = useContext(MyEditorContext);
+  const { files, openFile, createNewFile } = useContext(MyEditorContext);
 
   return (
     <div>
@@ -329,7 +329,7 @@ const CustomTreeView = ({
           if (fileFromItem === curPath) {
             if (files?.length > 1)
               openFile(files[index - 1] || files[index + 1]);
-            else createFile("widget");
+            else createNewFile("widget");
           }
         };
 
