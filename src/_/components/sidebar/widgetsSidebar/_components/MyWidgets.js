@@ -81,17 +81,16 @@ export default function MyWidgets({
   const [projectFiles, setProjectFiles] = useState([]);
 
   const getData = () => {
-    let widget = `${accountId}/widget/*`;
-
-    const code = cache.socialGet(
-      near,
-      widget,
-      false,
-      undefined,
-      undefined,
-      getData
-    );
-    setMyWidgets(code);
+    // let widget = `${accountId}/widget/*`;
+    // const code = cache.socialGet(
+    //   near,
+    //   widget,
+    //   false,
+    //   undefined,
+    //   undefined,
+    //   getData
+    // );
+    // setMyWidgets(code);
   };
 
   useEffect(() => {

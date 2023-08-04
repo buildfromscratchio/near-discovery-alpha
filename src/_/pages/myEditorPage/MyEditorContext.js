@@ -66,7 +66,9 @@ export const MyEditorContextProvider = (props) => {
   useEffect(() => {
     if (widgetSrc) {
       if (widgetSrc === "new") {
-        createFileTree(Filetype.Widget);
+        // createFileTree(Filetype.Widget);
+        createNewFile(Filetype.Widget);
+        history.replace(`/editor/`);
       } else {
         console.log("widgetSrc", widgetSrc);
         // loadFile(widgetSrc);
@@ -133,6 +135,7 @@ export const MyEditorContextProvider = (props) => {
   const myWidgetsFormNear = () => {
     return new Promise((resolve, reject) => {
       const code = cache.socialGet(near, `${accountId}/widget/*`);
+      console.log("myWidgetsFormNear");
 
       if (code) {
         resolve(code);
@@ -146,7 +149,11 @@ export const MyEditorContextProvider = (props) => {
     });
   };
   const loadMyWidgets = async () => {
+    console.log("loadMyWidgets");
     const widgets = await myWidgetsFormNear();
+
+    console.log("loadMyWidgets - widgets : ", widgets);
+
     setMyWidgets(widgets);
   };
   // End of getting my widgets
@@ -183,6 +190,8 @@ export const MyEditorContextProvider = (props) => {
   const loadCodeFormNear = (path) => {
     return new Promise((resolve, reject) => {
       const code = cache.socialGet(near, path);
+      console.log("loadCodeFormNear");
+
       if (code) {
         resolve(code);
       } else {

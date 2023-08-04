@@ -36,6 +36,7 @@ export default function CreatePullRequestDialog({ open, setOpen }) {
   const getOriginalCode = () => {
     return new Promise((resolve, reject) => {
       const code = cache.socialGet(near, forked?.source);
+      console.log("getOriginalCode");
       if (code) {
         resolve(code);
       } else {

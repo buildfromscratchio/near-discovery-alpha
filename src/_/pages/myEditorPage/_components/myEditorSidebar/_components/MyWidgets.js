@@ -97,7 +97,7 @@ export default function MyWidgets({
             </Typography>
           </CustomAccordionSummary>
           <CustomAccordionDetails sx={{ backgroundColor: theme.ui }}>
-            {myWidgets.length > 0 ? (
+            {projectFiles.length > 0 ? (
               <>
                 <TreeView
                   aria-label="multi-select"
