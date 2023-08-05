@@ -22,6 +22,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
 import { AppContext } from "../context/AppContext";
+import jutsu_logo from "../images/jutsu_logo.svg";
 
 export default function Activitybar(props) {
   const history = useHistory();
@@ -66,10 +67,18 @@ export default function Activitybar(props) {
         <ActivityButton
           // disabled
           icon={
-            <DiamondRoundedIcon
-              sx={{ fill: theme.textColor4, fontSize: "1.8rem" }}
+            <img
+              style={{
+                width: 34,
+                height: 34,
+                backgroundColor: theme.backgroundColor,
+                borderRadius: 17,
+              }}
+              src={jutsu_logo}
+              alt="jutsu logo"
             />
           }
+          style={{ opacity: 1 }}
           label=""
           to="/editor"
           onClick={() => {

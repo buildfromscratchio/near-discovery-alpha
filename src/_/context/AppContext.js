@@ -11,7 +11,7 @@ export const AppContextProvider = (props) => {
   // URL without hash and restricted routes
   const [isUnrestrictedRoute, setIsUnrestrictedRoute] = useState(false);
   useEffect(() => {
-    const match = ["/auth", "/s3", "/c", "/learn"];
+    const match = ["/auth", "/s3", "/c", "/learn", "/playground"];
 
     const data = match?.filter((url) => {
       return location.pathname.includes(url);
@@ -38,8 +38,11 @@ export const AppContextProvider = (props) => {
   const [hasSeen, setHasSeen] = useState(false);
   const [loadingPrs, setLoadingPrs] = useState(false);
   const [forked, setForked] = useState(undefined);
+  const token = localStorage.getItem("accessToken");
 
   const checkIsForked = async (lastPath) => {
+    if (!token) return;
+
     setForked(undefined);
     httpClient()
       .get(`/fork/${lastPath?.name}`)
@@ -56,11 +59,13 @@ export const AppContextProvider = (props) => {
       });
   };
 
-  useEffect(() => {
-    setLoadingPrs(true);
-  }, []);
+  // useEffect(() => {
+  //   setLoadingPrs(true);
+  // }, []);
 
   useEffect(() => {
+    if (!token) return;
+
     const intervalId = setInterval(() => {
       // Your code logic here
       getPrs();

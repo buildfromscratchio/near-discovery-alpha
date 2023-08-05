@@ -1,12 +1,20 @@
 import { createTheme } from "@mui/material";
 import React, { useState, createContext, useEffect } from "react";
 import { useMediaQuery } from "@mui/material";
+import useLocalStorage from "use-local-storage";
 
 export const ThemeContext = createContext();
 
 export const ThemeContextProvider = (props) => {
-  const [enableDarkMode, SetEnableDarkMode] = useState(true);
-  const [editorFontSize, SetEditorFontSize] = useState("14px");
+  const [enableDarkMode, setEnableDarkMode] = useLocalStorage(
+    "enableDarkMode",
+    false
+  );
+
+  const [editorFontSize, setEditorFontSize] = useLocalStorage(
+    "editorFontSize",
+    "14px"
+  );
 
   const light = {
     textColor: "#1e293b",
@@ -40,9 +48,10 @@ export const ThemeContextProvider = (props) => {
 
     buttonTextColor: "#ffffff",
 
-    // ui2: "#111827",
-    ui: "#111827",
-    backgroundColor: "#1d2432",
+    // backgroundColor: "#111827",
+    // ui: "#1d2432",
+    backgroundColor: "#0b111d",
+    ui: "#0d1524",
 
     borderRadius: 1,
     // borderColor: "#101010",
@@ -79,22 +88,22 @@ export const ThemeContextProvider = (props) => {
   // };
   const breakpoints = useMediaQuery("(max-width:650px)");
 
-  useEffect(() => {
-    setEditorFontSize(localStorage.getItem("editorFontSize") || "14px");
-    const enableDarkMode = localStorage.getItem("enableDarkMode");
-    setEnableDarkMode(enableDarkMode === "true" ? true : false);
-  }, []);
+  // useEffect(() => {
+  //   setEditorFontSize(localStorage.getItem("editorFontSize") || "14px");
+  //   const enableDarkMode = localStorage.getItem("enableDarkMode");
+  //   setEnableDarkMode(enableDarkMode === "true" ? true : false);
+  // }, []);
 
-  const setEditorFontSize = (value) => {
-    SetEditorFontSize(value);
+  // const setEditorFontSize = (value) => {
+  //   SetEditorFontSize(value);
 
-    localStorage.setItem("editorFontSize", value);
-  };
-  const setEnableDarkMode = (value) => {
-    SetEnableDarkMode(value);
+  //   localStorage.setItem("editorFontSize", value);
+  // };
+  // const setEnableDarkMode = (value) => {
+  //   SetEnableDarkMode(value);
 
-    localStorage.setItem("enableDarkMode", value);
-  };
+  //   localStorage.setItem("enableDarkMode", value);
+  // };
 
   return (
     <ThemeContext.Provider
@@ -149,11 +158,11 @@ export const theme = createTheme({
   },
 
   typography: {
-    fontFamily: ["Inter", "sans-serif"].join(","),
+    fontFamily: ["Poppins", "sans-serif"].join(","),
 
     h1: {
       fontSize: 48,
-      fontWeight: 700,
+      fontWeight: 600,
     },
     h2: {
       fontSize: 32,

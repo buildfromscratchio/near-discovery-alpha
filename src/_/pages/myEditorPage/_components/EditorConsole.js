@@ -35,7 +35,7 @@ export default function EditorConsole() {
   };
 
   return (
-    <Box sx={{ height: "100%", overflow: "hidden" }}>
+    <Box sx={{ height: "100%", overflow: "hidden", backgroundColor: theme.ui }}>
       <Box
         sx={{
           paddingInline: 1,

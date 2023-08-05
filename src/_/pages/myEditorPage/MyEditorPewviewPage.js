@@ -73,7 +73,8 @@ export default function MyEditorPewviewPage() {
       sx={{
         // height: "100vh",
         minHeight: 700,
-        height: "calc(100vh - 25px)",
+        // height: "calc(100vh - 25px)",
+        height: "100vh",
         width: "100%",
         backgroundColor: theme.ui,
       }}
@@ -84,9 +85,9 @@ export default function MyEditorPewviewPage() {
           backgroundColor: theme.backgroundColor,
 
           display: "flex",
-          justifyContent: "center",
+          justifyContent: "flex-start",
           //   alignItems: "flex-start",
-          alignItems: "center",
+          alignItems: "flex-start",
           width: "100%",
         }}
       >

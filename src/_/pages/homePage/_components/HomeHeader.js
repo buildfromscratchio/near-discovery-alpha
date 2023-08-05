@@ -1,4 +1,5 @@
 import {
+  AppBar,
   Avatar,
   Box,
   Button,
@@ -12,13 +13,13 @@ import React, { useState } from "react";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { useContext } from "react";
 import { AuthContext } from "../../../context/AuthContext";
-import DiamondRoundedIcon from "@mui/icons-material/DiamondRounded";
 import { stringify } from "querystring";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import { Link, useHistory, useLocation } from "react-router-dom";
 
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
+import { useEffect } from "react";
 
 export default function HomeHeader(props) {
   const { pathname } = useLocation();
@@ -27,26 +28,41 @@ export default function HomeHeader(props) {
     useContext(ThemeContext);
   const { isAuthenticated } = useContext(AuthContext);
 
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    // setScrolled(window.scrollY > (bp?.sm ? 230 : window.innerHeight));
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 250);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <Box
+    <AppBar
+      color="transparent"
+      position="fixed"
       sx={{
-        position: "absolute",
-        top: 0,
-        left: 0,
-        zIndex: 999,
-        width: "100%",
-        minHeight: 60,
+        boxShadow: "none",
 
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        height: 75,
+
+        backdropFilter: scrolled ? "blur(16px)" : "none",
         ...props.sx,
       }}
     >
       <Box
         sx={{
           width: "100%",
-          maxWidth: "90vw",
+          maxWidth: 1200,
           display: "flex",
           justifyContent: "space-between",
           flexDirection: bp ? "column" : "row",
@@ -63,9 +79,34 @@ export default function HomeHeader(props) {
             justifyContent: "center",
           }}
         >
-          <DiamondRoundedIcon
-            sx={{ fill: theme.textColor4, fontSize: "1.8rem" }}
-          />
+          <svg
+            width="98"
+            height="32"
+            viewBox="0 0 98 32"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M15.6602 18.7073C15.6602 20.784 14.8352 22.7756 13.3668 24.244C11.8984 25.7124 9.90675 26.5374 7.83009 26.5374C5.75342 26.5374 3.76181 25.7124 2.29338 24.244C0.824954 22.7756 3.13568e-07 20.784 0 18.7073L4.10077 18.7073C4.10077 19.6964 4.49368 20.6449 5.19306 21.3443C5.89245 22.0437 6.84101 22.4366 7.83009 22.4366C8.81916 22.4366 9.76773 22.0437 10.4671 21.3443C11.1665 20.6449 11.5594 19.6964 11.5594 18.7073H15.6602Z"
+              fill={theme.textColor}
+            />
+            <path
+              d="M15.6601 18.7073H11.5586V6.77576H15.6601V18.7073Z"
+              fill={theme.textColor}
+            />
+            <path
+              d="M15.6602 6.77572L15.6602 10.8772L0 10.8772L-1.79281e-07 6.77572L15.6602 6.77572Z"
+              fill={theme.textColor}
+            />
+            <path
+              d="M4.10147 18.7076H0V15.7247H4.10147V18.7076Z"
+              fill={theme.textColor}
+            />
+            <path
+              d="M24.6244 6.90442V18.8937C24.6244 21.1169 25.8418 22.427 27.9988 22.427C30.1559 22.427 31.3601 21.1169 31.3601 18.8937V6.90442H36.2167V19.4098C36.2167 23.6974 32.9613 26.5161 27.9988 26.5161C23.0364 26.5161 19.7678 23.6974 19.7678 19.4098V6.90442H24.6244ZM50.0454 26H45.2021V10.8082H39.697V6.90442H55.5637V10.8082H50.0454V26ZM58.1971 20.5611H62.8288C62.9479 21.9506 64.3373 22.8373 66.3488 22.8373C68.1618 22.8373 69.4057 21.9639 69.4057 20.7067C69.4057 19.648 68.572 19.079 66.3885 18.6423L63.8742 18.1395C60.3806 17.4778 58.5809 15.5722 58.5809 12.5683C58.5809 8.83648 61.5716 6.38833 66.1768 6.38833C70.6496 6.38833 73.7462 8.81001 73.8256 12.3433H69.3395C69.2336 10.9935 67.95 10.0539 66.2429 10.0539C64.5358 10.0539 63.411 10.8612 63.411 12.1316C63.411 13.177 64.2579 13.7857 66.2694 14.1827L68.7308 14.6591C72.5023 15.3869 74.1961 17.094 74.1961 20.1244C74.1961 24.1076 71.1525 26.5161 66.1503 26.5161C61.3202 26.5161 58.2765 24.24 58.1971 20.5611ZM82.7448 6.90442V18.8937C82.7448 21.1169 83.9623 22.427 86.1193 22.427C88.2763 22.427 89.4805 21.1169 89.4805 18.8937V6.90442H94.3371V19.4098C94.3371 23.6974 91.0817 26.5161 86.1193 26.5161C81.1568 26.5161 77.8882 23.6974 77.8882 19.4098V6.90442H82.7448Z"
+              fill={theme.textColor}
+            />
+          </svg>
         </Box>
 
         <Box
@@ -103,6 +144,21 @@ export default function HomeHeader(props) {
             </Link>
           */}
 
+          <Link to="/learn" style={{ textDecoration: "none" }}>
+            <Button
+              sx={{
+                textTransform: "none",
+                color: theme.textColor,
+                "&:hover": {
+                  color: theme.buttonColor,
+                },
+                fontWeight: 400,
+              }}
+            >
+              Learn
+            </Button>
+          </Link>
+
           <Link to="/playground" style={{ textDecoration: "none" }}>
             <Button
               sx={{
@@ -114,13 +170,14 @@ export default function HomeHeader(props) {
                 "&:hover": {
                   color: theme.buttonColor,
                 },
+                fontWeight: 400,
               }}
             >
               Playground
             </Button>
           </Link>
-          {/* 
-          <Link to="/editor" style={{ textDecoration: "none" }}>
+
+          <Link to="/docs" style={{ textDecoration: "none" }}>
             <Button
               sx={{
                 textTransform: "none",
@@ -128,22 +185,10 @@ export default function HomeHeader(props) {
                 "&:hover": {
                   color: theme.buttonColor,
                 },
+                fontWeight: 400,
               }}
             >
-              Editor
-            </Button>
-          </Link> */}
-          <Link to="/learn" style={{ textDecoration: "none" }}>
-            <Button
-              sx={{
-                textTransform: "none",
-                color: theme.textColor,
-                "&:hover": {
-                  color: theme.buttonColor,
-                },
-              }}
-            >
-              Learn
+              Docs
             </Button>
           </Link>
 
@@ -154,7 +199,7 @@ export default function HomeHeader(props) {
           )}
         </Box>
       </Box>
-    </Box>
+    </AppBar>
   );
 }
 
@@ -205,9 +250,10 @@ const HeaderMenuForUser = (props) => {
           elevation: 0,
           sx: {
             overflow: "visible",
-            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+            filter: `drop-shadow(0px 2px 8px ${theme.textColor + "11"})`,
 
-            backgroundColor: theme.backgroundColor,
+            backgroundColor: theme.ui,
+            border: `1px ${theme.borderColor} solid`,
             mt: 1.5,
             minWidth: 200,
             "& .MuiAvatar-root": {
@@ -224,10 +270,16 @@ const HeaderMenuForUser = (props) => {
               right: 22,
               width: 10,
               height: 10,
-              bgcolor: "background.paper",
-              backgroundColor: theme.backgroundColor,
+              backgroundColor: theme.ui,
               transform: "translateY(-50%) rotate(45deg)",
               zIndex: 0,
+
+              borderWidth: `1px`,
+              borderStyle: `solid`,
+              borderTopColor: theme.borderColor,
+              borderLeftColor: theme.borderColor,
+              borderRightColor: "transparent",
+              borderBottomColor: "transparent",
             },
           },
         }}
@@ -315,11 +367,14 @@ const HeaderMenuForSignup = (props) => {
         onClick={handleClick}
         // size="small"
         sx={{
-          borderRadius: 1,
-          px: 2,
-          backgroundColor: theme.buttonColor + 11,
-          color: theme.buttonColor,
-          border: "none",
+          height: 40,
+          borderRadius: 7,
+          px: 4,
+          backgroundColor: "transparent",
+          color: theme.textColor,
+
+          border: `2px ${theme.textColor} solid`,
+
           textTransform: "none",
           textDecoration: "none",
 
@@ -344,10 +399,12 @@ const HeaderMenuForSignup = (props) => {
           elevation: 0,
           sx: {
             overflow: "visible",
-            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+            filter: `drop-shadow(0px 2px 8px ${theme.textColor + "11"})`,
             mt: 1.5,
             minWidth: 200,
-            backgroundColor: theme.backgroundColor,
+            backgroundColor: theme.ui,
+            border: `1px ${theme.borderColor} solid`,
+
             "& .MuiAvatar-root": {
               width: 32,
               height: 32,
@@ -362,10 +419,15 @@ const HeaderMenuForSignup = (props) => {
               right: 30,
               width: 10,
               height: 10,
-              bgcolor: "background.paper",
               transform: "translateY(-50%) rotate(45deg)",
               zIndex: 0,
-              backgroundColor: theme.backgroundColor,
+              backgroundColor: theme.ui,
+              borderWidth: `1px`,
+              borderStyle: `solid`,
+              borderTopColor: theme.borderColor,
+              borderLeftColor: theme.borderColor,
+              borderRightColor: "transparent",
+              borderBottomColor: "transparent",
             },
           },
         }}

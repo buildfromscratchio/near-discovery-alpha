@@ -17,7 +17,9 @@ export default function HomeEditorContainer() {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        py: bp ? 5 : 10,
+        // py: bp ? 5 : 20,
+        pt: bp ? 5 : 20,
+        pb: 5,
         gap: 3,
         backgroundColor: theme.backgroundColor,
       }}
@@ -31,18 +33,20 @@ export default function HomeEditorContainer() {
           gap: 2,
         }}
       >
-        <Typography variant="h1" sx={{ color: theme.textColor }}>
-          Try it out
+        <Typography
+          variant="h1"
+          sx={{ fontSize: bp ? 28 : 56, color: theme.textColor }}
+        >
+          Try developing <span className="gradient-hero-text">instantly</span>
         </Typography>
 
         <Typography
           variant="p"
           textAlign="center"
-          sx={{ color: theme.textColor2 }}
+          sx={{ color: theme.textColor3, maxWidth: 800, width: "100%" }}
         >
-          Get started by editing the code below,
-          <br />
-          then see your changes on the preview.
+          Click and get started by editing the code in the Playground. <br />{" "}
+          View your live changes in the preview!!
         </Typography>
       </Box>
 
@@ -53,6 +57,7 @@ export default function HomeEditorContainer() {
 
           height: 700,
           px: 2,
+          mt: 4,
         }}
       >
         <Box
@@ -116,7 +121,7 @@ return (
         </Box>
       </Box>
 
-      {!bp && (
+      {/* {!bp && (
         <Box
           sx={{
             display: "flex",
@@ -158,7 +163,7 @@ return (
             ></path>
           </svg>
         </Box>
-      )}
+      )} */}
     </Box>
   );
 }

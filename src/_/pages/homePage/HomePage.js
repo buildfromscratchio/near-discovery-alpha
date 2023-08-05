@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { useEffect } from "react";
 
-import HomeTopSection from "./_components/HomeTopSection";
 import HomeFooter from "./_components/HomeFooter";
 import { ThemeContext } from "../../context/ThemeContext";
 import { useParams } from "react-router-dom";
@@ -9,10 +8,10 @@ import ViewPage from "../../../pages/ViewPage";
 import HomeHeader from "./_components/HomeHeader";
 import HomeEditorContainer from "./_components/HomeEditorContainer";
 import HomeTestimonialSection from "./_components/HomeTestimonialSection";
-import { Widget } from "near-social-vm";
-import { Box } from "@mui/material";
 import HomeLearnSection from "./_components/HomeLearnSection";
 import { EditorContext } from "../../context/EditorContext";
+import NewHomeTopSection from "./_newComponents/NewHomeTopSection";
+import NewHomeCTASection from "./_newComponents/NewHomeCTASection";
 
 export default function HomePage(props) {
   const { widgetSrc } = useParams();
@@ -42,7 +41,10 @@ export default function HomePage(props) {
     <>
       <HomeHeader {...props} />
 
-      <HomeTopSection />
+      <NewHomeTopSection />
+
+      <NewHomeCTASection />
+
       {/* <HomeOurPartnersSection /> */}
       <HomeEditorContainer />
       {/* <HomeFeatureSection

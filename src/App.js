@@ -315,7 +315,6 @@ export default function App() {
 
                 <Route path={"/preview"}>
                   <MyEditorPewviewPage {...passProps} />
-                  <Footer />
                 </Route>
 
                 <Route path={"/editor/:widgetSrc*"}>
